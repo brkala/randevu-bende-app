@@ -7,8 +7,21 @@ Yapay zeka asistanları, herhangi bir göreve başlamadan veya kod yazmadan önc
 2. **Kodlama ve Yorum Satırları:** Proje içindeki her türlü kod (değişken isimleri, fonksiyonlar, sınıf adları vb.) ve kod içi yorum satırları (comment'ler) istisnasız **İNGİLİZCE** yazılacaktır.
 
 ## Klasör Yapısı
-- `notes/general/`: Genel mimariyi, tasarım yönergelerini ve proje genelindeki bağlamı içerir.
-- `notes/general/structure`: Projenin klasör ve dosya yapılarını içerir. Yeni bir dosya oluşturulurken bu dosyadaki kurallara uyulmalıdır.
+- `notes/general/`: Genel mimariyi, tasarım yönergelerini ve proje genelindeki bağlamı içerir (`mimari.md`).
+- `notes/general/structure/`: Projenin referans (blueprint) kütüphanesidir. Kod üretmeden önce hedefe uyan döküman **mutlaka** okunmalıdır:
+  - `ai-playbook.md`: Yeni bir Task (Görev) aldığında işe nereden (Hangi dosyadan) başlayacağını anlamak için ÖNCELİKLE oku!
+  - `klasor-yapisi.md`: Yeni bir klasör açmadan ve Zero-Global yapısını anlamak için.
+  - `routes.md`: TanStack Router üzerinden yeni bir sayfa, prefetching (loader) veya guard kurmadan önce.
+  - `component.md`: Yeni bir UI bileşeni tasarlarken (BaseUI ve CVA kullanımı).
+  - `hook.md`: İş mantığını custom (özel) kancalara (hooks) bölerken.
+  - `feature.context.md`: React Context (Durum yönetimi ve useMemo performansı) kurarken.
+  - `feature.schemas.md`: Form doğrulama (Zod) sınırları ve kuralları için.
+  - `feature.types.md`: Saf (Pure) TypeScript tipleri (TS interface) oluşturmadan önce.
+  - `feature.queries.md`: TanStack Query ile sunucudan veri çekerken (fetching/prefetching).
+  - `feature.mutations.md`: Veri kaydederken, silerken ve arayüzü hızla (optimistic) güncellerken.
+  - `feature.functions.md`: UI ve Backend arasındaki RPC köprüsünü (`createServerFn`) kurarken.
+  - `feature.server.md`: Veritabanı ve arka uç mantığını (DB CRUD) yazarken.
+  - `error-handling.md`: Hata (AppError) fırlatırken ve arayüze (Toast) UI mesajı verirken.
 - `notes/is-yuku/`: (Eğer `.cursorignore` tarafından dışlanmadıysa) Spesifik iş yükü, görevle ilgili bağlam ve iş mantığını içerir.
 
 ## Yapay Zeka Asistanı Çalışma Kuralları
