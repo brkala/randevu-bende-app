@@ -16,8 +16,8 @@ Sistem şu anda bir VPS üzerinde çalışmakta. Bu VPS üzerinde Ubuntu 24.04 L
   Sistem ana site için StrapiCMS kullanmakta. Sistem'in kendisine yönlendirilme buradan yapılacak. Aynı zamanda ana site sistemden bilgi çekip sunabilir.
 ## React Ana Site
   Strapi kullanılarak geliştirilmiş olan ana site.
-## Caddy
-  Sistem reverse proxy olarak Caddy kullanmakta.
+## Traefik
+  Sistem reverse proxy olarak Traefik kullanmakta.
 ## BullMQ 
   Sistem zaman ile yapılması gereken iş yükleri için BullMQ kullanmakta.
 ## NetGSM
