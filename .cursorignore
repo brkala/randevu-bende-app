@@ -1,0 +1,27 @@
+# AI Agent Ignore File (.cursorignore / .cursorignore / .aishignore)
+
+# Dependency directories
+node_modules/
+dist/
+build/
+
+# IDE and Editor directories
+.vscode/
+.idea/
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Git
+.git/
+
+# AI specific ignores
+notes/is-yuku/
+
+# Logs and databases
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*

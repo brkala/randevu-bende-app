@@ -26,9 +26,13 @@ Sistem şu anda bir VPS üzerinde çalışmakta. Bu VPS üzerinde Ubuntu 24.04 L
   Sistem ödeme işlemleri için Iyzico kullanmakta.
 
 # Yazılımın Kendisi
-## Typescript
+## typescript
 Yazılım Typescript ile yazılıp Node üzerinde çalışmakta.
-## React
+## pnpm
+Yazılım paket yöneticisi olarak Pnpm kullanmakta.
+## Çoklu Ortam
+Yazılım cross-env gibi paketleri yükleyerek hem linux hem de windows üzerinde geliştirilebilmeli.
+## react
 Yazılım React kullanacak.
 ## Tanstack Start
 Yazılımın kendisi Tanstack Start kullanılarak geliştirilmekte.
@@ -40,17 +44,23 @@ Yazılım formlar için Tanstack Form kullanmakta.
 Yazılım tablo işlemleri için Tanstack Table kullanmakta.
 ## Tanstack Router
 Yazılım routing işlemleri için Tanstack Router kullanmakta.
-## Prisma
+## prisma
 Yazılım PostgreSQL ile haberleşmek için Prisma kullanmakta.
 ## TailwindCSS
 Yazılım TailwindCSS ile geliştirilmekte.
 ## Base UI
 Yazılım UI bileşenleri için Base UI kullanmakta.
-## Biome
+## biome
 Yazılım formatlama ve linter için Biome kullanmakta.
-## Vite
+## vite
 Yazılım geliştirme süreci için Vite kullanmakta.
-## Zod
+## zod
 Yazılım schema validasyonu için Zod kullanmakta.
 ## Better Auth
 Yazılım yetkilendirme ve üyelik işlemleri için Better Auth kullanmakta.
+## cva
+Birden fazla variant'ı olan componentler için CVA kullanmakta.
+## rooks
+Yazılım [Rooks](https://github.com/imbhargav5/rooks) kullanmakta. Buradaki hazır hooklar yeni hooklar yazmadan önce mutlaka kontrol edilmeli.
+## builder-pattern
+Yazılım [builder-pattern](https://github.com/Vincent-Pang/builder-pattern) kullanmakta. Bir zod şemasından obje oluşturulurken eğer obje parça parça oluşturulacaksa bu pattern kullanılmalı ve daha sonra build edilen obje zod şeması ile doğrulanmalı.
