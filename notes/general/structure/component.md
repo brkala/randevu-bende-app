@@ -78,7 +78,7 @@ export const Text = ({ className, color, size, as: Component = "span", children 
 ```
 
 ### Yapay Zeka (AI) İçin Geliştirici Kuralları:
-1. **Ref Kullanımı (Anti-Bloat):** Kullanıcı açıkça "Ref desteği olan" demedikçe `forwardRef` kurgusunu basit bileşenlere asla karıştırma. Sadece basit ok fonksiyonu (arrow function) export et. 
+1. **Ref Kullanımı (React 19 Anti-Bloat):** React 19 standartlarına geçildiği için `forwardRef` kullanımı **TAMAMEN KALDIRILMIŞTIR**. Kullanıcı bileşen için "Ref desteği olan" dese bile asla `forwardRef` sarmalaması (wrapper) kullanma. Gerekirse `ref`'i sadece arayüze (interface) normal bir prop olarak ekle (`ref?: React.RefObject<HTMLDivElement>`) veya yay (`...props`). 
 2. **Kalıtım ve Props (Anti-Bloat):** Özellikle istenmediği sürece `React.HTMLAttributes`'i extend etme ve kod içine default olarak `...props` yayma (spread). Sadece açıkça ihtiyaç duyduğun statik propları (örn: `className`, `children`, `title` vs.) tiplendir.
 3. **Dosya İçi Sıralama (File Structure):** Aynı dosya içinde alt bileşen (sub-component) veya dışarıya kapalı private bir component oluşturulacaksa, bunlar dosyanın **en üst kısmına** (importların hemen altına) yazılmalıdır. Ana componentin CVA tanımlaması, arayüzü (interface) ve asıl (export edilen) component dosyanın **en aşağısına** yerleştirilmelidir.
 4. **CVA Kullanım Limiti:** Eğer bileşendeki varyant ihtimalleri sadece basit boolean'lardan ibaretse (`isActive`, `isSelected` vb. iki durumlu), CVA **kullanma** (Bunun için ternary veya cn() yeterlidir). Ancak varyant ihtimalleri boolean sınırını geçtiğinde, yani 3 veya daha fazla seçenek barındırdığında (örn: `size: "sm" | "base" | "lg"`, `variant: "primary" | "secondary" | "danger"`) mimari gereği kesinlikle CVA kullan.

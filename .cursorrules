@@ -10,6 +10,7 @@ Yapay zeka asistanları, herhangi bir göreve başlamadan veya kod yazmadan önc
 - `notes/general/`: Genel mimariyi, tasarım yönergelerini ve proje genelindeki bağlamı içerir (`mimari.md`).
 - `notes/general/structure/`: Projenin referans (blueprint) kütüphanesidir. Kod üretmeden önce hedefe uyan döküman **mutlaka** okunmalıdır:
   - `ai-playbook.md`: Yeni bir Task (Görev) aldığında işe nereden (Hangi dosyadan) başlayacağını anlamak için ÖNCELİKLE oku!
+  - `react.md`: React 19, React Compiler kuralları ve memoization (useMemo/useCallback) yasaklarını anlamak için.
   - `klasor-yapisi.md`: Yeni bir klasör açmadan ve Zero-Global yapısını anlamak için.
   - `routes.md`: TanStack Router üzerinden yeni bir sayfa, prefetching (loader) veya guard kurmadan önce.
   - `component.md`: Yeni bir UI bileşeni tasarlarken (BaseUI ve CVA kullanımı).

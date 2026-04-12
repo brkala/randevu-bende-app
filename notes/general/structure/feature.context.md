@@ -35,15 +35,15 @@ const AppointmentWizardContext = React.createContext<AppointmentWizardState | nu
 export const AppointmentWizardProvider = ({ children }: { children: React.ReactNode }) => {
   const [currentStep, setCurrentStep] = React.useState(1);
 
-  const nextStep = React.useCallback(() => setCurrentStep((p) => p + 1), []);
-  const prevStep = React.useCallback(() => setCurrentStep((p) => Math.max(1, p - 1)), []);
+  const nextStep = () => setCurrentStep((p) => p + 1);
+  const prevStep = () => setCurrentStep((p) => Math.max(1, p - 1));
 
-  // 4. DİKKAT: Gereksiz re-render'ı engellemek için useMemo ile referans sabitlenmesi ŞARTTIR!
-  const value = React.useMemo(() => ({
+  // 4. DİKKAT: React Compiler sayesinde useMemo veya useCallback KULLANMAYA GEREK YOKTUR!
+  const value = {
     currentStep,
     nextStep,
     prevStep,
-  }), [currentStep, nextStep, prevStep]);
+  };
 
   return (
     <AppointmentWizardContext.Provider value={value}>
@@ -69,6 +69,6 @@ export const useAppointmentWizardContext = () => {
 ### Yapay Zeka (AI) İçin Geliştirici Kuralları:
 
 1. **Dosya İsimlendirmesi:** Context dosyaları her zaman ait olduğu `feature` dizini altında, `contexts/` klasöründe yer alır. İsimlendirme formatı kebab-case olmalı ve sonu `.context.tsx` ile bitmelidir. (Örn: `appointment-wizard.context.tsx`).
-2. **useMemo Optimizasyonu (Anti-Bloat/Performans):** Provider içerisine gönderilen `value={...}` nesnesi mutlak surette `React.useMemo` ile sarmalanmalıdır! Aksi takdirde Provider'ı kapsayan en üst component render olduğunda, value nesnesinin referansı baştan oluşur ve altındaki tüm bağımlı bileşenleri gereksiz yere baştan çizdirerek (Re-render) performans felaketlerine yol açar.
+2. **React Compiler İle Otomatik Memoization:** React Compiler kullanıldığı için `React.useMemo` veya `React.useCallback` **KULLANILMAMALIDIR**. Provider referans yenilenmesi ve tüm memoizasyon işlemleri statik analizle derleyici (compiler) tarafından otomatik olarak yönetilir. Kodu düz ve okunabilir bırak.
 3. **Dışa Aktarım (Export) Kısıtlaması:** Geliştiricinin dış dünyada el ile hata yapma riski taşıyan `React.useContext(AppointmentWizardContext)` kodunu yazmasına EKRAN/API İZNİ VERME. Orijinal Context yapısını (`AppointmentWizardContext`) dışarıya export etme! Sadece `Provider` componentini ve Error korumalı `use...Context` kancasını dışa aktar (`export const useAppointmentWizardContext`).
 4. **Veri Kirliliği Yanılgısı:** Projenin veya özelliğin her tarafında ulaşılabilen devasa "God Object" Context'ler yaratma! Contextleri sadece belli bir amaca (Örn: sadece o form büyücüsüne) özgü küçük ve kapsüle edilmiş parçalar halinde teklif et.

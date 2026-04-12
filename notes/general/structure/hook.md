@@ -25,14 +25,14 @@ export interface UseCounterProps {
 export const useCounter = ({ initialValue = 0, step = 1 }: UseCounterProps = {}) => {
   const [count, setCount] = React.useState(initialValue);
 
-  // 3. İç metodlar gereksiz re-render'ı önlemek için useCallback ile sarmalanır
-  const increment = React.useCallback(() => {
+  // 3. İç metodların referans sabitliği React Compiler tarafından otomatik sağlanır. useCallback YAZILMAZ!
+  const increment = () => {
     setCount((prev) => prev + step);
-  }, [step]);
+  };
 
-  const decrement = React.useCallback(() => {
+  const decrement = () => {
     setCount((prev) => prev - step);
-  }, [step]);
+  };
 
   // 4. İleride genişletilmesi kolay olsun diye Tuple [a, b] yerine Obje { a, b } döndürülür
   return {
