@@ -105,3 +105,14 @@ AI, "Basitleştir" komutunu aldığında doğrudan kod satırlarını ezerek dar
 2. **Server Stratejisi (`.server.ts`):** Prisma ile veritabanına `DELETE` sorgusu atmadan önce ilişkisel bir tablo olup olmadığını inceler. Gerekirse veriyi gerçekten silmek yerine **Soft-Delete** (Sadece `update { isActive: false }`) mi yapılması gerektiğini hesaba katar ve kodlar.
 3. **TanStack Otoritesi (`.functions.ts`):** `createServerFn` üzerinden silme isteğini açarken, anonim misafirlerin (`Guest`) veya yetkisizlerin API'yi tetiklememesi için eğer Auth (Middleware) mekanizmamız varsa bunu guard olarak ekler.
 4. **İyimser Silme (Optimistic Update):** Silme isteği başarılı olur olmaz kullanıcıyı bekletmemek için `feature.mutations.md` içindeki kurala uyar. API onayını beklemeden, butona tıklandığı ilk saniye kaydı tablodan silinmiş gibi UX yansıtması yapar. Eğer sunucu "Hayır silinemedi" derse, hata Toast'u fırlatıp arayüzü geri sarar (Rollback).
+
+---
+
+## 🌱 Senaryo 9: Sahte Veri (Mock) ve Veritabanı Seed İşlemleri
+**Kullanıcı Talebi:** *"Geliştirme için 10 adet rastgele atanmış müşteri veya randevu verisi üretelim."*
+
+**Aksiyon Zinciri (Builder & Zod Boru Hattı):**
+1. **Mimari Referans Kontrolü:** Önce `notes/general/seeding/` klasöründeki standartları (Env kuralları, Hiyerarşi) hatırla. `seed.ts` dosyasına bodoslama bin satırlık Prisma insertleri YAZMA!
+2. **Builder (HOF) Üretimi:** Veritabanına yazılacak model için (örn: `User`) `builder-pattern` paketi ve `fakerTR` kullanarak bir `createUserBuilder()` fonksiyonu üret (Bkz: 02-builder-pattern.md) ve `prisma/seeds/builders/` içine kaydet.
+3. **Zod Validasyonu (Zorunlu Katman):** Üretilen builder nesnesini `.build()` ile ayağa kaldırdıktan sonra doğrudan Prisma'ya GÖNDERME. Daima ilgili Zod şemasından (`userSchema.parse()`) geçir.
+4. **Ortama Göre Seed (Dispatch):** Kullanıcı "veri üretelim" dediğinde bunu gidip production verisine (`prod-seed.ts`) eklersen mimari ezilir. Üretilen veriyi mock olduğu için `dev-seed.ts` dosyasına dahil et ve Parent-Child hiyerarşi sırasına (Önce dükkan, sonra müşteri, sonra randevu) mutlak saygı duy!

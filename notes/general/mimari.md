@@ -64,3 +64,5 @@ Birden fazla variant'ı olan componentler için CVA kullanmakta.
 Yazılım [Rooks](https://github.com/imbhargav5/rooks) kullanmakta. Buradaki hazır hooklar yeni hooklar yazmadan önce mutlaka kontrol edilmeli.
 ## builder-pattern
 Yazılım [builder-pattern](https://github.com/Vincent-Pang/builder-pattern) kullanmakta. Bir zod şemasından obje oluşturulurken eğer obje parça parça oluşturulacaksa bu pattern kullanılmalı ve daha sonra build edilen obje zod şeması ile doğrulanmalı.
+## fakerjs
+Yazılım sahte veri üretimi için `@faker-js/faker` kullanmakta. Proje dil ve coğrafyası gereği her zaman Türkçe lokalizasyon (`fakerTR`) import edilmeli ve test tutarlılığı açısından seed operasyonları için `fakerTR.seed(123)` vb. ile sabit rastgelelik ayarlanmalıdır.

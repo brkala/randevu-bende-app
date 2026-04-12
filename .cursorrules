@@ -23,6 +23,7 @@ Yapay zeka asistanları, herhangi bir göreve başlamadan veya kod yazmadan önc
   - `feature.functions.md`: UI ve Backend arasındaki RPC köprüsünü (`createServerFn`) kurarken.
   - `feature.server.md`: Veritabanı ve arka uç mantığını (DB CRUD) yazarken.
   - `error-handling.md`: Hata (AppError) fırlatırken ve arayüze (Toast) UI mesajı verirken.
+- `notes/general/seeding/`: Projeye sahte veya varsayılan (Mock/Prod) veriler ekleneceği (seeding) zaman referans alınacak klasördür. (builder-pattern, faker, ortam kuralları).
 - `notes/is-yuku/`: (Eğer `.cursorignore` tarafından dışlanmadıysa) Spesifik iş yükü, görevle ilgili bağlam ve iş mantığını içerir.
 
 ## Yapay Zeka Asistanı Çalışma Kuralları
