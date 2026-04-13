@@ -22,11 +22,12 @@ Commit mesajları her zaman **İNGİLİZCE** yazılmalıdır ve [Conventional Co
 
 Bir commit atılmadan veya Pull Request açılmadan önce aşağıdaki kontrollerin **TAMAMINDAN** geçilmesi mecburidir:
 
-1. **Biçimlendirme ve Linting:** Kodda hiçbir linter hatası olmamalıdır.
-   - `pnpm biome check --write` komutu çalıştırılmalıdır.
-2. **Tip Güvenliği (Type-Check):** Projede hiçbir TypeScript hatası bulunmamalıdır.
-   - `pnpm type-check` (veya `tsc --noEmit`) komutu başarılı olmalıdır.
-3. **Birim Testleri (Unit Tests):** Mevcut ve yeni eklenen birim testleri (Vitest) pass etmelidir.
+1. **Biçimlendirme, Linting ve Tip Kontrolü:** Kodda linter veya TypeScript hatası olmamalıdır.
+   - **Otomasyon:** Bu kontrol `lefthook` tarafından commit anında otomatik (pre-commit) gerçekleştirilir.
+   - **AI Rolü:** AI asistanları commit öncesi manuel olarak `biome check` veya `type-check` koşturmaz. Başarısız commit durumunda hataları düzeltmekle yükümlüdür.
+   - **Manuel Kullanım:** Sadece debugging veya toplu refactor durumlarında: `pnpm biome check --write` ve `pnpm type-check`.
+2. **Birim Testleri (Unit Tests):** Mevcut ve yeni eklenen birim testleri (Vitest) pass etmelidir.
+   - İş mantığı (logic) içeren kodlar için testlerin yanına eklendiğinden emin olun.
    - `pnpm test` komutu çalıştırılmalıdır.
 4. **E2E Testleri (Gerekliyse):** Eğer kritik bir akış değiştirildiyse ilgili Playwright testleri kontrol edilmelidir.
 5. **Dökümantasyon Güncelliği:** Eğer bir mimari karar veya yeni bir yapı kurulduysa `notes/` klasörü güncellenmelidir.
@@ -38,8 +39,6 @@ Bir commit atılmadan veya Pull Request açılmadan önce aşağıdaki kontrolle
 Benden veya başka bir AI asistandan kod incelemesi (review) istendiğinde, aşağıdaki adımlar sırasıyla gerçekleştirilerek kodun projenin mimari ve teknik standartlara uygunluğu denetlenir:
 
 1. **Otomatik Kontroller (Tooling):**
-   - **Biome:** `pnpm biome check .` (Linter ve Formatter hataları).
-   - **TypeScript:** `pnpm type-check` (Tip hataları).
    - **Unit Tests:** `pnpm test` (Birim testleri).
 
 2. **Mimari Uyumluluk Kontrolü:**

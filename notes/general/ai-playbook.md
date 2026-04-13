@@ -136,15 +136,3 @@ AI, "Basitleştir" komutunu aldığında doğrudan kod satırlarını ezerek dar
 1. Playwright kurallarını referans al (`testing/e2e.md`).
 2. Sadece "Buton tıklanırsa pembe oluyor mu?" gibi anlamsız parçaları test etme. Kullanıcının tam geçiş (Flow) senaryosunu zihninde kurgula: Sayfa açılır -> URL test edilir -> Dükkan bulunur -> Selectbox seçilir -> Form submit edilir -> API backend onayı test edilir.
 3. Oluşturulacak e2e dosyasını (`.spec.ts`) uygulamanın kod kalbine (`src/features`) değil, tam tersi global bir dizin olan `tests/e2e/[ozellik-adi]/ilgili-senaryo.spec.ts` içerisine yerleştir ve kurguyu tamamla.
-
----
-
-## 🛡️ Kalite Kapıları (Quality Gates) ve Otomasyon
-Projemizde kod kalitesi manuel değil, **Lefthook** üzerinden otonom olarak yönetilir.
-
-1.  **AI Sorumluluğu:** AI asistanı, kod yazarken her seferinde `biome check` veya `type-check` koşturmakla vakit kaybetmez.
-2.  **Otomatik Bekçi:** `git commit` komutu tetiklendiğinde Lefthook devreye girer:
-    - **Biome:** Sadece değiştirilen dosyaları (`staged_files`) tarar ve otomatik düzeltir.
-    - **Type-Check:** Projenin genel tip sağlığını kontrol eder.
-3.  **Hata Durumu:** Eğer commit sırasında bir hata çıkarsa, sadece o zaman hataya odaklanılır ve düzeltilip tekrar commit atılır.
-4.  **Manuel Müdahale:** Sadece çok karmaşık refactor işlerinde veya toplu dosya değişikliklerinde emin olmak için `pnpm biome check --write` veya `pnpm type-check` manuel olarak çalıştırılabilir.

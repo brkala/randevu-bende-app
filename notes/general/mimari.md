@@ -60,6 +60,8 @@ Yazılım TailwindCSS ile geliştirilmekte.
 Yazılım UI bileşenleri için Base UI kullanmakta.
 ## biome
 Yazılım formatlama ve linter için Biome kullanmakta.
+## lefthook
+Yazılım, commit öncesi kalite kapısı (Quality Gate) olarak Lefthook kullanmaktadır. Biome check ve Type-check gibi işlemlerin otomatize edilerek hatalı kodun depoya sızmasını engeller.
 ## vite
 Yazılım geliştirme süreci için Vite kullanmakta.
 ## zod
