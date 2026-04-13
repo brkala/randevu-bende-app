@@ -7,36 +7,38 @@ Yapay zeka asistanları, herhangi bir göreve başlamadan veya kod yazmadan önc
 2. **Kodlama ve Yorum Satırları:** Proje içindeki her türlü kod (değişken isimleri, fonksiyonlar, sınıf adları vb.) ve kod içi yorum satırları (comment'ler) istisnasız **İNGİLİZCE** yazılacaktır.
 
 ## Klasör Yapısı
-- `notes/general/`: Genel mimariyi, tasarım yönergelerini ve proje genelindeki bağlamı içerir:
+- `notes/general/`: Genel mimariyi, tasarım yönergelerini ve proje genelindeki mantıksal bağlamı içerir:
   - `mimari.md`: Genel teknoloji yığını ve fiziksel yapı.
+  - `veritabani.md`: Çoklu işletme (Multi-tenant) izolasyonu ve Prisma kuralları.
+  - `arkaplan-isleri.md`: BullMQ worker ve producer mimarisi.
+  - `react-mimarisi.md`: React 19, Compiler ve memoization (useMemo/useCallback) yasakları.
+  - `mutasyon-kurallari.md`: Veri kaydı, silme ve optimistic update mantığı.
+  - `hata-yonetimi.md`: Merkezi AppError ve UI toast bildirim kuralları.
+  - `ai-playbook.md`: Yapay zeka görev yürütme senaryoları ve iş akışı rehberi.
   - `guvenlik.md`: Rate-limiting, WAF ve Bot koruma kuralları.
   - `izleme.md`: Sentry, Hata takibi ve Production izleme kuralları.
   - `randevu-mantigi.md`: Sarı slotlar, çakışma yönetimi ve rezervasyon kuralları.
   - `gelistirme.md`: Commit kuralları ve commit öncesi checklist.
-  - `dagitim.md`: .env yönetimi ve Deployment (dağıtım) kuralları.
-  - `yol-haritasi.md`: Projenin başlangıcından bitişine kadar olan operasyonel adımlar.
-  - `frontend-ve-is-mantigi.md`: Giriş kanalları, anonim randevu koruması ve rol yönetimi.
-- `notes/general/structure/`: Projenin referans (blueprint) kütüphanesidir. Kod üretmeden önce hedefe uyan döküman **mutlaka** okunmalıdır:
-  - `ai-playbook.md`: Yeni bir Task (Görev) aldığında işe nereden (Hangi dosyadan) başlayacağını anlamak için ÖNCELİKLE oku!
-  - `feature.jobs.md`: BullMQ worker ve producer organizasyonu için.
-  - `react.md`: React 19, React Compiler kuralları ve memoization (useMemo/useCallback) yasaklarını anlamak için.
-  - `klasor-yapisi.md`: Yeni bir klasör açmadan ve Zero-Global yapısını anlamak için.
-  - `routes.md`: TanStack Router üzerinden yeni bir sayfa, prefetching (loader) veya guard kurmadan önce.
-  - `component.md`: Yeni bir UI bileşeni tasarlarken (BaseUI ve CVA kullanımı).
-  - `hook.md`: İş mantığını custom (özel) kancalara (hooks) bölerken.
-  - `feature.context.md`: React Context (Durum yönetimi ve useMemo performansı) kurarken.
-  - `feature.schemas.md`: Form doğrulama (Zod) sınırları ve kuralları için.
-  - `feature.types.md`: Saf (Pure) TypeScript tipleri (TS interface) oluşturmadan önce.
-  - `feature.queries.md`: TanStack Query ile sunucudan veri çekerken (fetching/prefetching).
-  - `feature.mutations.md`: Veri kaydederken, silerken ve arayüzü hızla (optimistic) güncellerken.
-  - `feature.functions.md`: UI ve Backend arasındaki RPC köprüsünü (`createServerFn`) kurarken.
-  - `feature.server.md`: Veritabanı ve arka uç mantığını (DB CRUD) yazarken.
-  - `error-handling.md`: Hata (AppError) fırlatırken ve arayüze (Toast) UI mesajı verirken.
+  - `dagitim.md`: .env yönetimi ve Deployment kuralları.
+  - `yol-haritasi.md`: Projenin operasyonel adımları.
+  - `frontend-ve-is-mantigi.md`: Giriş kanalları ve rol yönetimi.
+- `notes/general/structure/`: Sadece bir feature oluşturulduğunda içine açılacak somut dosyalar için **Templating (Şablon)** rehberlerini içerir:
+  - `feature.folder.md`: Feature klasör hiyerarşisi (Vertical Slicing) kuralları.
+  - `routes.md`: TanStack Router (Aptal Rota) dosyası oluştururken.
+  - `component.md`: Yeni bir UI bileşeni (.tsx) tasarlarken.
+  - `hook.md`: Yeni bir custom hook (.ts) yazarken.
+  - `feature.context.md`: Modüle özel Context (.context.tsx) dosyası için.
+  - `feature.schemas.md`: Veri doğrulama (.schemas.ts) şeması için.
+  - `feature.types.md`: Saf TypeScript (.types.ts) tipleri için.
+  - `feature.queries.md`: TanStack Query (.queries.ts) dosyası için.
+  - `feature.functions.md`: UI/Backend RPC köprüsü (.functions.ts) için.
+  - `feature.server.md`: Veritabanı ve arka uç mantığı (.server.ts) için.
+  - `default-features/`: Sistemde olması gereken temel özelliklerin (Email, Storage, Shared) şablonları.
 - `notes/general/seeding/`: Projeye sahte veya varsayılan (Mock/Prod) veriler ekleneceği (seeding) zaman referans alınacak klasördür. (builder-pattern, faker, ortam kuralları).
 - `notes/general/testing/`: Sitenin test stratejilerini (Playwright ile E2E ve Vitest ile Unit test kurallarını) içerir. Saçma sapan (UI vb.) testleri yazarak zaman israfı yapmamak için yeni kod test edilmeden önce mutlaka okunmalıdır.
 - `notes/is-yuku/`: (Eğer `.cursorignore` tarafından dışlanmadıysa) Spesifik iş yükü, görevle ilgili bağlam ve iş mantığını içerir.
 
-   **Not**: `notes/general/structure/` klasörü bir feature klasörü oluşturulduğunda içine açılacak dosyalarla alakalıdır. Notların arasına bir mantık,iş vs eklenmesi istediğinde buraya feature.(özellik).md dosyası açmak yerine general klasörüne türkçe ascii ismi ile mantığın yazılması gerekir. feature.(özellik).md dosyaları klasör yapısında oluşturulacak dosyalar içindir ve her feature klasörüne açılır.
+   **Not**: `notes/general/structure/` klasörü sadece yeni bir dosya (hook, ts dosyası, şema vb.) veya klasör yapısı barındıran **templating (şablon oluşturma)** notları içindir. Eğer bir not somut bir dosya üretimini hedeflemiyor, sadece mantık, işleyiş veya bilgilendirme (Örn: React kuralları, DB izolasyon mantığı) içeriyorsa `notes/general/` içinde Türkçe ASCII ismi ile tutulmalıdır.
 ## Yapay Zeka Asistanı Çalışma Kuralları
 
 1. **Çalışma Öncesi**:

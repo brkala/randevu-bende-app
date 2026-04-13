@@ -104,7 +104,7 @@ AI, "Basitleştir" komutunu aldığında doğrudan kod satırlarını ezerek dar
 1. **Zod Parametre Güvenliği (`.schemas.ts`):** Rastgele URL parametresi ile backend çökmemesi için sadece ID doğrulayan basit bir Zod Validation objesi (`DeleteRecordSchema = z.object({ id: z.string().uuid() })`) yazar.
 2. **Server Stratejisi (`.server.ts`):** Prisma ile veritabanına `DELETE` sorgusu atmadan önce ilişkisel bir tablo olup olmadığını inceler. Gerekirse veriyi gerçekten silmek yerine **Soft-Delete** (Sadece `update { isActive: false }`) mi yapılması gerektiğini hesaba katar ve kodlar.
 3. **TanStack Otoritesi (`.functions.ts`):** `createServerFn` üzerinden silme isteğini açarken, anonim misafirlerin (`Guest`) veya yetkisizlerin API'yi tetiklememesi için eğer Auth (Middleware) mekanizmamız varsa bunu guard olarak ekler.
-4. **İyimser Silme (Optimistic Update):** Silme isteği başarılı olur olmaz kullanıcıyı bekletmemek için `feature.mutations.md` içindeki kurala uyar. API onayını beklemeden, butona tıklandığı ilk saniye kaydı tablodan silinmiş gibi UX yansıtması yapar. Eğer sunucu "Hayır silinemedi" derse, hata Toast'u fırlatıp arayüzü geri sarar (Rollback).
+4. **İyimser Silme (Optimistic Update):** Silme isteği başarılı olur olmaz kullanıcıyı bekletmemek için `mutasyon-kurallari.md` içindeki kurala uyar. API onayını beklemeden, butona tıklandığı ilk saniye kaydı tablodan silinmiş gibi UX yansıtması yapar. Eğer sunucu "Hayır silinemedi" derse, hata Toast'u fırlatıp arayüzü geri sarar (Rollback).
 
 ---
 

@@ -24,4 +24,4 @@ React statelerini güncellerken var olan veriyi doğrudan değiştirmeyin (mutat
 ## 5. React 19 Temel Yenilikleri
 - **Ref Artık Normal Bir Prop:** Bileşenlere `ref` geçirmek için `forwardRef` kullanımına gerek kalmamıştır. Normal prop gibi `ref` alınabilir. `forwardRef` koda eklenmemelidir!
 - **`use` Hook'u:** `<Context.Provider>` yerine doğrudan `<Context>` bileşen sarmalaması yapılabilir. Değer okurken ise `useContext(MyContext)` yerine `use(MyContext)` tercih edilebilir (İhtiyaca göre promises için de kullanılabilir).
-- **Yeni Form Yapıları:** `useActionState`, `useFormStatus` gibi yeni Hook'lar, var olan TanStack yapısıyla entegre veya paralel bir şekilde (sunucu aksiyonları için) kullanılabilir durumda, mimari standartlar gerektirirse kullanılabilir (bknz: `feature.mutations.md`).
+- **Yeni Form Yapıları:** `useActionState`, `useFormStatus` gibi yeni Hook'lar, var olan TanStack yapısıyla entegre veya paralel bir şekilde (sunucu aksiyonları için) kullanılabilir durumda, mimari standartlar gerektirirse kullanılabilir (bknz: `mutasyon-kurallari.md`).
