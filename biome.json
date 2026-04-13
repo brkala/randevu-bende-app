@@ -12,6 +12,9 @@
       },
       "correctness": {
         "noUnusedVariables": "warn"
+      },
+      "nursery": {
+        "noLeakedRender": "error"
       }
     }
   },

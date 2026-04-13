@@ -1,6 +1,9 @@
 # React Mimarisi ve Kuralları (React Compiler & React 19)
 
-Bu proje **React 19** ve **React Compiler** (Babel/Vite eklentisi) ile güçlendirilmiştir. Bu nedenle modern React standartlarına ve kurallarına harfiyen uyulmalı, eski alışkanlıklardan kaçınılmalıdır. React Compiler projede aktif olduğu için manuel optimizasyon yöntemlerine kesinlikle ihtiyaç yoktur.
+Bu proje **React 19** ve **React Compiler** (Babel/Vite eklentisi) ile güçlendirilmiştir. 
+
+> [!IMPORTANT]
+> Projemizde **React Compiler** AKTİF durumdadır. Bu nedenle modern React standartlarına ve kurallarına harfiyen uyulmalı, eski alışkanlıklardan kaçınılmalıdır. Compiler aktif olduğu için manuel optimizasyon yöntemlerine kesinlikle ihtiyaç yoktur.
 
 ## 1. Manuel Memoization (Optimizasyon) Yasak!
 React Compiler tüm komponentlerinizi ve hook'larınızı statik olarak analiz eder, nerelerde referansların sabit tutulması ve `memoization` yapılması gerektiğini **otomatik** olarak belirler ve derler.
