@@ -1,0 +1,11 @@
+# Lefthook Configuration for Randevu Bende
+# Enforces Biome (lint/format) and TypeScript (type-check) at commit time.
+
+pre-commit:
+  parallel: true
+  commands:
+    biome-check:
+      glob: "*.{js,ts,jsx,tsx,json}"
+      run: npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files} && git add {staged_files}
+    type-check:
+      run: pnpm type-check

@@ -35,7 +35,10 @@ Yapay zeka asistanları, herhangi bir göreve başlamadan veya kod yazmadan önc
   - `feature.server.md`: Veritabanı ve arka uç mantığı (.server.ts) için.
   - `default-features/`: Sistemde olması gereken temel özelliklerin (Email, Storage, Shared) şablonları.
 - `notes/general/seeding/`: Projeye sahte veya varsayılan (Mock/Prod) veriler ekleneceği (seeding) zaman referans alınacak klasördür. (builder-pattern, faker, ortam kuralları).
-- `notes/general/testing/`: Sitenin test stratejilerini (Playwright ile E2E ve Vitest ile Unit test kurallarını) içerir. Saçma sapan (UI vb.) testleri yazarak zaman israfı yapmamak için yeni kod test edilmeden önce mutlaka okunmalıdır.
+- `notes/general/testing/`: Sitenin test stratejilerini (Playwright ile E2E ve Vitest ile Unit test kurallarını) içerir.
+  - Lefthook, commit öncesi tüm kontrolleri (linting, formatting, type-checking) otomatik olarak yönetir.
+  - Manuel olarak `pnpm biome check` veya `pnpm type-check` çalıştırmana gerek yoktur.
+  - Sadece hata ayıklama (debugging) gibi özel durumlarda manuel çalıştır.
 - `notes/is-yuku/`: (Eğer `.cursorignore` tarafından dışlanmadıysa) Spesifik iş yükü, görevle ilgili bağlam ve iş mantığını içerir.
 
    **Not**: `notes/general/structure/` klasörü sadece yeni bir dosya (hook, ts dosyası, şema vb.) veya klasör yapısı barındıran **templating (şablon oluşturma)** notları içindir. Eğer bir not somut bir dosya üretimini hedeflemiyor, sadece mantık, işleyiş veya bilgilendirme (Örn: React kuralları, DB izolasyon mantığı) içeriyorsa `notes/general/` içinde Türkçe ASCII ismi ile tutulmalıdır.
