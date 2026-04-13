@@ -13,7 +13,7 @@ Başarılı bir mutasyon, İstemci önbelleğini eskitmeli (Cache Invalidation) 
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { createAppointmentFn } from "../appointment.functions"; // RPC Api
 import { appointmentKeys } from "../appointment.queries"; // Key Fabrikası
-// import { toast } from "~/features/shared/components/ui/toast"; 
+// import { toast } from "@/features/shared/components/ui/toast"; 
 
 export const useCreateAppointment = () => {
   const queryClient = useQueryClient();
