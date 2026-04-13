@@ -24,7 +24,9 @@
     "react-dom": "19.2.5"
   },
   "devDependencies": {
+    "@babel/core": "^7.29.0",
     "@biomejs/biome": "^2.4.11",
+    "@rolldown/plugin-babel": "^0.2.3",
     "@types/node": "^22.13.9",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
