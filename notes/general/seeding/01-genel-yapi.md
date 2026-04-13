@@ -25,3 +25,8 @@ console.log('📦 [1/3] Sistem Enumları ve Rolleri (Prod) içeri aktarılıyor.
 console.log('✅ Roller başarıyla oluşturuldu.');
 console.log('🛠 [2/3] Geliştirme (Dev) verileri ekleniyor...');
 ```
+
+## Medya ve Görsel Tohumlama (Storage Seed)
+Projede kayıtları sadece salt metin olarak değil, görsel (resim) objelerle gerçeğe uygun şekilde test edebilmek için "Storage Seed" konsepti kullanılır. 
+Bu işlem (`Dev` ve `Test` ortamları için) R2 bulut sistemine sahte resimlerin yüklenip veritabanına sadece key'lerinin basılması esasına dayanır.
+**(ÖNEMLİ:** Ortamların bucket izolasyonları ve resim limit kuralları için mutlaka `notes/general/structure/default-features/storage.feature.md` dökümanındaki *"Medya Tohumlama (Seed) Stratejisi"* başlığını inceleyin.)

@@ -116,3 +116,23 @@ AI, "Basitleştir" komutunu aldığında doğrudan kod satırlarını ezerek dar
 2. **Builder (HOF) Üretimi:** Veritabanına yazılacak model için (örn: `User`) `builder-pattern` paketi ve `fakerTR` kullanarak bir `createUserBuilder()` fonksiyonu üret (Bkz: 02-builder-pattern.md) ve `prisma/seeds/builders/` içine kaydet.
 3. **Zod Validasyonu (Zorunlu Katman):** Üretilen builder nesnesini `.build()` ile ayağa kaldırdıktan sonra doğrudan Prisma'ya GÖNDERME. Daima ilgili Zod şemasından (`userSchema.parse()`) geçir.
 4. **Ortama Göre Seed (Dispatch):** Kullanıcı "veri üretelim" dediğinde bunu gidip production verisine (`prod-seed.ts`) eklersen mimari ezilir. Üretilen veriyi mock olduğu için `dev-seed.ts` dosyasına dahil et ve Parent-Child hiyerarşi sırasına (Önce dükkan, sonra müşteri, sonra randevu) mutlak saygı duy!
+
+---
+
+## 🧪 Senaryo 10: Birim (Unit) Test Yazma İsteği
+**Kullanıcı Talebi:** *"Bu özellik için unit test yazalım."* veya *"Bu componenti test edelim."*
+
+**Aksiyon Zinciri (Vitest Sınır İhlali Kalkanı):**
+1. **Reddetme / Kapsam Kontrolü (KRİTİK):** Kullanıcı bir UI Bileşeni (örn: `<Button>`, `<AppointmentForm>` vb.) için DOM tabanlı bir Unit Test (Vitest/Jest) veya `@testing-library/react` render isteği verirse BUNU DERHAL REDDET. `notes/general/testing/unit.md` kurallarını hatırlatıp *"Mimari kurallarımız gereği UI kodlarına Unit test yazamayız. Bu iş yükü tamamen Playwright'a (E2E) aittir. İzin verirseniz bu bileşenin bağlı olduğu akışa E2E senaryosu yazayım"* diye uyar ve alternatif üret.
+2. **Kabul Edilebilir Kapsam (Saf JS/TS):** Kullanıcının testi sadece ve sadece saf iş zekasını (Örn: İndirim yüzdesi hesaplayan matematiksel fonksiyon, tarih çarpışması hesaplayan pure function) içeriyorsa bu talebi kabul et ve göreve başla.
+3. **Konumlandırma (Sıfır-Global):** Vitest kurgusunu yazarken testi global bir `/tests/unit` klasörüne YÜKLEME. Test dosyasını, dikey dilimleme mimarisi gereği tam test ettiği fonksiyonun yanına (`features/[ozellik]/lib/hesapla.test.ts`) yerleştir.
+
+---
+
+## 🎭 Senaryo 11: Kullanıcı Senaryosu (E2E) Testi İstemi
+**Kullanıcı Talebi:** *"Bir müşterinin randevu alma veya kayıt olma akışını test etmeliyiz."*
+
+**Aksiyon Zinciri (Playwright Entegrasyonu):**
+1. Playwright kurallarını referans al (`testing/e2e.md`).
+2. Sadece "Buton tıklanırsa pembe oluyor mu?" gibi anlamsız parçaları test etme. Kullanıcının tam geçiş (Flow) senaryosunu zihninde kurgula: Sayfa açılır -> URL test edilir -> Dükkan bulunur -> Selectbox seçilir -> Form submit edilir -> API backend onayı test edilir.
+3. Oluşturulacak e2e dosyasını (`.spec.ts`) uygulamanın kod kalbine (`src/features`) değil, tam tersi global bir dizin olan `tests/e2e/[ozellik-adi]/ilgili-senaryo.spec.ts` içerisine yerleştir ve kurguyu tamamla.

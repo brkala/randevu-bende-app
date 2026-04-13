@@ -38,6 +38,8 @@ src/
         ├── appointment.queries.ts           // Tanstack Query Option Key Fabrikaları
         ├── appointment.schemas.ts           // Zod gibi form ve veri validasyon şemaları
         ├── appointment.server.ts            // DB/Prisma CRUD Sunucu taraflı metodları
+        ├── appointment.jobs.ts              // [YENİ] BullMQ Kuyruk ekleme/tanımlama (Producer)
+        ├── appointment.worker.ts            // [YENİ] BullMQ İş işleyicileri (Processor)
         └── appointment.types.ts             // TypeScript statik verileri, tipler ve arayüzler
 ```
 
