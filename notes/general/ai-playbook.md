@@ -136,3 +136,13 @@ AI, "Basitleştir" komutunu aldığında doğrudan kod satırlarını ezerek dar
 1. Playwright kurallarını referans al (`testing/e2e.md`).
 2. Sadece "Buton tıklanırsa pembe oluyor mu?" gibi anlamsız parçaları test etme. Kullanıcının tam geçiş (Flow) senaryosunu zihninde kurgula: Sayfa açılır -> URL test edilir -> Dükkan bulunur -> Selectbox seçilir -> Form submit edilir -> API backend onayı test edilir.
 3. Oluşturulacak e2e dosyasını (`.spec.ts`) uygulamanın kod kalbine (`src/features`) değil, tam tersi global bir dizin olan `tests/e2e/[ozellik-adi]/ilgili-senaryo.spec.ts` içerisine yerleştir ve kurguyu tamamla.
+
+---
+
+## 🔍 Senaryo 12: Kod İncelemesi (Review) İstemi
+**Kullanıcı Talebi:** *"Şu dosyayı incele"*, *"Kodu review et"* veya *"Mimariye uygun mu kontrol et"*
+
+**Aksiyon Zinciri (Review Protokolü):**
+1. **Döküman Referansı:** Derhal `notes/general/gelistirme.md` dosyasındaki **3. Asistan İnceleme Süreci (AI Review)** bölümüne git.
+2. **Sınırlandırma (ÖNEMLİ):** İnceleme sırasında kullanıcı aksini özellikle belirtmedikçe KESİNLİKLE kodda bir değişiklik yapma, ekleme/çıkarma teklif etme; sadece analizi raporla.
+3. **Analiz Basamakları:** `gelistirme.md` içerisindeki checklist'i sırasıyla işlet ve sonucu madde madde kullanıcıya sun.

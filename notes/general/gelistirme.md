@@ -38,13 +38,14 @@ Bir commit atılmadan veya Pull Request açılmadan önce aşağıdaki kontrolle
 
 Benden veya başka bir AI asistandan kod incelemesi (review) istendiğinde, aşağıdaki adımlar sırasıyla gerçekleştirilerek kodun projenin mimari ve teknik standartlara uygunluğu denetlenir:
 
-1. **Otomatik Kontroller (Tooling):**
-   - **Unit Tests:** `pnpm test` (Birim testleri).
+> [!IMPORTANT]
+> **Hedef Dosyalar:** Sadece git'te yapılan değişiklikleri inceler. Yapılan dosyaların içinde import edilen dosyaların da anlam kazanmak için okunması gerekiyorsa sadece gerekli olanları okur.
+> **Sadece İnceleme:** İnceleme (review) talebi aldığında AI **kesinlikle kod üzerinde bir düzenleme, ekleme veya silme yapmaz.** Sadece mevcut kodu okur, analiz eder ve aşağıdaki checklist'e göre rapor sunar. Eğer bir düzeltme gerekiyorsa bunu sadece öneri olarak belirtir, kullanıcı onay vermeden kodu değiştirmez.
 
-2. **Mimari Uyumluluk Kontrolü:**
+1. **Mimari Uyumluluk Kontrolü:**
    - **Zero-Global:** Kodlar ilgili `feature` klasörü altında mı? Global kaçamak yapılmış mı?
    - **Multi-Tenant:** DB sorgularında `context.db` ve `shopId` filtresi doğru kurgulanmış mı?
    - **Performance:** React 19 kurallarına (Compiler uyumu) sadık kalınmış mı?
 
-3. **Commit ve Mesaj Standartları:**
+2. **Commit ve Mesaj Standartları:**
    - [Conventional Commits](https://www.conventionalcommits.org/) yapısına ve İngilizce dil kuralına uyulmuş mu?
