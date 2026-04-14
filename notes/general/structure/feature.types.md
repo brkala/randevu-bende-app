@@ -51,6 +51,9 @@ export interface PaymentGatewayResponse {
 ### 3. Döngüsel Bağımlılık (Circular Dependency) Kırıcılar
 Proje büyüdüğünde `User` dosyasındaki bir kurgu `Appointment` özelliklerine erişmek isterse, `Appointment` dosyası da `User`'ı çağırırsa birbirlerini kilitleyerek Typescript/Vite'i çökertirler. Bu durumlarda birbirlerini doğrulayan/kapsayan ortak bağımsız yapılar `.types.ts` aracı dosyasından aktarılarak (import type) ölümcül kilitlenme döngüsü (Circular Ring) kırılır.
 
+### 4. İstisnai Klasör Yapısı (Type Directories)
+Eğer bir feature içindeki tipler tek bir dosyada yönetilemeyecek kadar karmaşık hale gelirse (300+ satır) veya mantıksal olarak alt gruplara ayrılması gerekiyorsa, `[feature].types.ts` dosyası yerine bir `types/` klasörü oluşturulabilir.
+
 ---
 
 ### Yapay Zeka (AI) İçin Geliştirici Kuralları:

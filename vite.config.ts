@@ -1,13 +1,7 @@
 import babel from '@rolldown/plugin-babel';
 import { tanstackStart } from '@tanstack/react-start/plugin/vite';
 import viteReact, { reactCompilerPreset } from '@vitejs/plugin-react';
-import { config } from 'dotenv';
 import { defineConfig } from 'vite';
-
-// Load .env only in non-production environments
-if (process.env.NODE_ENV !== 'production') {
-  config();
-}
 
 export default defineConfig({
   server: {

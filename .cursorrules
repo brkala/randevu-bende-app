@@ -5,6 +5,7 @@ Yapay zeka asistanları, herhangi bir göreve başlamadan veya kod yazmadan önc
 ## Dil Kuralları (ÇOK ÖNEMLİ)
 1. **Dökümantasyon ve Notlar:** `notes/` klasöründeki ve genel yapıdaki her türlü dökümantasyon, açıklama ve notlar kesinlikle **TÜRKÇE** olacaktır.
 2. **Kodlama ve Yorum Satırları:** Proje içindeki her türlü kod (değişken isimleri, fonksiyonlar, sınıf adları vb.) ve kod içi yorum satırları (comment'ler) istisnasız **İNGİLİZCE** yazılacaktır.
+3. **Yorum Satırları** Sadece çok kritik durumlarda ve çok gerekli olduğunda kullanılmalıdır. Gereksiz yere kod yorum satırı yazarak zaman kaybetme.
 
 ## Klasör Yapısı
 - `notes/general/`: Genel mimariyi, tasarım yönergelerini ve proje genelindeki mantıksal bağlamı içerir:

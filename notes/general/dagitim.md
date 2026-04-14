@@ -23,5 +23,5 @@ Projenin canlıya çıkış süreci şu adımları izler:
 ## 4. Merkezi Çevre Değişkeni Yönetimi (Security)
 Güvenlik zaafiyetlerini önlemek için `process.env` kullanımı sınırlanmıştır.
 - **Biome Kısıtlaması:** `noProcessEnv` kuralı ile projenin her yerinde doğrudan `process.env` kullanımı engellenmiştir.
-- **Merkezi Erişim:** Tüm env değişkenleri sadece `src/lib/env.server.ts` gibi merkezi bir dosyada Zod ile doğrulanarak dışarıya (Typed object olarak) sunulur.
+- **Merkezi Erişim:** Tüm env değişkenleri sadece `src/features/shared/lib/env.server.ts` gibi merkezi bir dosyada Zod ile doğrulanarak dışarıya (Typed object olarak) sunulur.
 - **Client-Side Güvenliği:** Vite/Start üzerinde hassas verilerin (Örn: `WHATSAPP_TOKEN`) tarayıcıya sızmaması için ASLA `VITE_` ön ekiyle tanımlanmamasına dikkat edilmelidir.
