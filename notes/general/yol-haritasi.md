@@ -20,7 +20,7 @@ Uygulamanın ruhunu oluşturacak "İzole Edilmiş" altyapı servisleri kurulur.
 ## 3. Aşama: Çekirdek Randevu Motoru ve Güvenlik
 Müşterinin dükkana ulaşma ve randevu alma "Flow"u kodlanır.
 - **Link & QueryParam:** QR linklerinden gelen `workerId` parametresini yakalayan loader mantığı.
-- **Anonim Randevu Akışı:** Telefon rehberi kontrolü (Bilinen numara bypass) ve SMS OTP entegrasyonu.
+- **Anonim Randevu Akışı:** Telefon rehberi kontrolü (Bilinen numara bypass) ve WhatsApp OTP entegrasyonu.
 - **Bot Savunması:** Honeypot, CSRF ve IP bazlı randevu limiti katmanları.
 - **Sarı Slot & Rezervasyon:** Redis tabanlı geçici kilitleme mantığı.
 
@@ -38,7 +38,7 @@ Altyapı hazır olduktan sonra kullanıcıların göreceği "Arayüzler" (Panell
 - **Spesifik Domain:** Sadece tanımlı domain üzerinden erişilebilen yönetim ekranı.
 
 ## 📧 5. Aşama: Bildirimler ve Dış Servisler
-- **SMS & Email:** Randevu onay ve hatırlatma mesajları (NetGSM / Resend) asenkron workers (BullMQ) ile bağlanır.
+- **WhatsApp & Email:** Randevu onay ve hatırlatma mesajları (WhatsApp / Resend) asenkron workers (BullMQ) ile bağlanır.
 - **Ödeme Entegrasyonu:** Dükkan sahiplerinden ücret tahsilatı için Iyzico abonelik akışı kurulur.
 
 ## 🚀 6. Aşama: Test ve Dağıtım (Deploy)

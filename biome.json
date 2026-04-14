@@ -25,7 +25,8 @@
       "style": {
         "noNonNullAssertion": "warn",
         "useImportType": "error",
-        "noDefaultExport": "error"
+        "noDefaultExport": "error",
+        "noProcessEnv": "error"
       },
       "suspicious": {
         "noArrayIndexKey": "error",

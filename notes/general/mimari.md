@@ -20,8 +20,10 @@ Sistem şu anda bir VPS üzerinde çalışmakta. Bu VPS üzerinde Ubuntu 24.04 L
   Sistem reverse proxy olarak Traefik kullanmakta.
 ## BullMQ 
   Sistem zaman ile yapılması gereken iş yükleri için BullMQ kullanmakta.
-## NetGSM
-  Sistem SMS hizmetleri için NetGSM kullanmakta.
+## WhatsApp Business API
+  Sistem ana iletişim ve bildirim kanalı olarak WhatsApp Business API (Meta Cloud API) kullanmaktadır.
+## NetGSM (0850 Numara Sağlayıcı)
+  Sistem, WhatsApp üzerinde kullanılacak resmi 0850 hattının tahsisi ve yönetimi için NetGSM altyapısını kullanmaktadır. Mesajlaşma trafiği WhatsApp üzerinden geçerken, numara mülkiyeti NetGSM üzerindedir.
 ## Zoho Mail
   Sistem, "Az para çok iş" hedefine uygun olarak kurumsal gelen kutusu yönetimi (insan odaklı destek veya bilgi mailleri vb.) için Zoho Mail altyapısını kullanmaktadır.
 ## Resend

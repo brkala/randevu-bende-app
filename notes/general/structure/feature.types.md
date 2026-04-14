@@ -31,7 +31,7 @@ export type CalendarViewMode = "day" | "week" | "month";
 ```
 
 ### 2. Dış Kütüphane (3rd Party) ve Prisma Tipleri
-Projedeki Iyzico, NetGSM veya Prisma gibi kütüphanelerin kendi sağladığı devasa (ve zaten kütüphane tarafından parse edilen) karmaşık tipleri yeniden z.object() ile yazmak performansı düşürür. Bu 3. parti tipleri projenin kendi isimlendirmesine uydurmak (Type Alias) veya referanslamak için `.types.ts` kullanılır.
+Projedeki Iyzico, WhatsApp veya Prisma gibi kütüphanelerin kendi sağladığı devasa (ve zaten kütüphane tarafından parse edilen) karmaşık tipleri yeniden z.object() ile yazmak performansı düşürür. Bu 3. parti tipleri projenin kendi isimlendirmesine uydurmak (Type Alias) veya referanslamak için `.types.ts` kullanılır.
 
 ```typescript
 import type { Prisma } from "@prisma/client";
