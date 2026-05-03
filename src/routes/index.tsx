@@ -1,4 +1,4 @@
-import { createFileRoute, useRouter } from '@tanstack/react-router';
+import { createFileRoute, Link, useRouter } from '@tanstack/react-router';
 import { createServerFn } from '@tanstack/react-start';
 import { getCookie, setCookie } from '@tanstack/react-start/server';
 
@@ -41,6 +41,12 @@ function Home() {
       >
         Add 1 to {state}?
       </button>
+
+      <div style={{ marginTop: '20px' }}>
+        <Link to="/todos" style={{ color: 'blue', textDecoration: 'underline' }}>
+          Go to Todo CRUD Feature (E2E Test Demo)
+        </Link>
+      </div>
     </div>
   );
 }
