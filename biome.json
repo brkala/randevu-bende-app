@@ -50,7 +50,7 @@
       }
     },
     {
-      "includes": ["src/features/shared/lib/serverEnv.server.ts"],
+      "includes": ["src/features/shared/lib/server-env.server.ts"],
       "linter": {
         "rules": {
           "style": {
