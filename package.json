@@ -15,11 +15,21 @@
     "start": "cross-env NODE_ENV=production vite start",
     "type-check": "tsc --noEmit",
     "biome:check": "biome check .",
-    "biome:format": "biome format --write ."
+    "biome:format": "biome format --write .",
+    "db:generate": "prisma generate",
+    "db:studio": "prisma studio",
+    "db:seed": "prisma db seed",
+    "db:reset:core": "prisma migrate reset --force",
+    "db:reset": "run-s db:reset:core db:seed",
+    "db:migrate": "prisma migrate dev"
   },
   "dependencies": {
+    "@prisma/adapter-pg": "^7.8.0",
+    "@prisma/client": "^7.8.0",
+    "@tanstack/react-query": "^5.100.9",
     "@tanstack/react-router": "^1.168.19",
     "@tanstack/react-start": "^1.167.34",
+    "pg": "^8.20.0",
     "react": "19.2.5",
     "react-dom": "19.2.5",
     "zod": "^4.3.6"
@@ -27,14 +37,21 @@
   "devDependencies": {
     "@babel/core": "^7.29.0",
     "@biomejs/biome": "^2.4.11",
+    "@faker-js/faker": "^10.4.0",
     "@rolldown/plugin-babel": "^0.2.3",
     "@types/node": "^22.13.9",
+    "@types/pg": "^8.20.0",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react": "^6.0.1",
     "babel-plugin-react-compiler": "^1.0.0",
+    "builder-pattern": "^2.2.0",
     "cross-env": "^7.0.3",
+    "dotenv": "^17.4.2",
     "lefthook": "^2.1.5",
+    "npm-run-all2": "^8.0.4",
+    "prisma": "^7.8.0",
+    "tsx": "^4.21.0",
     "typescript": "^6.0.2",
     "vite": "^8.0.8"
   }

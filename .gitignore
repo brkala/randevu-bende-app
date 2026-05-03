@@ -26,3 +26,5 @@ dist-ssr
 # Misc
 .DS_Store
 __unconfig*
+
+/src/generated/prisma
