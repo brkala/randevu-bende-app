@@ -1,5 +1,10 @@
 {
   "$schema": "https://biomejs.dev/schemas/2.4.11/schema.json",
+  "vcs": {
+    "enabled": true,
+    "clientKind": "git",
+    "useIgnoreFile": true
+  },
   "files": {
     "includes": ["**", "!**/src/routeTree.gen.ts", "!**/*.d.ts"]
   },
@@ -40,7 +45,7 @@
   },
   "overrides": [
     {
-      "includes": ["src/routes/**", "vite.config.ts"],
+      "includes": ["src/routes/**"],
       "linter": {
         "rules": {
           "style": {
@@ -50,14 +55,24 @@
       }
     },
     {
-      "includes": ["src/features/shared/lib/server-env.server.ts"],
+      "includes": [
+        "vite.config.ts",
+        "playwright.config.ts",
+        "src/features/shared/lib/server-env.server.ts"
+      ],
       "linter": {
         "rules": {
           "style": {
+            "noDefaultExport": "off",
             "noProcessEnv": "off"
           }
         }
       }
+    },
+    {
+      "includes": ["pnpm-lock.yaml", "**/test-results/**", "**/playwright-report/**"],
+      "linter": { "enabled": false },
+      "formatter": { "enabled": false }
     }
   ],
   "formatter": {

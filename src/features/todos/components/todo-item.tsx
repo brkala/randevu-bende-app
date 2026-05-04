@@ -15,19 +15,24 @@ export const TodoItemComponent = ({ todo }: Props) => {
   });
 
   return (
-    <div style={{ padding: '10px', borderBottom: '1px solid #eee' }}>
+    <div style={{ padding: '10px', borderBottom: '1px solid #eee' }} data-testid="todo-item">
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
         <div>
-          <strong style={{ display: 'block' }}>{todo.title}</strong>
-          <p style={{ margin: '5px 0', color: '#666' }}>{todo.text}</p>
+          <strong style={{ display: 'block' }} data-testid="todo-item-title">
+            {todo.title}
+          </strong>
+          <p style={{ margin: '5px 0', color: '#666' }} data-testid="todo-item-text">
+            {todo.text}
+          </p>
           <small style={{ color: '#999' }}>Date: {new Date(todo.date).toLocaleDateString()}</small>
         </div>
         <button
           type="button"
           onClick={() => deleteMutation.mutate({ id: todo.id })}
           disabled={deleteMutation.isPending}
+          data-testid="todo-delete-button"
         >
-          Delete
+          {deleteMutation.isPending ? '...' : 'Delete'}
         </button>
       </div>
     </div>

@@ -38,7 +38,15 @@ function RootComponent() {
   );
 }
 
+import { useEffect } from 'react';
+
 function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
+  useEffect(() => {
+    if (import.meta.env.DEV) {
+      document.body.dataset.hydrated = 'true';
+    }
+  }, []);
+
   return (
     <html lang="tr">
       <head>

@@ -1,0 +1,58 @@
+import { fakerTR } from '@faker-js/faker';
+import { createTodoBuilder } from '../../../src/features/database/seeds/builders/todo.builder';
+import { expect, test } from '../lib/fixtures';
+
+test.describe('Todo Feature', () => {
+  test('should show seed data', async ({ page, db, waitForHydration }) => {
+    fakerTR.seed(1212);
+    const testTodoId = fakerTR.string.uuid();
+    const testTitle = 'Created by DB';
+
+    await db.todo.create({
+      data: createTodoBuilder().title(testTitle).id(testTodoId).build(),
+    });
+
+    try {
+      await page.goto('/todos');
+      await waitForHydration();
+      await expect(page.getByTestId('todo-item').filter({ hasText: testTitle })).toBeVisible();
+    } finally {
+      await db.todo.delete({ where: { id: testTodoId } });
+    }
+  });
+
+  test('should allow user to add and delete a todo', async ({
+    page,
+    waitForHydration,
+    waitForServerFn,
+  }) => {
+    await page.goto('/todos');
+
+    await waitForHydration();
+
+    await expect(page.getByRole('heading', { name: 'Todo List' })).toBeVisible();
+
+    const todoTitle = `Test Todo ${Date.now()}`;
+    const todoText = 'This is a test content from Playwright';
+    const today = new Date().toISOString().split('T')[0];
+
+    await page.getByTestId('todo-title-input').fill(todoTitle);
+    await page.getByTestId('todo-text-input').fill(todoText);
+    await page.getByTestId('todo-date-input').fill(today);
+
+    const responsePromise = waitForServerFn();
+    await page.getByTestId('todo-add-button').click();
+    await responsePromise;
+
+    const todoItem = page.getByTestId('todo-item').filter({ hasText: todoTitle });
+    await expect(todoItem).toBeVisible({ timeout: 5000 });
+    await expect(todoItem.getByTestId('todo-item-title')).toHaveText(todoTitle);
+    await expect(todoItem.getByTestId('todo-item-text')).toHaveText(todoText);
+
+    await todoItem.getByTestId('todo-delete-button').click();
+
+    await expect(page.getByTestId('todo-item').filter({ hasText: todoTitle })).not.toBeVisible({
+      timeout: 10000,
+    });
+  });
+});

@@ -17,16 +17,16 @@ export const TodoForm = () => {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleAdd = () => {
     if (!title.trim()) return;
+
     mutation.mutate({ title, text, date: new Date(date) });
   };
 
   return (
-    <form
-      onSubmit={handleSubmit}
+    <div
       style={{ marginBottom: '20px', display: 'flex', flexDirection: 'column', gap: '10px' }}
+      data-testid="todo-form-container"
     >
       <input
         type="text"
@@ -34,22 +34,30 @@ export const TodoForm = () => {
         onChange={(e) => setTitle(e.target.value)}
         placeholder="Todo Title"
         disabled={mutation.isPending}
+        data-testid="todo-title-input"
       />
       <textarea
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Todo Content/Text"
         disabled={mutation.isPending}
+        data-testid="todo-text-input"
       />
       <input
         type="date"
         value={date}
         onChange={(e) => setDate(e.target.value)}
         disabled={mutation.isPending}
+        data-testid="todo-date-input"
       />
-      <button type="submit" disabled={mutation.isPending}>
+      <button
+        type="button"
+        onClick={handleAdd}
+        disabled={mutation.isPending}
+        data-testid="todo-add-button"
+      >
         {mutation.isPending ? 'Adding...' : 'Add Todo'}
       </button>
-    </form>
+    </div>
   );
 };
