@@ -22,6 +22,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
     ],
   }),
   component: RootComponent,
+  notFoundComponent: () => <div>Sayfa Bulunamadı (404)</div>,
 });
 
 import { QueryClientProvider } from '@tanstack/react-query';

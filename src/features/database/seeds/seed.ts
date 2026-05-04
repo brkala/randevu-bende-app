@@ -1,4 +1,3 @@
-import 'dotenv/config';
 import { serverEnv } from '@/features/shared/lib/server-env.server';
 import { seedDevelopmentData } from './dev-seed';
 import { seedProductionData } from './prod-seed';

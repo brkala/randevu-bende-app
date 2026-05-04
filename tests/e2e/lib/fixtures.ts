@@ -1,7 +1,7 @@
+import '@/features/shared/lib/env-loader.server';
 import { test as base, expect, type Response } from '@playwright/test';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { PrismaClient } from '@prisma/client';
-import 'dotenv/config';
 
 export const test = base.extend<{
   db: PrismaClient;
@@ -16,7 +16,7 @@ export const test = base.extend<{
   db: async ({}, use) => {
     const prisma = new PrismaClient({
       // biome-ignore lint/style/noProcessEnv: Direct url is only available in the test environment.
-      adapter: new PrismaPg({ connectionString: process.env.TEST_DATABASE_URL }),
+      adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
     });
     await use(prisma);
     await prisma.$disconnect();

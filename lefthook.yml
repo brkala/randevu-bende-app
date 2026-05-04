@@ -9,3 +9,14 @@ pre-commit:
       run: npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {staged_files} && git add {staged_files}
     type-check:
       run: pnpm type-check
+fix-ai:
+  parallel: false
+  commands:
+    lint-format:
+      files: git diff HEAD --name-only --diff-filter=d
+      glob: "*.{js,ts,jsx,tsx,css}"
+      run: npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {files}
+    type-check:
+      files: git diff HEAD --name-only --diff-filter=d
+      glob: "*.{ts,tsx}" 
+      run: pnpm type-check

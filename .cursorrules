@@ -5,7 +5,9 @@ Yapay zeka asistanları, herhangi bir göreve başlamadan veya kod yazmadan önc
 ## Dil Kuralları (ÇOK ÖNEMLİ)
 1. **Dökümantasyon ve Notlar:** `notes/` klasöründeki ve genel yapıdaki her türlü dökümantasyon, açıklama ve notlar kesinlikle **TÜRKÇE** olacaktır.
 2. **Kodlama ve Yorum Satırları:** Proje içindeki her türlü kod (değişken isimleri, fonksiyonlar, sınıf adları vb.) ve kod içi yorum satırları (comment'ler) istisnasız **İNGİLİZCE** yazılacaktır.
-3. **Yorum Satırları** Sadece çok kritik durumlarda ve çok gerekli olduğunda kullanılmalıdır. Gereksiz yere kod yorum satırı yazarak zaman kaybetme.
+3. **Yorum Satırları** Kodun içine ASLA yorum satırı ekleme. No comments in code !!!
+4. **Dinamik Import Yasak (KRİTİK):** Sunucu tarafı (`.server.ts`) veya RPC katmanı (`.functions.ts`) dosyalarında fonksiyonlar içinde asla dinamik `import()` kullanılmayacaktır. Tüm bağımlılıklar dosyanın en üstünde statik olarak import edilmelidir.
+5. **Kodu yazdıktan sonra pnpm lint:fix:ai komutunu çalıştır:** Bütün kodları değiştirdikten sonra bu komutu çalıştırarak dosyaları formatla ve olası hataları düzelt.
 
 ## Klasör Yapısı
 - `notes/general/`: Genel mimariyi, tasarım yönergelerini ve proje genelindeki mantıksal bağlamı içerir:

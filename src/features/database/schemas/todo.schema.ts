@@ -7,6 +7,7 @@ export const todoSchema = z.object({
   date: z.date(),
   createdAt: z.date().optional(),
   updatedAt: z.date().optional(),
+  image: z.string().optional(),
 });
 
 export type TodoType = z.infer<typeof todoSchema>;

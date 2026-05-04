@@ -1,5 +1,6 @@
 import { fakerTR } from '@faker-js/faker';
 import { createTodoBuilder } from '@/features/database/seeds/builders/todo.builder';
+import { MOCK_IMAGES } from '../lib/constants';
 import { expect, test } from '../lib/fixtures';
 
 test.describe('Todo Feature', () => {
@@ -40,6 +41,13 @@ test.describe('Todo Feature', () => {
     await page.getByTestId('todo-text-input').fill(todoText);
     await page.getByTestId('todo-date-input').fill(today);
 
+    // Kırmızı 32x32 piksel PNG (Base64)
+    await page.getByTestId('todo-image-input').setInputFiles({
+      name: 'test-red-bg.png',
+      mimeType: 'image/png',
+      buffer: Buffer.from(MOCK_IMAGES.RED_PNG_32x32, 'base64'),
+    });
+
     const responsePromise = waitForServerFn();
     await page.getByTestId('todo-add-button').click();
     await responsePromise;
@@ -48,6 +56,9 @@ test.describe('Todo Feature', () => {
     await expect(todoItem).toBeVisible({ timeout: 5000 });
     await expect(todoItem.getByTestId('todo-item-title')).toHaveText(todoTitle);
     await expect(todoItem.getByTestId('todo-item-text')).toHaveText(todoText);
+
+    // Yüklenen resmin ekranda göründüğünü doğrula
+    await expect(todoItem.locator('img')).toBeVisible();
 
     await todoItem.getByTestId('todo-delete-button').click();
 

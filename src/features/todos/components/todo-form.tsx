@@ -1,26 +1,64 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { createTodoFn } from '../todos.functions';
+import { createTodoFn, getTodoImageUploadUrlFn } from '../todos.functions';
 
 export const TodoForm = () => {
   const [title, setTitle] = useState('');
   const [text, setText] = useState('');
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [file, setFile] = useState<File | null>(null);
   const queryClient = useQueryClient();
 
   const mutation = useMutation({
-    mutationFn: (data: { title: string; text: string; date: Date }) => createTodoFn({ data }),
+    mutationFn: async (data: { title: string; text: string; date: Date; file?: File | null }) => {
+      let imageKey: string | undefined;
+
+      if (data.file) {
+        if (data.file.size > 5 * 1024 * 1024) {
+          throw new Error("Dosya boyutu 5MB'dan büyük olamaz.");
+        }
+
+        if (!data.file.type.startsWith('image/')) {
+          throw new Error('Sadece resim dosyaları yüklenebilir.');
+        }
+
+        const fileKey = `temp/todos/${Date.now()}-${data.file.name}`;
+
+        const uploadUrl = await getTodoImageUploadUrlFn({
+          data: {
+            fileKey,
+            contentType: data.file.type,
+            fileSize: data.file.size,
+          },
+        });
+
+        await fetch(uploadUrl, {
+          method: 'PUT',
+          body: data.file,
+          headers: { 'Content-Type': data.file.type },
+        });
+
+        imageKey = fileKey;
+      }
+
+      return createTodoFn({
+        data: { title: data.title, text: data.text, date: data.date, image: imageKey },
+      });
+    },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['todos'] });
       setTitle('');
       setText('');
+      setFile(null);
+    },
+    onError: (error) => {
+      alert(error.message);
     },
   });
 
   const handleAdd = () => {
     if (!title.trim()) return;
-
-    mutation.mutate({ title, text, date: new Date(date) });
+    mutation.mutate({ title, text, date: new Date(date), file });
   };
 
   return (
@@ -49,6 +87,13 @@ export const TodoForm = () => {
         onChange={(e) => setDate(e.target.value)}
         disabled={mutation.isPending}
         data-testid="todo-date-input"
+      />
+      <input
+        type="file"
+        accept="image/*"
+        onChange={(e) => setFile(e.target.files?.[0] || null)}
+        disabled={mutation.isPending}
+        data-testid="todo-image-input"
       />
       <button
         type="button"

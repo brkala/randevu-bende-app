@@ -1,4 +1,4 @@
-import 'dotenv/config';
+import '../../shared/lib/env-loader.server';
 import { defineConfig } from 'prisma/config';
 import { serverEnv } from '../../shared/lib/server-env.server';
 
@@ -10,6 +10,6 @@ export default defineConfig({
     seed: 'tsx src/features/database/seeds/seed.ts',
   },
   datasource: {
-    url: serverEnv.NODE_ENV === 'test' ? serverEnv.TEST_DATABASE_URL : serverEnv.DIRECT_URL,
+    url: serverEnv.DIRECT_URL,
   },
 });
