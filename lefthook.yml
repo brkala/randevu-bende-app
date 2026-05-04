@@ -12,11 +12,23 @@ pre-commit:
 fix-ai:
   parallel: false
   commands:
-    lint-format:
+    01-lint-format:
       files: git diff HEAD --name-only --diff-filter=d
       glob: "*.{js,ts,jsx,tsx,css}"
       run: npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {files}
-    type-check:
+    02-type-check:
       files: git diff HEAD --name-only --diff-filter=d
       glob: "*.{ts,tsx}" 
       run: pnpm type-check
+
+e2e:
+  parallel: false
+  commands:
+    01-db-reset:
+      run: cross-env NODE_ENV=test prisma migrate reset --force
+    02-db-seed:
+      run: cross-env NODE_ENV=test prisma db seed
+    03-storage-seed:
+      run: cross-env NODE_ENV=test tsx src/features/storage/storage.seed.ts
+    04-playwright:
+      run: cross-env NODE_ENV=test playwright test
