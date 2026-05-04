@@ -26,7 +26,7 @@ await prisma.customer.findFirst({
 ```
 
 ## 2. Prisma Client Extension (Gelişmiş İzolasyon)
-Sistemin insan (veya AI) hatasına kurban gitmemesi için, Prisma başlatıcısı (`features/database/lib/prisma.client.ts`), Prisma'nın **`$extends`** özelliği kullanılarak Row-Level Security (Satır Bazlı Güvenlik) yapısına sokulmalıdır. 
+Sistemin insan (veya AI) hatasına kurban gitmemesi için, Prisma başlatıcısı (`src/features/database/lib/client.server.ts`), Prisma'nın **`$extends`** özelliği kullanılarak Row-Level Security (Satır Bazlı Güvenlik) yapısına sokulmalıdır. 
 
 ### TanStack Start Middleware Akışı
 `shopId` bilgisinin Prisma context'ine nasıl besleneceği şu zincir üzerinden gerçekleşir:

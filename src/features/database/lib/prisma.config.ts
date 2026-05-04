@@ -10,6 +10,6 @@ export default defineConfig({
     seed: 'tsx src/features/database/seeds/seed.ts',
   },
   datasource: {
-    url: serverEnv.DIRECT_URL,
+    url: serverEnv.NODE_ENV === 'test' ? serverEnv.TEST_DATABASE_URL : serverEnv.DIRECT_URL,
   },
 });

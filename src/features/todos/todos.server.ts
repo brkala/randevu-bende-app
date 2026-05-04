@@ -1,4 +1,4 @@
-import { prisma } from '@/features/database/lib/client';
+import { prisma } from '@/features/database/lib/client.server';
 import type { CreateTodoInput, DeleteTodoInput, UpdateTodoInput } from './todos.schemas';
 
 export const getTodos = async () => {

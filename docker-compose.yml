@@ -12,6 +12,18 @@ services:
       - postgres_data:/var/lib/postgresql/data
     restart: unless-stopped
 
+  postgres_test:
+    image: postgres:16-alpine
+    container_name: randevu-bende-postgres-test
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=randevu_bende_test
+    restart: unless-stopped
+
+
   pgbouncer:
     image: edoburu/pgbouncer:latest
     container_name: randevu-bende-pgbouncer

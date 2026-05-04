@@ -11,7 +11,7 @@ export default defineConfig({
     actionTimeout: 10000,
     screenshot: 'only-on-failure',
     video: 'on-first-retry',
-    trace: 'on-first-retry',
+    trace: process.env.CI ? 'on-first-retry' : 'on',
   },
   expect: {
     timeout: 5000,
@@ -23,7 +23,7 @@ export default defineConfig({
     },
   ],
   webServer: {
-    command: 'pnpm dev',
+    command: 'pnpm dev:test',
     url: 'http://localhost:3000',
     reuseExistingServer: !process.env.CI,
     timeout: 120000,

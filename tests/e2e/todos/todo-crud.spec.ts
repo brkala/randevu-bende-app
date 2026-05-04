@@ -1,5 +1,5 @@
 import { fakerTR } from '@faker-js/faker';
-import { createTodoBuilder } from '../../../src/features/database/seeds/builders/todo.builder';
+import { createTodoBuilder } from '@/features/database/seeds/builders/todo.builder';
 import { expect, test } from '../lib/fixtures';
 
 test.describe('Todo Feature', () => {

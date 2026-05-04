@@ -26,3 +26,13 @@ E2E testleri, projenin kaynak kodundan (`src/`) tamamen izole bir şekilde kök 
 │       └── appointment/
 │           └── booking.spec.ts
 ```
+
+## Test Altyapısı ve Veritabanı
+E2E testleri, geliştirme ortamından tamamen izole bir şekilde çalışır. Bu izolasyonu sağlamak için:
+
+1.  **Özel Test Container'ı**: Docker üzerinde `postgres_test` (5433 portu) adında bağımsız bir veritabanı container'ı kullanılır.
+2.  **Otomatik Sıfırlama**: Her test çalışmasından önce `pnpm test:e2e:db:reset` komutu ile test veritabanı şeması sıfırlanır ve `test` ortamı için belirlenen tohum veriler (seed) yüklenir.
+3.  **Çalıştırma Komutu**: Testler `pnpm test:e2e` komutu ile başlatılır. Bu komut, uygulamayı `NODE_ENV=test` modunda ayağa kaldırarak doğru veritabanına bağlanmasını garanti eder.
+
+> [!IMPORTANT]
+> Test dosyaları içinde `src` altındaki kodlara erişirken `@/` shorthand (alias) kullanılmalıdır. Bunun için `tsconfig.json` dosyasında `tests` dizini `include` kapsamına alınmıştır.

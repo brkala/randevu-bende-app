@@ -11,6 +11,7 @@
   "packageManager": "pnpm@10.18.3",
   "scripts": {
     "dev": "cross-env NODE_ENV=development vite dev",
+    "dev:test": "cross-env NODE_ENV=test vite dev",
     "build": "cross-env NODE_ENV=production vite build",
     "start": "cross-env NODE_ENV=production vite start",
     "type-check": "tsc --noEmit",
@@ -22,7 +23,8 @@
     "db:reset:core": "prisma migrate reset --force",
     "db:reset": "run-s db:reset:core db:seed",
     "db:migrate": "prisma migrate dev",
-    "test:e2e": "playwright test"
+    "test:e2e:db:reset": "cross-env NODE_ENV=test prisma migrate reset --force",
+    "test:e2e": "cross-env NODE_ENV=test playwright test"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.8.0",

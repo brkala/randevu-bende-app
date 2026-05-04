@@ -15,8 +15,8 @@ Sistem `development` veya `test` ortamında başlatılsa dahi, mock (sahte) data
 Ana `seed.ts` dağıtıcısı (dispatcher) tam olarak şu mantıkta çalışmalıdır:
 
 ```typescript
-import { seedProductionData } from './seeds/prod-seed';
-import { seedDevelopmentData } from './seeds/dev-seed';
+import { seedProductionData } from './prod-seed';
+import { seedDevelopmentData } from './dev-seed';
 
 async function main() {
   const env = process.env.NODE_ENV || 'development';
@@ -28,12 +28,10 @@ async function main() {
   const coreData = await seedProductionData();
 
   // 2. ORTAMA BAĞLI OLARAK EKLENEN FAKE DATALAR
-  if (env === 'development') {
-    console.log('🛠 [Dev] Geliştirici mock verileri ekleniyor...');
-    // Dev mocklar'ı root'ta üretilen coreData Id'lerine ihtiyaç duyabilir, argüman olarak iletilir.
+  if (env === 'development' || env === 'test') {
+    console.log('🛠 [Dev/Test] Geliştirici/Test mock verileri ekleniyor...');
+    // Dev/Test mocklar'ı root'ta üretilen coreData Id'lerine ihtiyaç duyabilir, argüman olarak iletilir.
     await seedDevelopmentData(coreData);
-  } else if (env === 'test') {
-    // await seedTestData(coreData);
   }
 
   console.log('🎉 Tüm Seeding İşlemleri Başarıyla Tamamlandı!');

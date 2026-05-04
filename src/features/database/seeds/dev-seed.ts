@@ -1,4 +1,4 @@
-import { prisma } from '../lib/client';
+import { prisma } from '../lib/client.server';
 import { todoSchema } from '../schemas/todo.schema';
 import { createTodoBuilder } from './builders/todo.builder';
 
