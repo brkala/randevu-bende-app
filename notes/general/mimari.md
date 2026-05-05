@@ -76,8 +76,12 @@ Yazılım giden işlemler (transactional) ve bildirim e-postalarında eski tip H
 Yazılım test yükünün %90'ını üstlenen uçtan uca (E2E) kullanıcı senaryoları (örn: Randevu alma akışı) için Playwright kullanmaktadır. TanStack Start yapısıyla uyumlu olarak UI testi sorumluluğu sadece Playwright'a aittir.
 ## Vitest
 Yazılım sadece ve sadece saf iş zekasını (Para hesaplama, saat çakışması bulma gibi pure-functions) saniyenin binde biri hızında test etmek için Vitest kullanmaktadır. DOM testleri kesinlikle bu motorla yazılmaz.
-## cva
-Birden fazla variant'ı olan componentler için CVA kullanmakta.
+## tailwind-variants
+  Birden fazla varyantı, slot desteği (çok parçalı bileşenler) ve responsive özellikleri olan UI bileşenleri için `tailwind-variants` kullanmaktadır. `cva`'nın sunduğu özellikleri kapsar ve Base UI gibi headless kütüphanelerin stil yönetimi için daha gelişmiş bir yapı sunar.
+## constate
+  Bileşene özel veya küçük kapsamlı state yönetimi (Context) için `constate` kullanılmaktadır. Boilerplate kod miktarını azaltır ve custom hook'ları doğrudan Context Provider'a dönüştürerek "Single Source of Truth" prensibini korur.
+## date-fns
+  Proje genelinde tüm tarih ve saat hesaplamaları için `date-fns` kullanılmaktadır. "Tree-shaking" özelliği sayesinde sadece kullanılan fonksiyonlar bundle'a dahil edilir. Proje dili gereği her zaman Türkçe lokalizasyon (`tr`) kullanılmalı ve tarih işlemleri `features/time` üzerinden yönetilmelidir.
 ## rooks
 Yazılım [Rooks](https://github.com/imbhargav5/rooks) kullanmakta. Buradaki hazır hooklar yeni hooklar yazmadan önce mutlaka kontrol edilmeli.
 ## builder-pattern
