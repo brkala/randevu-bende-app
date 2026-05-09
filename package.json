@@ -24,6 +24,7 @@
     "db:reset": "run-s db:reset:core db:seed",
     "db:migrate": "prisma migrate dev",
     "test:e2e": "lefthook run e2e",
+    "test:e2e:report": "pnpm exec playwright show-report",
     "storage:seed": "tsx src/features/storage/storage.seed.ts",
     "lint:fix:ai": "lefthook run fix-ai"
   },
