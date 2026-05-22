@@ -11,6 +11,7 @@ const serverEnvSchema = z.object({
   R2_ACCOUNT_ID: z.string().min(1),
   R2_BUCKET_NAME: z.string().min(1),
   R2_PUBLIC_DOMAIN: z.url(),
+  WHATSAPP_MAGIC_CODE: z.string().optional(),
 });
 
 export const serverEnv = serverEnvSchema.parse(process.env);

@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const todoIdSchema = z.string().uuid();
+export const todoIdSchema = z.uuidv7();
 
 export const createTodoSchema = z.object({
   title: z.string().min(1, 'Title is required').max(100),

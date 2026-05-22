@@ -25,6 +25,7 @@ Yapay zeka asistanları, herhangi bir göreve başlamadan veya kod yazmadan önc
   - `dagitim.md`: .env yönetimi ve Deployment kuralları.
   - `yol-haritasi.md`: Projenin operasyonel adımları.
   - `frontend-ve-is-mantigi.md`: Giriş kanalları ve rol yönetimi.
+  - `organizasyon-ve-roller.md`: Better Auth roller, multi-tenant izolasyonu ve güvenlik mimarisi.
 - `notes/general/structure/`: Sadece bir feature oluşturulduğunda içine açılacak somut dosyalar için **Templating (Şablon)** rehberlerini içerir:
   - `feature.folder.md`: Feature klasör hiyerarşisi (Vertical Slicing) kuralları.
   - `routes.md`: TanStack Router (Aptal Rota) dosyası oluştururken.
@@ -42,6 +43,11 @@ Yapay zeka asistanları, herhangi bir göreve başlamadan veya kod yazmadan önc
 - `notes/is-yuku/`: (Eğer `.cursorignore` tarafından dışlanmadıysa) Spesifik iş yükü, görevle ilgili bağlam ve iş mantığını içerir.
 
    **Not**: `notes/general/structure/` klasörü sadece yeni bir dosya (hook, ts dosyası, şema vb.) veya klasör yapısı barındıran **templating (şablon oluşturma)** notları içindir. Eğer bir not somut bir dosya üretimini hedeflemiyor, sadece mantık, işleyiş veya bilgilendirme (Örn: React kuralları, DB izolasyon mantığı) içeriyorsa `notes/general/` içinde Türkçe ASCII ismi ile tutulmalıdır.
+
+## Zod ve Veri Doğrulama Kuralları
+- Projede Zod V4 kullanıldığı için ID tanımlamalarında `z.string().uuid()` YERİNE mutlaka `z.uuidv7()` kullanılmalıdır.
+- Veritabanı tohumlama (seed) ve testlerde ID üretilirken faker yerine `uuid` paketinden `v7` import edilerek kullanılmalıdır.
+
 ## Yapay Zeka Asistanı Çalışma Kuralları
 
 1. **Çalışma Öncesi**:

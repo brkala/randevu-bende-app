@@ -1,0 +1,11 @@
+model SuperAdmin {
+  id           String  @id @default(uuid(7))
+  email        String  @unique
+  passwordHash String
+  name         String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("super_admins")
+}

@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const todoSchema = z.object({
-  id: z.string().uuid().optional(),
+  id: z.uuidv7().optional(),
   title: z.string().min(1, 'Başlık boş olamaz'),
   text: z.string().min(1, 'Yazı boş olamaz'),
   date: z.date(),

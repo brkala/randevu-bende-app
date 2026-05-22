@@ -1,4 +1,5 @@
 import { fakerTR } from '@faker-js/faker';
+import { v7 as uuidv7 } from 'uuid';
 import { createTodoBuilder } from '@/features/database/seeds/builders/todo.builder';
 import { MOCK_IMAGES } from '../lib/constants';
 import { expect, test } from '../lib/fixtures';
@@ -6,7 +7,7 @@ import { expect, test } from '../lib/fixtures';
 test.describe('Todo Feature', () => {
   test('should show seed data', async ({ page, db, waitForHydration }) => {
     fakerTR.seed(1212);
-    const testTodoId = fakerTR.string.uuid();
+    const testTodoId = uuidv7();
     const testTitle = 'Created by DB';
 
     await db.todo.create({

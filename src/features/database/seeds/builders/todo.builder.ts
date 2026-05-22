@@ -1,5 +1,6 @@
 import { fakerTR } from '@faker-js/faker';
 import { Builder } from 'builder-pattern';
+import { v7 as uuidv7 } from 'uuid';
 import type { TodoType } from '../../schemas/todo.schema';
 
 fakerTR.seed(1234);
@@ -15,7 +16,7 @@ const SEED_IMAGES = [
 
 export const createTodoBuilder = () => {
   return Builder<TodoType>()
-    .id(fakerTR.string.uuid())
+    .id(uuidv7())
     .title(fakerTR.book.title())
     .text(fakerTR.lorem.paragraphs(2))
     .date(fakerTR.date.future())

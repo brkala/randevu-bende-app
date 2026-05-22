@@ -1,3 +1,4 @@
+import type { Todo } from '@prisma/client';
 import { useSuspenseQuery } from '@tanstack/react-query';
 import { todoQueries } from '../todos.queries';
 import { TodoForm } from './todo-form';
@@ -13,7 +14,7 @@ export const TodoList = () => {
       <h1>Todo List</h1>
       <TodoForm />
       <div>
-        {todos.map((todo) => (
+        {todos.map((todo: Todo) => (
           <TodoItemComponent key={todo.id} todo={todo} />
         ))}
         {todos.length === 0 && <p>No todos yet. Add one above!</p>}
