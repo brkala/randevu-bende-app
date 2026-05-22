@@ -43,8 +43,28 @@ function Home() {
       </button>
 
       <div style={{ marginTop: '20px' }}>
-        <Link to="/todos" style={{ color: 'blue', textDecoration: 'underline' }}>
+        <Link
+          to="/todos"
+          style={{
+            color: 'blue',
+            textDecoration: 'underline',
+            display: 'block',
+            marginBottom: '10px',
+          }}
+        >
           Go to Todo CRUD Feature (E2E Test Demo)
+        </Link>
+
+        <Link
+          to="/profile"
+          style={{
+            color: 'green',
+            textDecoration: 'underline',
+            display: 'block',
+            marginBottom: '10px',
+          }}
+        >
+          Giriş Yap / Profilim (Korumalı Alan)
         </Link>
       </div>
     </div>

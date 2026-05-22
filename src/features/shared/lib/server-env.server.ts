@@ -3,6 +3,7 @@ import './env-loader.server';
 
 const serverEnvSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
+  BASE_URL: z.string().url().default('http://localhost:5173'),
   DATABASE_URL: z.url(),
   DIRECT_URL: z.url(),
   REDIS_URL: z.url(),

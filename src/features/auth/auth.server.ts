@@ -2,9 +2,11 @@ import { betterAuth } from 'better-auth';
 import { prismaAdapter } from 'better-auth/adapters/prisma';
 import { organization, phoneNumber } from 'better-auth/plugins';
 import { prisma } from '@/features/database/lib/client.server';
+import { serverEnv } from '@/features/shared/lib/server-env.server';
 import { isWhatsAppMagicCode } from '@/features/whatsapp/lib/whatsapp.utils';
 
 export const auth = betterAuth({
+  baseURL: serverEnv.BASE_URL,
   database: prismaAdapter(prisma, {
     provider: 'postgresql',
   }),
@@ -30,14 +32,14 @@ export const auth = betterAuth({
         const [otpValue, attempts] = otp.value.split(':');
         const allowedAttempts = 3;
 
-        if (attempts && parseInt(attempts) >= allowedAttempts) {
+        if (attempts && parseInt(attempts, 10) >= allowedAttempts) {
           await ctx?.context.internalAdapter.deleteVerificationByIdentifier(phoneNumber);
           return false;
         }
 
         if (otpValue !== code) {
           await ctx?.context.internalAdapter.updateVerificationByIdentifier(phoneNumber, {
-            value: `${otpValue}:${parseInt(attempts || '0') + 1}`,
+            value: `${otpValue}:${parseInt(attempts || '0', 10) + 1}`,
           });
           return false;
         }

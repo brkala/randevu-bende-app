@@ -1,12 +1,18 @@
 import type { QueryClient } from '@tanstack/react-query';
 import { createRootRouteWithContext, HeadContent, Outlet, Scripts } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
+import { getSession } from '@/features/auth/auth.functions';
 
 interface MyRouterContext {
   queryClient: QueryClient;
+  auth: Awaited<ReturnType<typeof getSession>>;
 }
 
 export const Route = createRootRouteWithContext<MyRouterContext>()({
+  beforeLoad: async () => {
+    const authSession = await getSession();
+    return { auth: authSession };
+  },
   head: () => ({
     meta: [
       {

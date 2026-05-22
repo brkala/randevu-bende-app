@@ -70,6 +70,16 @@
       }
     },
     {
+      "includes": ["tests/**"],
+      "linter": {
+        "rules": {
+          "style": {
+            "noProcessEnv": "off"
+          }
+        }
+      }
+    },
+    {
       "includes": ["pnpm-lock.yaml", "**/test-results/**", "**/playwright-report/**"],
       "linter": { "enabled": false },
       "formatter": { "enabled": false }

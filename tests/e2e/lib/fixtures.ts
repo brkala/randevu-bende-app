@@ -15,7 +15,6 @@ export const test = base.extend<{
   // biome-ignore lint/correctness/noEmptyPattern: first arg must use destructuring pattern
   db: async ({}, use) => {
     const prisma = new PrismaClient({
-      // biome-ignore lint/style/noProcessEnv: Direct url is only available in the test environment.
       adapter: new PrismaPg({ connectionString: process.env.DATABASE_URL }),
     });
     await use(prisma);
