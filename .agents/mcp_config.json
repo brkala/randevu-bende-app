@@ -1,0 +1,23 @@
+{
+  "mcpServers": {
+    "Prisma": {
+      "serverUrl": "https://mcp.prisma.io/mcp"
+    },
+    "Docker": {
+      "command": "npx",
+      "args": ["-y", "@hypnosis/docker-mcp-server"]
+    },
+    "Redis": {
+      "command": "npx",
+      "args": ["-y", "@liangshanli/mcp-server-redis"]
+    },
+    "Playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    },
+    "Fetch": {
+      "command": "npx",
+      "args": ["-y", "mcp-fetch-server"]
+    }
+  }
+}
