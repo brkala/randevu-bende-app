@@ -1,5 +1,6 @@
 import type { Preview } from '@storybook/tanstack-react';
-import '../src/features/tailwind/styles/global.css';
+import { LucideProvider } from '../src/features/style/components/lucide-provider';
+import '../src/features/style/styles/global.css';
 
 const preview: Preview = {
   parameters: {
@@ -13,6 +14,13 @@ const preview: Preview = {
       test: 'todo',
     },
   },
+  decorators: [
+    (Story) => (
+      <LucideProvider>
+        <Story />
+      </LucideProvider>
+    ),
+  ],
 };
 
 export default preview;

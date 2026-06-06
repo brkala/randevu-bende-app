@@ -2,7 +2,7 @@ import type { QueryClient } from '@tanstack/react-query';
 import { createRootRouteWithContext, HeadContent, Outlet, Scripts } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
 import { getSession } from '@/features/auth/auth.functions';
-import '@/features/tailwind/styles/global.css';
+import '@/features/style/styles/global.css';
 
 interface MyRouterContext {
   queryClient: QueryClient;
@@ -48,15 +48,18 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 });
 
 import { QueryClientProvider } from '@tanstack/react-query';
+import { LucideProvider } from '@/features/style/components/lucide-provider';
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
 
   return (
     <QueryClientProvider client={queryClient}>
-      <RootDocument>
-        <Outlet />
-      </RootDocument>
+      <LucideProvider>
+        <RootDocument>
+          <Outlet />
+        </RootDocument>
+      </LucideProvider>
     </QueryClientProvider>
   );
 }

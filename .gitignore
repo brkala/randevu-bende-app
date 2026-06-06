@@ -39,3 +39,5 @@ __unconfig*
 
 *storybook.log
 storybook-static
+.playwright-mcp
+
