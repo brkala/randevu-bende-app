@@ -58,8 +58,8 @@ Yazılım routing işlemleri için Tanstack Router kullanmakta.
 Yazılım PostgreSQL ile haberleşmek için Prisma kullanmakta.
 ## TailwindCSS
 Yazılım TailwindCSS ile geliştirilmekte.
-## Base UI
-Yazılım UI bileşenleri için Base UI kullanmakta.
+## Ark UI
+Yazılım UI bileşenleri için Ark UI kullanmakta.
 ## biome
 Yazılım formatlama ve linter için Biome kullanmakta.
 ## lefthook
@@ -77,7 +77,7 @@ Yazılım test yükünün %90'ını üstlenen uçtan uca (E2E) kullanıcı senar
 ## Vitest
 Yazılım sadece ve sadece saf iş zekasını (Para hesaplama, saat çakışması bulma gibi pure-functions) saniyenin binde biri hızında test etmek için Vitest kullanmaktadır. DOM testleri kesinlikle bu motorla yazılmaz.
 ## tailwind-variants
-  Birden fazla varyantı, slot desteği (çok parçalı bileşenler) ve responsive özellikleri olan UI bileşenleri için `tailwind-variants` kullanmaktadır. `cva`'nın sunduğu özellikleri kapsar ve Base UI gibi headless kütüphanelerin stil yönetimi için daha gelişmiş bir yapı sunar.
+  Birden fazla varyantı, slot desteği (çok parçalı bileşenler) ve responsive özellikleri olan UI bileşenleri için `tailwind-variants` kullanmaktadır. `cva`'nın sunduğu özellikleri kapsar ve Ark UI gibi headless kütüphanelerin stil yönetimi için daha gelişmiş bir yapı sunar.
 ## constate
   Bileşene özel veya küçük kapsamlı state yönetimi (Context) için `constate` kullanılmaktadır. Boilerplate kod miktarını azaltır ve custom hook'ları doğrudan Context Provider'a dönüştürerek "Single Source of Truth" prensibini korur.
 ## date-fns

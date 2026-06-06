@@ -1,0 +1,23 @@
+.dark {
+  --color-bg-canvas: var(--color-slate-950);
+  --color-bg-default: var(--color-slate-900);
+  --color-bg-subtle: var(--color-slate-800);
+  --color-bg-muted: var(--color-slate-700);
+
+  --color-fg-default: var(--color-slate-50);
+  --color-fg-muted: var(--color-slate-400);
+  --color-fg-subtle: var(--color-slate-600);
+
+  --color-border-default: var(--color-slate-800);
+  --color-border-muted: var(--color-slate-900);
+
+  --color-bg-hover: var(--color-slate-800);
+  --color-bg-active: var(--color-slate-700);
+  --color-fg-hover: var(--color-slate-100);
+
+  --color-card-bg: var(--color-slate-900);
+  --color-card-border: var(--color-slate-800);
+
+  --shadow-default: 0 1px 3px 0 rgba(0, 0, 0, 0.3), 0 1px 2px 0 rgba(0, 0, 0, 0.2);
+  --shadow-surface: 0 4px 6px -1px rgba(0, 0, 0, 0.25), 0 2px 4px -1px rgba(0, 0, 0, 0.15);
+}

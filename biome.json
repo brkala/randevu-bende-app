@@ -8,6 +8,11 @@
   "files": {
     "includes": ["**", "!**/src/routeTree.gen.ts", "!**/*.d.ts"]
   },
+  "css": {
+    "parser": {
+      "tailwindDirectives": true
+    }
+  },
   "linter": {
     "enabled": true,
     "rules": {
@@ -36,7 +41,13 @@
       "suspicious": {
         "noArrayIndexKey": "error",
         "noExplicitAny": "warn",
-        "noDoubleEquals": "error"
+        "noDoubleEquals": "error",
+        "noUnknownAtRules": {
+          "level": "error",
+          "options": {
+            "ignore": ["theme", "utility", "source", "variant", "custom-variant"]
+          }
+        }
       },
       "nursery": {
         "noLeakedRender": "error"

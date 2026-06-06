@@ -13,7 +13,7 @@ Bu döküman, yapay zeka asistanlarının (ve geliştiricilerin) genel geçer g�
 3. **Function Katmanı (`.functions.ts`):** `createServerFn` kullanarak Server'daki salt metodu Dış Dünyaya (Frontend RPC) bağla.
 4. **Query Katmanı (`.queries.ts`):** Sayfanın cache yönetimi için TanStack Query option ve factory metodlarını tanımla.
 5. **Router Katmanı (`routes/...tsx`):** Route dosyasını aç ve kullanıcı sayfaya varmadan önce `loader` içerisinde `ensureQueryData` yeteneğiyle veriyi önyükle (Prefetch).
-6. **UI Katmanı (`components/list.tsx`):** Prefetch edilmiş veriyi `useQuery` ile saniyesinde ekrana bastıran Base UI / Tailwind componentini çiz.
+6. **UI Katmanı (`components/list.tsx`):** Prefetch edilmiş veriyi `useQuery` ile saniyesinde ekrana bastıran Ark UI / Tailwind componentini çiz.
 
 ---
 

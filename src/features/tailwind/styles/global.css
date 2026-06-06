@@ -1,0 +1,6 @@
+@import "tailwindcss";
+@import "./theme.css";
+@import "./dark.css";
+@import "./utilities.css";
+@import "./scrollbar.css";
+@source "../../../../src";

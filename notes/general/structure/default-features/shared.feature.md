@@ -7,7 +7,7 @@
 ## Klasör Yapısı ve İçerik Yönetimi
 
 - `features/shared/components/ui/`
-  - Özel (Custom) UI Component'ler. Base UI vb. ile hazırlanmış, bütün projenin paylaştığı butonlar, kartlar, modallar veya özellik spesifik olmayan `CdnImage` gibi alt yapı bileşenleri burada durur. İsimlendirmelerde `kebab-case` kuralı geçerlidir.
+  - Özel (Custom) UI Component'ler. Ark UI vb. ile hazırlanmış, bütün projenin paylaştığı butonlar, kartlar, modallar veya özellik spesifik olmayan `CdnImage` gibi alt yapı bileşenleri burada durur. İsimlendirmelerde `kebab-case` kuralı geçerlidir.
 - `features/shared/lib/`
   - Birden çok feature'ın ihtiyaç duyduğu ve defalarca kullanılacak *ortak araçları* (utils) barındırır. (Örnek: `cn.ts`, Tailwind class yönetimi biçimlendiricileri, global sabitler veya Regex tanımları gibi).
 - `features/shared/hooks/`

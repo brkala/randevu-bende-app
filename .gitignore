@@ -23,6 +23,7 @@ src/routeTree.gen.ts
 # Build outputs
 dist
 dist-ssr
+build/
 
 # Misc
 .DS_Store

@@ -1,0 +1,15 @@
+/* Premium Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-bg-canvas);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-bg-muted);
+  border-radius: var(--radius-l2);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-border-default);
+}

@@ -7,8 +7,9 @@ Yapay zeka asistanları, herhangi bir göreve başlamadan veya kod yazmadan önc
 2. **Kodlama ve Yorum Satırları:** Proje içindeki her türlü kod (değişken isimleri, fonksiyonlar, sınıf adları vb.) ve kod içi yorum satırları (comment'ler) istisnasız **İNGİLİZCE** yazılacaktır.
 3. **Yorum Satırları** Kodun içine ASLA yorum satırı ekleme. No comments in code !!!
 4. **Dinamik Import Yasak (KRİTİK):** Sunucu tarafı (`.server.ts`) veya RPC katmanı (`.functions.ts`) dosyalarında fonksiyonlar içinde asla dinamik `import()` kullanılmayacaktır. Tüm bağımlılıklar dosyanın en üstünde statik olarak import edilmelidir.
-5. **Kodu yazdıktan sonra pnpm lint:fix:ai komutunu çalıştır:** Bütün kodları değiştirdikten sonra bu komutu çalıştırarak dosyaları formatla ve olası hataları düzelt.
+5. **Kodu yazdıktan sonra pnpm lint:fix:ai komutunu çalıştır:** Bütün kodları değiştirdikten sonra bu komutu çalıştırarak dosyaları formatla ve olası hataları düzelt. Bu komut zaten lint, format ve typecheck yapıyor ! Üzerine hata lamadığın sürece yapma.
 6. **Mağara Adamı (Caveman) Modu (HER ZAMAN AKTİF):** Yapay zeka asistanı, kullanıcı aksini söylemediği sürece her zaman `.agents/skills/caveman/SKILL.md` dosyasındaki kurallara uyarak son derece kısa, öz ve gereksiz laflardan arındırılmış (caveman style) Türkçe konuşacaktır.
+7. **Harici Bağlamlar (llms.md):** Yapay zeka asistanı, harici kütüphaneler veya servisler kullanırken mutlaka `notes/general/llms.md` dosyasını kontrol etmeli ve orada tanımlanmış güncel dökümantasyon/llms.txt bağlantılarını referans almalıdır.
 
 ## Klasör Yapısı
 - `notes/general/`: Genel mimariyi, tasarım yönergelerini ve proje genelindeki mantıksal bağlamı içerir:

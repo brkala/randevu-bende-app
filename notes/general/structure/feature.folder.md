@@ -10,7 +10,7 @@ Her bir bağımsız özellik (feature), `src/features/` dizini altında kendi kl
 src/
 └── features/
     ├── shared/                              // [VARSAYILAN / ZORUNLU] Tüm uygulamaya hizmet eden ortak yapılar
-    │   ├── components/                      // Base UI / Ortak Butonlar / Modallar (ui/)
+    │   ├── components/                      // Ark UI / Ortak Butonlar / Modallar (ui/)
     │   ├── lib/                             // Ortak araçlar (Örn: cn.ts)
     │   └── hooks/                           // useKeyboard vb. global hooklar
     │
