@@ -1,40 +1,47 @@
-import type { Story } from '@ladle/react';
-import { Button, type ButtonProps } from './button';
+import type { Meta, StoryObj } from '@storybook/tanstack-react';
+import { Plus, Settings, Trash } from 'lucide-react';
+import { Button } from './button';
 
-export const Playground: Story<ButtonProps> = ({ variant, size, fullWidth, icon, ...props }) => {
-  return (
+const meta: Meta<typeof Button> = {
+  component: Button,
+};
+
+export default meta;
+
+type Story = StoryObj<typeof Button>;
+
+export const Playground: Story = {
+  args: {
+    variant: 'default',
+    size: 'md',
+    fullWidth: false,
+    icon: false,
+  },
+  argTypes: {
+    variant: {
+      options: ['default', 'accent', 'success', 'error', 'warning', 'info', 'outline', 'ghost'],
+      control: { type: 'select' },
+    },
+    size: {
+      options: ['sm', 'md', 'lg'],
+      control: { type: 'select' },
+    },
+    fullWidth: {
+      control: { type: 'boolean' },
+    },
+    icon: {
+      control: { type: 'boolean' },
+    },
+  },
+  render: ({ variant, size, fullWidth, icon, ...props }) => (
     <Button variant={variant} size={size} fullWidth={fullWidth} icon={icon} {...props}>
-      {icon ? '✕' : 'Button Text'}
+      {icon ? <Plus className="size-4" /> : 'Button Text'}
     </Button>
-  );
+  ),
 };
 
-Playground.args = {
-  variant: 'default',
-  size: 'md',
-  fullWidth: false,
-  icon: false,
-};
-
-Playground.argTypes = {
-  variant: {
-    options: ['default', 'accent', 'success', 'error', 'warning', 'info', 'outline', 'ghost'],
-    control: { type: 'select' },
-  },
-  size: {
-    options: ['sm', 'md', 'lg'],
-    control: { type: 'select' },
-  },
-  fullWidth: {
-    control: { type: 'boolean' },
-  },
-  icon: {
-    control: { type: 'boolean' },
-  },
-};
-
-export const Overview: Story = () => {
-  return (
+export const Overview: Story = {
+  render: () => (
     <div className="p-8 space-y-12 bg-bg-canvas min-h-screen text-fg-default font-sans">
       <div>
         <h1 className="text-3xl font-serif font-bold mb-2">Button Gallery</h1>
@@ -83,19 +90,19 @@ export const Overview: Story = () => {
           <div className="flex flex-col gap-2 items-center">
             <span className="text-xs text-fg-muted">sm</span>
             <Button size="sm" icon>
-              ✕
+              <Plus className="size-4" />
             </Button>
           </div>
           <div className="flex flex-col gap-2 items-center">
             <span className="text-xs text-fg-muted">md</span>
             <Button size="md" icon>
-              ✕
+              <Settings className="size-4" />
             </Button>
           </div>
           <div className="flex flex-col gap-2 items-center">
             <span className="text-xs text-fg-muted">lg</span>
             <Button size="lg" icon>
-              ✕
+              <Trash className="size-5" />
             </Button>
           </div>
         </div>
@@ -133,5 +140,5 @@ export const Overview: Story = () => {
         </div>
       </section>
     </div>
-  );
+  ),
 };

@@ -14,7 +14,8 @@ export default defineConfig(({ mode }) => {
     }
   }
 
-  const isLadle = process.env.LADLE === 'true' || process.argv.some((arg) => arg.includes('ladle'));
+  const isStorybook =
+    process.env.STORYBOOK === 'true' || process.argv.some((arg) => arg.includes('storybook'));
 
   return {
     server: {
@@ -27,9 +28,9 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       tailwindcss(),
-      !isLadle && tanstackStart(),
-      !isLadle && viteReact(),
-      !isLadle &&
+      !isStorybook && tanstackStart(),
+      isStorybook && viteReact(),
+      isStorybook &&
         babel({
           include: /\.(js|jsx|ts|tsx)$/,
           presets: [reactCompilerPreset()],

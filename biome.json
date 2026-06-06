@@ -56,7 +56,7 @@
   },
   "overrides": [
     {
-      "includes": ["src/routes/**"],
+      "includes": ["src/routes/**", "**/*.stories.tsx", ".storybook/**"],
       "linter": {
         "rules": {
           "style": {

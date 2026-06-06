@@ -4,7 +4,7 @@ import { baseVariants } from '@/features/tailwind/constants/base-variants';
 
 export const buttonVariants = tv({
   extend: baseVariants,
-  base: 'inline-flex items-center justify-center gap-2 rounded-l2 leading-none font-control text-control h-control-h px-4 transition-colors duration-normal ease-enter focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-border-accent disabled:pointer-events-none disabled:opacity-50 cursor-pointer',
+  base: 'inline-flex items-center justify-center gap-2 leading-none font-control transition-colors duration-normal ease-enter focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-border-accent disabled:pointer-events-none disabled:opacity-50 cursor-pointer',
   variants: {
     variant: {
       accent: 'bg-accent-default text-accent-fg hover:bg-accent-600 active:bg-accent-700',
@@ -20,7 +20,7 @@ export const buttonVariants = tv({
     },
     size: {
       sm: 'h-8 px-3 text-xs rounded-l1',
-      md: 'h-control-h px-4 text-base',
+      md: 'h-control-h px-4 text-control rounded-l2',
       lg: 'h-12 px-6 text-base rounded-l3',
     },
     fullWidth: {
