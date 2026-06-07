@@ -1,32 +1,31 @@
 # Randevu Bende Model Tanımları
 
-Bu döküman üye tiplerini(Admin, Customer, Owner, Employee, Manager) içermese de bunlarda model olarak görülmelidir.
-Bu tipleri görmek için [yetkiler.md](./yetkiler.md) dosyasına bakın.
+Bu döküman yetkilendirme modelleri dışındaki şemaları tanımlar. Yetkiler için [yetkiler.md](./yetkiler.md) dosyasına bakın.
 
-**(Not: Tüm tablolarda varsayılan olarak `id`, `created_at` ve `updated_at` (oluşturulma/güncellenme tarihi) olduğu varsayılmıştır.)**
+**(Not: Tüm tablolarda varsayılan olarak `id`, `created_at` ve `updated_at` mevcuttur.)**
 
 ## Dükkan / Shop
 - title
 - description
-- slug (URL dostu dükkan linki için, örn: /dukkan-adi)
+- slug (Dükkan URL linki, örn: /dukkan-adi)
 - tax_number
 - address
 - phone
 - logo
 - owner_id
-- is_active (Dükkanın sistemde aktif olup olmadığı - boolean)
+- is_active (boolean)
 
 ## Dükkan Resimleri / Shop Images
 - shop_id
 - image (URL / Path)
-- order (Resmin sırası - integer, örn: 1, 2, 3...)
+- order (Görsel sırası - integer)
 
 ## Dükkan Çalışma Saatleri / Shop Working Hours
 - shop_id
 - day (enum 7 days)
 - start_time
 - end_time
-- is_closed (O gün dükkan kapalı mı? - boolean)
+- is_closed (boolean)
 
 ## Dükkan Tatil Günleri / Shop Holiday Days (Örn: Bayramlar)
 - shop_id
@@ -36,7 +35,7 @@ Bu tipleri görmek için [yetkiler.md](./yetkiler.md) dosyasına bakın.
 
 ## Dükkan Ayarları / Shop Settings
 - shop_id
-- key (enum: randevu_araligi, onay_mekanizmasi vs.)
+- key (enum: randevu_araligi, onay_mekanizmasi vb.)
 - value (json / string)
 
 ## Hizmet / Service
@@ -45,57 +44,57 @@ Bu tipleri görmek için [yetkiler.md](./yetkiler.md) dosyasına bakın.
 - description
 - duration_minutes (Süre - integer)
 - price (Fiyat - decimal)
-- is_active (Hizmeti kapatabilmek için - boolean)
+- is_active (boolean)
 
-## Çalışan Yetkinlikleri / Employee Service Pivot 
-*(Hangi çalışan hangi hizmetleri verebiliyor)*
+## Çalışan Yetkinlikleri / Employee Service Pivot
+*(Çalışan-Hizmet eşleşmesi)*
 - employee_id (Çalışan User ID)
 - service_id (Hizmet ID)
-- is_active (Patron bu hizmeti çalışana sonradan kapatabilir - boolean)
+- is_active (boolean)
 
 ## Müşteri Rehberi / Customer Directory (CRM)
 - shop_id
 - phone (Telefon)
 - first_name
 - last_name
-- note (Dükkanın müşteriye özel notu, "Örn: Saç boyası 4 numara")
+- note (Dükkana özel müşteri notu)
 
 ## Kara Liste / Blacklist
-- shop_id (Sadece ilgili dükkanın kara listesi)
+- shop_id (Dükkana özel kara liste)
 - phone (Engellenen Numara)
 - reason (Engellenme Sebebi - text)
 
 ## Global Telefon Gizliliği / Global Opt-Out
-*(Müşterinin numarasını sistemden tamamen silip bir daha eklenmemesini istediği ekran için)*
-- phone (Sistemde hiçbir dükkan bu numarayı bir daha ekleyemez / mesaj atamaz)
-- reason (İsteğe bağlı iptal sebebi)
+*(Müşteri numarasının sistemden tamamen çıkarılması)*
+- phone (Numaraya hiçbir dükkan ekleme yapamaz veya mesaj gönderemez)
+- reason (İptal sebebi)
 
 ## Randevu / Appointment
 - shop_id
-- customer_id (Kullanıcı girişliyse id'si, walk-in randevu ise null olabilir)
-- employee_id (Randevuyu alacak çalışan)
-- start_datetime 
-- end_datetime (Seçilen hizmetlerin toplam süresine göre hesaplanır)
-- status (enum: pending, approved, cancelled, completed, no_show[gelmedi])
-- total_price (Randevu anındaki toplam fiyat buraya kazınır - decimal)
-- customer_note (Müşterinin randevu alırken yazdığı not)
-- internal_note (Sadece dükkan/çalışanın gördüğü not)
+- customer_id (Kullanıcı girişliyse id, walk-in ise null)
+- employee_id (Çalışan)
+- start_datetime
+- end_datetime (Hizmet sürelerine göre hesaplanır)
+- status (enum: pending, approved, cancelled, completed, no_show)
+- total_price (Randevu anındaki toplam fiyat - decimal)
+- customer_note (Müşteri notu)
+- internal_note (Dükkan/Çalışan özel notu)
 
-## Randevu Hizmetleri / Appointment Service Items 
-*(Bir randevuda birden fazla hizmet alınabilir, örn: Saç + Sakal)*
+## Randevu Hizmetleri / Appointment Service Items
+*(Randevudaki hizmet kalemleri)*
 - appointment_id
 - service_id
-- price (Hizmetin randevu alındığı anki fiyatı, sonradan sistemde fiyat değişirse faturayı bozmamak için)
+- price (Fatura doğruluğu için randevu anındaki anlık fiyat)
 
 ## Değerlendirmeler / Reviews
 - appointment_id
 - shop_id
 - employee_id
 - customer_id
-- rating (1-5 arası yıldız)
-- comment (Müşterinin Yorumu)
-- owner_reply (Patronun/Şefin Yorumu - Cevabı)
-- is_flagged (Adminin incelemesi için dükkan tarafından şikayet edildi mi? - boolean)
+- rating (1-5 yıldız)
+- comment (Müşteri Yorumu)
+- owner_reply (İşletme Cevabı)
+- is_flagged (Şikayet edildi mi? - boolean)
 
 ## Çalışan Tatil Günleri / Employee Time Off (Vardiya / İzin)
 - employee_id
@@ -104,8 +103,8 @@ Bu tipleri görmek için [yetkiler.md](./yetkiler.md) dosyasına bakın.
 - reason (Hastalık, Yıllık İzin vb.)
 
 ## Abonelik Planları / Subscription Plans (Sistem için)
-- title (Örn: "Premium Plan", "Starter Plan")
-- price (Aylık/Yıllık Ücret)
+- title (Örn: "Premium Plan")
+- price (Abonelik Ücreti)
 - features (json - Paket özellikleri)
 
 ## Dükkan Aboneliği / Shop Subscriptions
@@ -116,8 +115,8 @@ Bu tipleri görmek için [yetkiler.md](./yetkiler.md) dosyasına bakın.
 - status (enum: active, expired, cancelled)
 
 ## Bildirimler / Notifications
-- user_id (Kime gönderildiği)
+- user_id (Alıcı)
 - title
 - message
 - type (enum: sms, in_app, email)
-- is_read (Okundu mu? - boolean)
+- is_read (boolean)

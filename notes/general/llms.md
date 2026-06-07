@@ -6,7 +6,7 @@ Bu döküman, yapay zeka asistanlarının (LLM'ler) kod yazarken veya mimari kar
 - Dökümantasyon URL'si: https://ark-ui.com/
 - llms.txt dosyası: https://ark-ui.com/llms.txt
 
-Yapay zeka asistanı, Ark UI bileşenleri ile ilgili API, prop tanımları ve örnek kullanım kodları üretirken yukarıdaki `llms.txt` dosyasını referans almalıdır.
+Yapay zeka asistanı Ark UI bileşenleri için API, prop tanımları ve örnek kullanım kodları üretirken `llms.txt` dosyasını referans almalıdır.
 
 ## Tailwind CSS v4
 - Dökümantasyon URL'si: https://tailwindcss.com/docs
@@ -14,11 +14,11 @@ Yapay zeka asistanı, Ark UI bileşenleri ile ilgili API, prop tanımları ve ö
 
 ## Tailwind Variants (tv)
 - Dökümantasyon URL'si: https://www.tailwind-variants.org/
-- Çoklu slot (slots), varyant yönetimi ve tip güvenliği tanımlamaları için bu rehber kullanılmalıdır.
+- Çoklu slot (slots), varyant yönetimi ve tip güvenliği tanımları için bu rehber kullanılmalıdır.
 
 ## Tailwind Merge
 - Dökümantasyon URL'si: https://github.com/dcastil/tailwind-merge
-- Çakışan Tailwind sınıflarını güvenli bir şekilde birleştirmek için api-reference referans alınmalıdır.
+- Çakışan Tailwind sınıflarını birleştirmek için api-reference referans alınmalıdır.
 
 ## Ladle
 - Dökümantasyon URL'si: https://ladle.dev/docs/setup
@@ -27,4 +27,3 @@ Yapay zeka asistanı, Ark UI bileşenleri ile ilgili API, prop tanımları ve ö
 ## Rooks
 - Dökümantasyon URL'si: https://rooks.js.org/
 - Projeye dahil edilen genel amaçlı React hook'larının listesi ve parametre detayları için bu rehber incelenmelidir.
-

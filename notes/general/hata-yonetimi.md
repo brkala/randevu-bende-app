@@ -1,17 +1,15 @@
 # Hata Yönetimi (Error Handling) Standartları
 
-Bu döküman uygulamanın Backend (Prisma / API sunucusu) katmanından İstemci (Frontend / UI / Toast) katmanına kadar uzanan süreçte oluşabilecek hataların (Exceptions / Errors) nasıl standart bir sözleşme ile fırlatılıp, UI üzerinde güvenle karşılanacağını belirler.
+Bu döküman; hataların backend'den istemciye kadar standart sözleşmeyle fırlatılıp UI üzerinde karşılanma kurallarını belirler.
 
 ---
 
 ## 1. Custom Error (Özel Hata) Sınıfı Fırlatmak
 
-Sunucu (`.server.ts` veya `.functions.ts`) ortamında yaşanan mantık hataları, doğrulama başarısızlıkları veya yetki aşımları hiçbir zaman "sessizce/null dönülerek" veya kör bir `throw new Error("hata var")` stringi ile geçiştirilemez. 
-
-Projeye eklenecek ortak bir `AppError` sınıfı kullanılarak (Type-Safe şekilde) ve doğru Status Code içeren fırlatmalar teşvik edilir.
+Sunucu (`.server.ts` veya `.functions.ts`) ortamında yaşanan mantık hataları, doğrulama başarısızlıkları veya yetki aşımları sessizce/null dönülerek veya kör bir `throw new Error("hata")` ile geçiştirilemez. Ortak `AppError` sınıfı kullanılarak doğru Status Code içeren fırlatmalar teşvik edilir.
 
 ```typescript
-// Örn: features/shared/lib/errors.ts (Custom Error Catcher Yapısı)
+// Örn: features/shared/lib/errors.ts
 export class AppError extends Error {
   constructor(
     public message: string, 
@@ -23,10 +21,9 @@ export class AppError extends Error {
   }
 }
 
-// features/appointment/appointment.server.ts - İş mantığında güvenli fırlatma
+// features/appointment/appointment.server.ts
 export const createAppointmentData = async (data) => {
   if (!user.isActive) {
-    // 1. Zenginleştirilmiş Özel Hata Gönderimi
     throw new AppError("Hesabınız aktif olmadığı için randevu alamazsınız.", 403, "USER_INACTIVE");
   }
 }
@@ -34,33 +31,31 @@ export const createAppointmentData = async (data) => {
 
 ---
 
-## 2. İstemci (Frontend) Hata Yakalama ve Global Yönlendirme
+## 2. İstemci (Frontend) Hata Yakalama ve Yönlendirme
 
-Backend'den dönen hatalar veya İstemcideki Zod validasyon kırılmaları, React arayüzünde "Kullanıcı diline yansıyarak" 2 farklı metodla karşılanır:
+Backend hataları veya Zod validasyon kırılmaları, React arayüzünde kullanıcı dilinde 2 yöntemle karşılanır:
 
 1. **Route (Sayfa) Çökme Hataları:**
-   Eğer Route dosyasındaki `loader` (sayfayı render etmeden önce çekilen data - *bkz. routes.md*) backend patladığı için prefetch atamadıysa; boş ekran gösterilmez. TanStack Router bu hatayı derhal o rotanın `errorComponent` veya `__root` error sınırlarına yollar.
+   Route dosyasındaki `loader` backend hatası nedeniyle prefetch atamazsa boş ekran gösterilmez. TanStack Router hatayı rotanın `errorComponent` veya `__root` sınırlarına yollar.
    
-2. **Kullanıcı Etkileşimleri (Mutation) & Global Error Handler (Varsayılan):**
-   Bir butona basıldığında veya form gönderildiğinde dönen hataları her `useMutation` hook'unun `onError` kısmında tekrar tekrar `if/else` ile karşılamak Kod Tekrarıdır (D.R.Y İhlali). Bunun yerine `features/shared/lib/errors.ts` içinde merkezi bir `handleMutationError` aracı oluşturulmalı ve bu araç *mutlak suretle* TanStack Query'nin global olarak başlatıldığı yere (QueryClient) varsayılan (default) işlem olarak yedirilmelidir.
+2. **Kullanıcı Etkileşimleri (Mutation) & Global Error Handler:**
+   `useMutation` hook'larının `onError` kısmında tekrar tekrar `if/else` kullanmak yerine `features/shared/lib/errors.ts` içindeki merkezi `handleMutationError` aracı TanStack Query global `QueryClient` yapısına yedirilir.
 
 ```typescript
 // 1. Merkezi Hata Yakalayıcı (features/shared/lib/errors.ts)
 export const handleMutationError = (error: unknown) => {
   if (error instanceof AppError) {
-    toast.error(error.message); // Kendi tasarımımız olan API hatasını bas
+    toast.error(error.message); // API hatasını bas
   } else {
-    toast.error("İşlem sırasında beklenmeyen bir hata oluştu."); // Prisma çöküşü vs (Fallback)
+    toast.error("İşlem sırasında beklenmeyen bir hata oluştu."); // Fallback
   }
 };
 
-// 2. Global Olarak Tanımlanması (Projenin `QueryClient` başlatıldığı yeri bul):
+// 2. Global Tanımlama (QueryClient başlatılan yer):
 import { QueryClient, MutationCache } from "@tanstack/react-query";
 
 export const queryClient = new QueryClient({
-  // Global Mutasyon Ayarları
   mutationCache: new MutationCache({
-    // Artık projedeki hiçbir useMutation'a manuel 'onError' eklemek zorunda değiliz!
     onError: handleMutationError,
   }),
 });
@@ -68,9 +63,9 @@ export const queryClient = new QueryClient({
 
 ---
 
-### Yapay Zeka (AI) İçin Geliştirici Kuralları:
+### Geliştirici Kuralları:
 
-1. **Manuel `onError` Yasağı:** Bir feature içinde `useMutation` yazıyorken, eğer çok özel spesifik bir durum yoksa asistan refleks olarak `onError: (error) => toast.error(...)` şeklindeki blokları KULLANMAMALIDIR. Tüm hatalar Global `MutationCache` tarafından yakalanıp yönetilir. Sadece o işlemde toast haricinde bir modülü kapattırmak vs gerekiyorsa lokal `onError` ezilebilir.
-2. **Sessiz Fesih / Log Yasağı:** Catch/Error bloklarında dönen bütün hataları projenin geliştirme aşamasındayken sessizce `console.error(err)` yapıp geçiştirmek YASAKTIR. Konsola yansıyan her log, son kullanıcının gözünde aslında "Boş veya takılı kalmış bir sayfa" demektir. Her yakalayıcı (handler) mutlaka lokal veya global olarak UI'da (Toast/Alert) ekrana basılmalıdır.
-3. **Teknik Jargon Filtresi:** Geliştiricilerin backend API'lerinden dönebilecek korkunç veritabanı mesajlarını (`"Error: Prisma Unique Constraint on Field: Email"`) doğrudan ekranda göstermesini engelle! Error metinleri her zaman insan/kullanıcı dilinde hedeflenmiş ve yapıcı (**UX-Friendly**) olmalıdır.
-3. **Type-Safe Hata:** Fonksiyon kurarken/önerirken düz bir `throw new Error()` kullanmak yerine uygulamanın ortak referansına uygun API Error mimarilerini (`AppError`) fırlatmaya zorla. Bu sayede hata objesi Frontend'e vardığında TS Type Checking kırılmaz.
+1. **Lokal `onError` Yasağı:** `useMutation` yazarken, özel bir durum yoksa `onError: (error) => toast.error(...)` şeklinde lokal handler yazmayın. Hatalar global `MutationCache` ile yönetilir.
+2. **Sessiz Fesih / Log Yasağı:** Catch/Error bloklarında dönen hataları sessizce `console.error(err)` yapıp geçiştirmek yasaktır. Her yakalayıcı lokal veya global olarak ekrana (Toast/Alert) basılmalıdır.
+3. **Teknik Jargon Filtresi:** Backend'den dönen veritabanı mesajlarını (`"Error: Prisma Unique Constraint on Field: Email"`) doğrudan ekranda göstermeyin. Hata metinleri insan dilinde ve yapıcı (**UX-Friendly**) olmalıdır.
+4. **Type-Safe Hata:** Düz `throw new Error()` yerine `AppError` yapısını fırlatın. Böylece frontend tarafında TS tip kontrolü kırılmaz.

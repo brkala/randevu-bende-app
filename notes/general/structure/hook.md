@@ -1,10 +1,9 @@
 # React Hook (Özel Kanca) Standartları
 
-Bu döküman, yapay zeka asistanlarının (ve geliştiricilerin) projede yeni bir Custom Hook yazarken kullanması gereken temel mimari kalıpları (blueprints) içerir.
+Bu döküman, projedeki Custom Hook yazım standartlarını ve temel mimari kalıpları içerir.
 
 ## 1. Rooks Kütüphanesi Kontrolü (Ön Şart)
-Projeye yeni bir genel amaçlı (utility) hook eklenmeden önce **MUTLAKA** projede yüklü olan `rooks` kütüphanesi kontrol edilmelidir. 
-Örneğin; `useOnClickOutside`, `useWindowSize`, `useDebounce`, `useLocalStorage` gibi yaygın web işlevlerini sıfırdan yazarak (reinventing the wheel) projeyi çöplüğe çevirmeyin. Varsa direkt `rooks` üzerinden importlayın.
+Projeye yeni bir genel amaçlı (utility) hook eklenmeden önce **MUTLAKA** projede yüklü olan `rooks` kütüphanesi kontrol edilmelidir. `useOnClickOutside`, `useWindowSize`, `useDebounce`, `useLocalStorage` gibi yaygın işlevler varsa direkt `rooks` üzerinden import edilmelidir.
 
 ---
 
@@ -47,6 +46,6 @@ export const useCounter = ({ initialValue = 0, step = 1 }: UseCounterProps = {})
 
 1. **Dosya İsimlendirmesi:** Hook dosyaları kesinlikle `use-` önekiyle ve `kebab-case` formatında adlandırılmalıdır (Örn: `use-appointment-form.ts`).
 2. **Fonksiyon İsimlendirmesi:** İçerideki kanca fonksiyonu standart React kuralı gereği `camelCase` olmalıdır (Örn: `useAppointmentForm`).
-3. **Dışa Aktarım (Named Export):** Tıpkı componentlerdeki gibi `export default hookAdı` KESİNLİKLE yasaktır! Her kanca Named Export (`export const ...`) ile dışarı çıkarılmalıdır.
-4. **Parametre Tasarımı (Anti-Bloat):** Bir hook 2 veya daha fazla parametre alacaksa bunları fonksiyon içerisine tekil olarak (`const useA = (id, name, age) => ...`) DİZME. Her zaman destructure edilebilen bir interface objesi yarat (`export interface UseAProps {...}`).
-5. **Dönüş Değeri (Return Object):** Sadece spesifik olarak belirtilmediyse (ve çok basit değilse), kancaları `[state, setState]` dizisi (tuple) yerine Obje olarak geri döndür (`return { state, setState }`). Bu, ileride kancaya yeni bir özellik eklendiğinde array sırasını bozup diğer bağlı bileşenleri patlatmamızı engeller.
+3. **Dışa Aktarım (Named Export):** `export default hookAdı` KESİNLİKLE yasaktır! Her kanca Named Export (`export const ...`) ile dışarı çıkarılmalıdır.
+4. **Parametre Tasarımı (Anti-Bloat):** Bir hook 2 veya daha fazla parametre alacaksa bunları fonksiyon içerisine tekil olarak dizmeyin, her zaman destructure edilebilen bir interface objesi yaratın.
+5. **Dönüş Değeri (Return Object):** Kancaları tuple (dizi) yerine nesne olarak geri döndürün (`return { state, setState }`). Bu, ileride yeni alanlar eklendiğinde dizi sırasının bozulmasını engeller.

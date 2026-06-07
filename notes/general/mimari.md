@@ -1,92 +1,92 @@
 # Randevu Bende Alt Yapı / Mimari
 
 # Fiziksel
-Sistem şu anda bir VPS üzerinde çalışmakta. Bu VPS üzerinde Ubuntu 24.04 LTS işletim sistemi kurulu. 
+Sistem VPS (Ubuntu 24.04 LTS) üzerinde çalışır.
 
 # Dış Yazılımlar
 ## Docker
-  Sistem diğer dış yazılımlar ve yazılımın kendisi de dahil olmak üzere Docker ile çalışır.
+Sistem ve tüm dış servisler Docker ile çalışır.
 ## PostgresSQL
-  Sistem veritabanı olarak PostgresSQL kullanmakta. Burada PostgreSQL'in bütün nimetlerinden faydalanmakta yarar var.
+Veritabanı PostgreSQL'dir.
 ## PgBouncer
-  Sistem veritabanı bağlantılarını yönetmek için PgBouncer kullanmakta. 
+Veritabanı bağlantı yönetimi için kullanılır.
 ## Redis
-  Sistem kısa zamanlı yasaklamalar ve otp kodları için redis kullanmakta. Redis cache olarakta kullanılabilir.
-## StrapiCMS/Graphql/ Headless
-  Sistem ana site için StrapiCMS kullanmakta. Sistem'in kendisine yönlendirilme buradan yapılacak. Aynı zamanda ana site sistemden bilgi çekip sunabilir.
+OTP kodları ve geçici engellemeler (rate limit) için kullanılır. Cache olarak da kullanılabilir.
+## StrapiCMS/Graphql / Headless
+Ana site için kullanılır. Sistem yönlendirmeleri ve bilgi sunumu buradan yapılır.
 ## React Ana Site
-  Strapi kullanılarak geliştirilmiş olan ana site.
+Strapi tabanlı ana sitedir.
 ## Traefik
-  Sistem reverse proxy olarak Traefik kullanmakta.
-## BullMQ 
-  Sistem zaman ile yapılması gereken iş yükleri için BullMQ kullanmakta.
+Reverse proxy olarak kullanılır.
+## BullMQ
+Zamanlanmış ve arka plan iş yükleri için kullanılır.
 ## WhatsApp Business API
-  Sistem ana iletişim ve bildirim kanalı olarak WhatsApp Business API (Meta Cloud API) kullanmaktadır.
+Ana iletişim ve bildirim kanalıdır (Meta Cloud API).
 ## NetGSM (0850 Numara Sağlayıcı)
-  Sistem, WhatsApp üzerinde kullanılacak resmi 0850 hattının tahsisi ve yönetimi için NetGSM altyapısını kullanmaktadır. Mesajlaşma trafiği WhatsApp üzerinden geçerken, numara mülkiyeti NetGSM üzerindedir.
+Resmi 0850 hattının tahsisi NetGSM üzerinden, mesajlaşma ise WhatsApp üzerinden yürütülür.
 ## Zoho Mail
-  Sistem, "Az para çok iş" hedefine uygun olarak kurumsal gelen kutusu yönetimi (insan odaklı destek veya bilgi mailleri vb.) için Zoho Mail altyapısını kullanmaktadır.
+Destek ve bilgi gelen kutuları için Zoho Mail kullanılır.
 ## Resend
-  Sistem uygulamadan fırlatılacak otomatik ve işlemsel e-postalar (Şifre sıfırlama, bildirim vs.) için Resend sistemini kullanır.
+Şifre sıfırlama, bildirim vb. otomatik e-postalar için kullanılır.
 ## Iyzico
-  Sistem, işletme sahiplerinden (Owners) abonelik veya kullanım ücreti tahsil etmek için Iyzico kullanmaktadır. Müşteriler randevu alırken herhangi bir ödeme yapmazlar.
+İşletme abonelik ve kullanım ücreti tahsilatı için kullanılır. Müşterilerden ödeme alınmaz.
 ## Sentry (Monitoring)
-  Sistem sadece canlı ortamda (Production) çalışmak üzere, gerçek zamanlı hata takibi ve uygulama izleme için Sentry Cloud (Free Tier) kullanmaktadır.
+Yalnızca canlı ortamda (Production) hata takibi için Sentry Cloud (Free Tier) kullanılır.
 ## Cloudflare R2 (Storage & CDN)
-  Sistem, "Mobil Öncelik" ve "Hız" hedefleri doğrultusunda, sıfır dışarı veri çıkışı (Egress) maliyeti ve yüksek CDN hızı nedeniyle medya/dosya depolama çözümü olarak Cloudflare R2 (AWS S3 Uyumlu) kullanmaktadır. Görsel gösterimi için arkasında Cloudflare Image Resizing bulunur.
+Egress maliyetsiz ve hızlı medya depolama çözümü olarak Cloudflare R2 (AWS S3 uyumlu) ve arkasında Image Resizing kullanılır.
 
 # Yazılımın Kendisi
 ## typescript
-Yazılım Typescript ile yazılıp Node üzerinde çalışmakta.
+Typescript ile yazılıp Node üzerinde çalışır.
 ## pnpm
-Yazılım paket yöneticisi olarak Pnpm kullanmakta.
+Paket yöneticisidir.
 ## Çoklu Ortam
-Yazılım cross-env gibi paketleri yükleyerek hem linux hem de windows üzerinde geliştirilebilmeli.
+Linux ve Windows üzerinde geliştirilebilir (cross-env vb.).
 ## react
-Yazılım React kullanacak.
+React kütüphanesi kullanılır.
 ## Tanstack Start
-Yazılımın kendisi Tanstack Start kullanılarak geliştirilmekte.
+Uygulama Tanstack Start tabanlıdır.
 ## Tanstack Query
-Yazılım clientside veri çekmek için Tanstack Query kullanmakta.
+İstemci tarafı veri çekme işlemlerini yönetir.
 ## Tanstack Form
-Yazılım formlar için Tanstack Form kullanmakta.
+Form işlemlerini yönetir.
 ## Tanstack Table
-Yazılım tablo işlemleri için Tanstack Table kullanmakta.
+Tablo işlemlerini yönetir.
 ## Tanstack Router
-Yazılım routing işlemleri için Tanstack Router kullanmakta.
+Yönlendirme (routing) işlemlerini yönetir.
 ## prisma
-Yazılım PostgreSQL ile haberleşmek için Prisma kullanmakta.
+PostgreSQL ile haberleşmek için kullanılan ORM'dir.
 ## TailwindCSS
-Yazılım TailwindCSS ile geliştirilmekte.
+Stil yönetimi için kullanılır.
 ## Ark UI
-Yazılım UI bileşenleri için Ark UI kullanmakta.
+Headless UI bileşenleri için kullanılır.
 ## biome
-Yazılım formatlama ve linter için Biome kullanmakta.
+Kod formatlama ve linter aracıdır.
 ## lefthook
-Yazılım, commit öncesi kalite kapısı (Quality Gate) olarak Lefthook kullanmaktadır. Biome check ve Type-check gibi işlemlerin otomatize edilerek hatalı kodun depoya sızmasını engeller.
+Commit öncesi kalite kapısı (Biome ve Type-check otomasyonu) olarak kullanılır.
 ## vite
-Yazılım geliştirme süreci için Vite kullanmakta.
+Geliştirme sunucusudur.
 ## zod
-Yazılım schema validasyonu için Zod kullanmakta.
+Şema doğrulama (validation) kütüphanesidir.
 ## Better Auth
-Yazılım yetkilendirme ve üyelik işlemleri için Better Auth kullanmakta.
+Üyelik ve yetkilendirme işlemleri için kullanılır.
 ## React Email
-Yazılım giden işlemler (transactional) ve bildirim e-postalarında eski tip HTML yapıları (nested tables vb.) ile uğraşmamak için `React Email` ve `Tailwind` kullanmaktadır. Yazılımcı mailleri React objesi gibi yazar, kütüphane bunları en eski e-posta istemcilerinin (Outlook vs) bile eksiksiz okuyabileceği hatasız HTML çıktılarına otomatik transpile eder.
+İşlemsel e-postaları React ve Tailwind ile yazıp uyumlu HTML çıktılarına dönüştürür.
 ## Playwright
-Yazılım test yükünün %90'ını üstlenen uçtan uca (E2E) kullanıcı senaryoları (örn: Randevu alma akışı) için Playwright kullanmaktadır. TanStack Start yapısıyla uyumlu olarak UI testi sorumluluğu sadece Playwright'a aittir.
+Uçtan uca (E2E) testler ve UI testleri Playwright ile yazılır.
 ## Vitest
-Yazılım sadece ve sadece saf iş zekasını (Para hesaplama, saat çakışması bulma gibi pure-functions) saniyenin binde biri hızında test etmek için Vitest kullanmaktadır. DOM testleri kesinlikle bu motorla yazılmaz.
+Sadece saf iş zekası testleri (pure functions) için hızlı birim test motoru olarak kullanılır.
 ## tailwind-variants
-  Birden fazla varyantı, slot desteği (çok parçalı bileşenler) ve responsive özellikleri olan UI bileşenleri için `tailwind-variants` kullanmaktadır. `cva`'nın sunduğu özellikleri kapsar ve Ark UI gibi headless kütüphanelerin stil yönetimi için daha gelişmiş bir yapı sunar.
+Çok parçalı bileşenler ve responsive varyant yönetimi için kullanılır.
 ## constate
-  Bileşene özel veya küçük kapsamlı state yönetimi (Context) için `constate` kullanılmaktadır. Boilerplate kod miktarını azaltır ve custom hook'ları doğrudan Context Provider'a dönüştürerek "Single Source of Truth" prensibini korur.
+Küçük kapsamlı state yönetimi (React Context sarmalayıcısı) için kullanılır.
 ## date-fns
-  Proje genelinde tüm tarih ve saat hesaplamaları için `date-fns` kullanılmaktadır. "Tree-shaking" özelliği sayesinde sadece kullanılan fonksiyonlar bundle'a dahil edilir. Proje dili gereği her zaman Türkçe lokalizasyon (`tr`) kullanılmalı ve tarih işlemleri `features/time` üzerinden yönetilmelidir.
+Tarih ve saat hesaplamaları Türkçe yerelleştirmeyle (`tr`) `features/time` üzerinden yürütülür.
 ## rooks
-Yazılım [Rooks](https://github.com/imbhargav5/rooks) kullanmakta. Buradaki hazır hooklar yeni hooklar yazmadan önce mutlaka kontrol edilmeli.
+Hazır React hook kütüphanesidir. Yeni hook yazmadan önce kontrol edilir.
 ## builder-pattern
-Yazılım [builder-pattern](https://github.com/Vincent-Pang/builder-pattern) kullanmakta. Bir zod şemasından obje oluşturulurken eğer obje parça parça oluşturulacaksa bu pattern kullanılmalı ve daha sonra build edilen obje zod şeması ile doğrulanmalı.
+Zod şemalarından parça parça nesne oluşturup doğrulamak için kullanılır.
 ## fakerjs
-Yazılım sahte veri üretimi için `@faker-js/faker` kullanmakta. Proje dil ve coğrafyası gereği her zaman Türkçe lokalizasyon (`fakerTR`) import edilmeli ve test tutarlılığı açısından seed operasyonları için `fakerTR.seed(123)` vb. ile sabit rastgelelik ayarlanmalıdır.
-## AWS SDK (S3 / Storage Özelliği)
-Yazılım, Cloudflare R2 entegrasyonu için izole bir "storage" mantığı (*Zero-Global*) içinde `@aws-sdk/client-s3` kütüphanesini barındırır. Dosya sınırlandırmaları (Pre-Signed URL) burada yapılandırılır ve sunucunun dosya transferi ile asla yorulmaması garanti altına alınır.
+Test verileri ve seed operasyonları için Türkçe yerelleştirmeli (`fakerTR.seed(123)`) sahte veri üretir.
+## AWS SDK (S3 / Storage)
+Cloudflare R2 entegrasyonu için `@aws-sdk/client-s3` kütüphanesini barındırır, sunucuyu yormadan dosya transferi sağlar.

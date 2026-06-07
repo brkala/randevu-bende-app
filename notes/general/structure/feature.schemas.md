@@ -5,7 +5,7 @@ Bu döküman, projede veri doğrulama (validation) ve TanStack Form tiplendirmes
 ## 1. Temel Şema ve Tip (Type Inference) Şablonu
 
 Projedeki yapı gereği, her modülün şeması kendi klasöründedir (Örn: `features/appointment/appointment.schemas.ts`). 
-Zod şeması tanımlandığı an, hemen altında Type/Interface karşılığı `z.infer` ile mutlaka dışa aktarılmalıdır. Orijinal type'ları elle Interface olarak tekrar yazmak yasaktır.
+Zod şeması tanımlandığı an, hemen altında Type/Interface karşılığı `z.infer` ile dışa aktarılmalıdır. Orijinal type'ları elle Interface olarak tekrar yazmak yasaktır.
 
 ```typescript
 import { z } from "zod";
@@ -48,7 +48,7 @@ export type UpdateAppointmentInput = z.infer<typeof UpdateAppointmentSchema>;
 Sistemde adım adım (wizard stili) veri toplanması gerektiğinde, sürecin bir **UI Formu mu** yoksa **Arkaplan Mantığı (Business Logic) mı** olduğuna göre iki farklı yol izlenir:
 
 ### A. UI Formlarında Step-by-Step (Çok Adımlı) Validasyon
-Bir UI formu adım adım ilerliyorsa, her bir ekran kullanıcının devam edebilmesi (ileri butonuna basabilmesi) için **kendi içinde izole olarak anında doğrulanmak (validate) zorundadır**. Tüm veriyi sona saklayıp tek bir parse işlemi yapmak çok kötü bir "Kullanıcı Deneyimi" (UX) yaratır. Her adım için ana şemadan `.pick()` ile bir "Adım Şeması (Step Schema)" çıkartılmalıdır.
+Bir UI formu adım adım ilerliyorsa, her bir ekran kullanıcının devam edebilmesi (ileri butonuna basabilmesi) için **kendi içinde izole olarak anında doğrulanmak (validate) zorundadır**. Her adım için ana şemadan `.pick()` ile bir "Adım Şeması (Step Schema)" çıkartılmalıdır.
 
 ```typescript
 // Kişisel Bilgiler Ekranı Şeması

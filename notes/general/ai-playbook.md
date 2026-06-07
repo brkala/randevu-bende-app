@@ -1,6 +1,6 @@
 # AI Görev Yürütme Senaryoları (Playbook)
 
-Bu döküman, yapay zeka asistanlarının (ve geliştiricilerin) genel geçer görev taleplerini alırken takip etmesi gereken **"Algoritmik Dosya Zincirini"** içerir. Bir görev geldiğinde hedefe en doğru mimariyle ulaşmak için rastgele değil, aşağıdaki sırayla ilerlenmelidir.
+Bu döküman, yapay zeka asistanlarının (ve geliştiricilerin) görev taleplerini alırken takip etmesi gereken **"Algoritmik Dosya Zincirini"** içerir. Bir görev geldiğinde hedefe en doğru mimariyle ulaşmak için aşağıdaki sırayla ilerlenmelidir.
 
 ---
 
@@ -50,7 +50,7 @@ Bu döküman, yapay zeka asistanlarının (ve geliştiricilerin) genel geçer g�
 
 ---
 
-## 🏗️ Senaryo 5: Kaba İnşaat (Özellik / Feature Oluştur Komutu)
+## 5. Aşama: Kaba İnşaat (Özellik / Feature Oluştur Komutu)
 **Kullanıcı Talebi:** *"Yeni bir özellik oluştur: [Özellik Adı]"*
 
 **Aksiyon Zinciri (Salt İskelet Kurulumu):**
@@ -66,83 +66,82 @@ Kullanıcı spesifik olarak otonom ajandan veya asistandan yeni bir özellik (Fe
    - `[özellik-adı].queries.ts`
    - `[özellik-adı].schemas.ts`
    - `[özellik-adı].types.ts`
-2. **Kullanıcı Onayı İçin Bekleme Yasağı:** Dosyaların içi (importlar ve export taslak tipleri) hazırlandıktan sonra asistan KESİNLİKLE EYLEMİ DURDURUR.
+2. **Kullanıcı Onayı İçin Bekleme Yasağı:** Dosyaların içi hazırlandıktan sonra asistan KESİNLİKLE EYLEMİ DURDURUR.
 3. **Soru Sorma Mecburiyeti:** Asistan kullanıcıya dönüp tam olarak şu soruyu sorar: 
-   > *"Ait olduğumuz mimari kuralına göre [Özellik Adı] özelliğini ve iskelet dosyalarını başarıyla ürettim. Bir sonraki adım olarak bu dış unsurların toparlanacağı bir **Layout (Kapsayıcı) Bileşeni** ve onu internete açacağımız bir **TanStack Route (Aptal Rota)** oluşturmamı ister misiniz?"*
+   > *"Mimarimize göre [Özellik Adı] özelliğini ve iskelet dosyalarını başarıyla ürettim. Bir sonraki adım olarak bu dış unsurların toparlanacağı bir **Layout (Kapsayıcı) Bileşeni** ve onu internete açacağımız bir **TanStack Route (Aptal Rota)** oluşturmamı ister misiniz?"*
 4. Eğer kullanıcıdan onay gelirse işlemi Route üzerinden devam ettirir.
 
 ---
 
-## 🧹 Senaryo 6: Yeniden Yapılandırma ve Basitleştirme (Refactor / Anti-Bloat)
+## 6. Aşama: Yeniden Yapılandırma ve Basitleştirme (Refactor / Anti-Bloat)
 **Kullanıcı Talebi:** *"Bu componenti basitleştir"* veya *"Şu kodu refactor et"*
 
 **Aksiyon Zinciri (Karmaşıklığa Göre Ayıklama):**
-AI, "Basitleştir" komutunu aldığında doğrudan kod satırlarını ezerek daraltmaya veya silmeye çalışmaz. Solid prensiplerine (Zero-Global Mimarisine) dayanarak kodu karmaşıklığına göre 3 seviyede dışarıya (Extract) çıkartır:
+AI, "Basitleştir" komutunu aldığında doğrudan kod satırlarını ezerek daraltmaya veya silmeye çalışmaz. Solid prensiplerine (Zero-Global Mimarisine) dayanarak kodu karmaşıklığıma göre 3 seviyede dışarıya (Extract) çıkartır:
 
-1. **Seviye 1 (UI Karmaşıklığı):** Component'in JSX hiyerarşisi (div'ler ve stiller) çok kalabalık ancak iş mantığı yok denecek kadar azsa; asistan bu devasa arayüzü daha küçük alt-bileşenlere (Sub-components) ayırır. (Örn: Devasa `table.tsx` içinden `table-header.tsx` ve `table-row.tsx` çıkartıp `components/` klasörüne koyar).
+1. **Seviye 1 (UI Karmaşıklığı):** Component'in JSX hiyerarşisi çok kalabalık ancak iş mantığı yok denecek kadar azsa; asistan bu devasa arayüzü daha küçük alt-bileşenlere (Sub-components) ayırır. (Örn: Devasa `table.tsx` içinden `table-header.tsx` ve `table-row.tsx` çıkartıp `components/` klasörüne koyar).
 2. **Seviye 2 (Mantık Karmaşıklığı):** Eğer Component içerisinde durmadan büyüyen fonksiyonlar, doğrulama (validation) süreçleri, `useState` ve UI'a ait olmayan iş eylemleri varsa; asistan bu mantıkları derhal söker ve `features/[özellik]/hooks/` içerisine atar. Component'i sadece `const { data, eylem } = useBilesenMantikHook()` çağıran bir aptal çiziciye (Dumb Renderer) dönüştürür.
 3. **Seviye 3 (Domain Çöküşü - Son Çare):** Eğer asistan o UI componentinin kendi başına bambaşka bağlamlar, yığınla Context ihtiyacı veya sayfalar dolusu özel `type` gereksinimleri doğurduğunu fark ederse DÜZELTME YAPMAZ. Kullanıcıya dönüp **"Bu dosya artık bir component olmaktan çıktı. İzin verirseniz bu kodu `features/[yeni-özellik-adı]` isminde bağımsız bir Feature olarak ana klasöre çıkartıp mimarisini böleyim"** diye uyarır.
 
 ---
 
-## 💾 Senaryo 7: Veritabanı Modeli (Prisma) Güncellemesi
+## 7. Aşama: Veritabanı Modeli (Prisma) Güncellemesi
 **Kullanıcı Talebi:** *"Randevu tablosuna 'notlar' ve 'ucret' diye iki yeni alan ekleyelim."*
 
 **Aksiyon Zinciri (Uçtan Uca Typings Senkronizasyonu):**
-1. **Prisma Şeması:** İlk olarak projenin veritabanı iskeleti olan `schema.prisma` (varsa) dosyasını açıp ilgili modeli günceller. (Örn: `notlar String?`, `ucret Float`).
-2. **Client Senkronizasyonu:** Kullanıcıdan bağımsız olarak arkaplanda derhal Prisma Client'i yeniden üretmeli/bildirmelidir.
-3. **Zod Senkronizasyonu (KRİTİK):** Bu en önemli adımdır. Model güncellenir güncellenmez DERHAL ilgili feature'ın `[özellik].schemas.ts` dosyasına giderek Zod nesnelerini (`z.string().optional()`) yeni eklentilere göre revize eder. (Zod güncellenmezse, TanStack RPC `createServerFn.validator()` filtresi o alanları hırsız sanıp siler ve veritabanına boş kayıt atılır!)
-4. **Form ve İstemci (Frontend):** UI katmanındaki Zod formunu günceller, yeni "Notlar" ve "Ücret" inputlarını çizer.
-5. **Mutasyon:** Eğer TanStack Query tarafında eski bir önbellek (Cache) metodu varsa, güncellenen alanların patlamaması için gerekli kontrolleri ekler.
+1. **Prisma Şeması:** İlk olarak projenin veritabanı iskeleti olan `schema.prisma` dosyasını açıp ilgili modeli günceller. (Örn: `notlar String?`, `ucret Float`).
+2. **Zod Senkronizasyonu (KRİTİK):** Model güncellenir güncellenmez DERHAL ilgili feature'ın `[özellik].schemas.ts` dosyasına giderek Zod nesnelerini (`z.string().optional()`) yeni eklentilere göre revize eder. (Zod güncellenmezse, TanStack RPC `createServerFn.validator()` filtresi o alanları hırsız sanıp siler ve veritabanına boş kayıt atılır!)
+3. **Form ve İstemci (Frontend):** UI katmanındaki Zod formu güncellenir, yeni inputlar eklenir.
+4. **Mutasyon:** Eğer TanStack Query tarafında eski bir önbellek (Cache) metodu varsa, güncellenen alanların patlamaması için gerekli kontrolleri ekler.
 
 ---
 
-## 🗑️ Senaryo 8: Veri Silme (Güvenli CRUD) İşlemi
+## 8. Aşama: Veri Silme (Güvenli CRUD) İşlemi
 **Kullanıcı Talebi:** *"Kayıtlı randevuyu veya admin'i silebileceğimiz bir işlem yap."*
 
 **Aksiyon Zinciri:**
 1. **Zod Parametre Güvenliği (`.schemas.ts`):** Rastgele URL parametresi ile backend çökmemesi için sadece ID doğrulayan basit bir Zod Validation objesi (`DeleteRecordSchema = z.object({ id: z.string().uuid() })`) yazar.
 2. **Server Stratejisi (`.server.ts`):** Prisma ile veritabanına `DELETE` sorgusu atmadan önce ilişkisel bir tablo olup olmadığını inceler. Gerekirse veriyi gerçekten silmek yerine **Soft-Delete** (Sadece `update { isActive: false }`) mi yapılması gerektiğini hesaba katar ve kodlar.
-3. **TanStack Otoritesi (`.functions.ts`):** `createServerFn` üzerinden silme isteğini açarken, anonim misafirlerin (`Guest`) veya yetkisizlerin API'yi tetiklememesi için eğer Auth (Middleware) mekanizmamız varsa bunu guard olarak ekler.
-4. **İyimser Silme (Optimistic Update):** Silme isteği başarılı olur olmaz kullanıcıyı bekletmemek için `mutasyon-kurallari.md` içindeki kurala uyar. API onayını beklemeden, butona tıklandığı ilk saniye kaydı tablodan silinmiş gibi UX yansıtması yapar. Eğer sunucu "Hayır silinemedi" derse, hata Toast'u fırlatıp arayüzü geri sarar (Rollback).
+3. **TanStack Otoritesi (`.functions.ts`):** `createServerFn` üzerinden silme isteğini açarken yetkisizlerin API'yi tetiklememesi için eğer Auth (Middleware) mekanizmamız varsa bunu guard olarak ekler.
+4. **İyimser Silme (Optimistic Update):** Silme isteği başarılı olur olmaz kullanıcıyı bekletmemek için `mutasyon-kurallari.md` içindeki kurala uyar. API onayını beklemeden, butona tıklandığı ilk saniye kaydı tablodan silinmiş gibi UX yansıtması yapar. Eğer sunucu hata verirse, hata Toast'u fırlatıp arayüzü geri sarar (Rollback).
 
 ---
 
-## 🌱 Senaryo 9: Sahte Veri (Mock) ve Veritabanı Seed İşlemleri
+## 9. Aşama: Sahte Veri (Mock) ve Veritabanı Seed İşlemleri
 **Kullanıcı Talebi:** *"Geliştirme için 10 adet rastgele atanmış müşteri veya randevu verisi üretelim."*
 
 **Aksiyon Zinciri (Builder & Zod Boru Hattı):**
 1. **Mimari Referans Kontrolü:** Önce `notes/general/seeding/` klasöründeki standartları (Env kuralları, Hiyerarşi) hatırla. `seed.ts` dosyasına bodoslama bin satırlık Prisma insertleri YAZMA!
 2. **Builder (HOF) Üretimi:** Veritabanına yazılacak model için (örn: `User`) `builder-pattern` paketi ve `fakerTR` kullanarak bir `createUserBuilder()` fonksiyonu üret (Bkz: 02-builder-pattern.md) ve `prisma/seeds/builders/` içine kaydet.
 3. **Zod Validasyonu (Zorunlu Katman):** Üretilen builder nesnesini `.build()` ile ayağa kaldırdıktan sonra doğrudan Prisma'ya GÖNDERME. Daima ilgili Zod şemasından (`userSchema.parse()`) geçir.
-4. **Ortama Göre Seed (Dispatch):** Kullanıcı "veri üretelim" dediğinde bunu gidip production verisine (`prod-seed.ts`) eklersen mimari ezilir. Üretilen veriyi mock olduğu için `dev-seed.ts` dosyasına dahil et ve Parent-Child hiyerarşi sırasına (Önce dükkan, sonra müşteri, sonra randevu) mutlak saygı duy!
+4. **Ortama Göre Seed (Dispatch):** Üretilen veriyi mock olduğu için `dev-seed.ts` dosyasına dahil et ve Parent-Child hiyerarşi sırasına (Önce dükkan, sonra müşteri, sonra randevu) mutlak saygı duy!
 
 ---
 
-## 🧪 Senaryo 10: Birim (Unit) Test Yazma İsteği
+## 10. Aşama: Birim (Unit) Test Yazma İsteği
 **Kullanıcı Talebi:** *"Bu özellik için unit test yazalım."* veya *"Bu componenti test edelim."*
 
 **Aksiyon Zinciri (Vitest Sınır İhlali Kalkanı):**
 1. **Reddetme / Kapsam Kontrolü (KRİTİK):** Kullanıcı bir UI Bileşeni (örn: `<Button>`, `<AppointmentForm>` vb.) için DOM tabanlı bir Unit Test (Vitest/Jest) veya `@testing-library/react` render isteği verirse BUNU DERHAL REDDET. `notes/general/testing/unit.md` kurallarını hatırlatıp *"Mimari kurallarımız gereği UI kodlarına Unit test yazamayız. Bu iş yükü tamamen Playwright'a (E2E) aittir. İzin verirseniz bu bileşenin bağlı olduğu akışa E2E senaryosu yazayım"* diye uyar ve alternatif üret.
 2. **Kabul Edilebilir Kapsam (Saf JS/TS):** Kullanıcının testi sadece ve sadece saf iş zekasını (Örn: İndirim yüzdesi hesaplayan matematiksel fonksiyon, tarih çarpışması hesaplayan pure function) içeriyorsa bu talebi kabul et ve göreve başla.
-3. **Konumlandırma (Sıfır-Global):** Vitest kurgusunu yazarken testi global bir `/tests/unit` klasörüne YÜKLEME. Test dosyasını, dikey dilimleme mimarisi gereği tam test ettiği fonksiyonun yanına (`features/[ozellik]/lib/hesapla.test.ts`) yerleştir.
+3. **Konumlandırma (Sıfır-Global):** Vitest kurgusunu yazarken testi global bir klasöre YÜKLEME. Test dosyasını, dikey dilimleme mimarisi gereği tam test ettiği fonksiyonun yanına (`features/[ozellik]/lib/hesapla.test.ts`) yerleştir.
 
 ---
 
-## 🎭 Senaryo 11: Kullanıcı Senaryosu (E2E) Testi İstemi
+## 11. Aşama: Kullanıcı Senaryosu (E2E) Testi İstemi
 **Kullanıcı Talebi:** *"Bir müşterinin randevu alma veya kayıt olma akışını test etmeliyiz."*
 
 **Aksiyon Zinciri (Playwright Entegrasyonu):**
 1. Playwright kurallarını referans al (`testing/e2e.md`).
-2. Sadece "Buton tıklanırsa pembe oluyor mu?" gibi anlamsız parçaları test etme. Kullanıcının tam geçiş (Flow) senaryosunu zihninde kurgula: Sayfa açılır -> URL test edilir -> Dükkan bulunur -> Selectbox seçilir -> Form submit edilir -> API backend onayı test edilir.
-3. Oluşturulacak e2e dosyasını (`.spec.ts`) uygulamanın kod kalbine (`src/features`) değil, tam tersi global bir dizin olan `tests/e2e/[ozellik-adi]/ilgili-senaryo.spec.ts` içerisine yerleştir ve kurguyu tamamla.
+2. Sadece görünüm testi değil, kullanıcının tam geçiş (Flow) senaryosunu zihninde kurgula: Sayfa açılır -> URL test edilir -> Dükkan bulunur -> Selectbox seçilir -> Form submit edilir -> API backend onayı test edilir.
+3. Oluşturulacak e2e dosyasını (`.spec.ts`) `tests/e2e/[ozellik-adi]/ilgili-senaryo.spec.ts` içerisine yerleştir ve kurguyu tamamla.
 
 ---
 
-## 🔍 Senaryo 12: Kod İncelemesi (Review) İstemi
+## 12. Aşama: Kod İncelemesi (Review) İstemi
 **Kullanıcı Talebi:** *"Şu dosyayı incele"*, *"Kodu review et"* veya *"Mimariye uygun mu kontrol et"*
 
 **Aksiyon Zinciri (Review Protokolü):**
 1. **Döküman Referansı:** Derhal `notes/general/gelistirme.md` dosyasındaki **3. Asistan İnceleme Süreci (AI Review)** bölümüne git.
-2. **Sınırlandırma (ÖNEMLİ):** İnceleme sırasında kullanıcı aksini özellikle belirtmedikçe KESİNLİKLE kodda bir değişiklik yapma, ekleme/çıkarma teklif etme; sadece analizi raporla.
+2. **Sınırlandırma (ÖNEMLİ):** İnceleme sırasında kullanıcı aksini özellikle belirtmedikçe KESİNLİKLE kodda bir değişiklik yapma, sadece analizi raporla.
 3. **Analiz Basamakları:** `gelistirme.md` içerisindeki checklist'i sırasıyla işlet ve sonucu madde madde kullanıcıya sun.

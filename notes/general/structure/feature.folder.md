@@ -46,30 +46,31 @@ src/
 ## Temel Kurallar
 
 1. **Bileşenler Klasörü (Components):** 
-   - Projemizde Tailwind CSS kullanacağımız için `.module.css` veya bağımsız CSS dosyalarına ihtiyaç bulunmamaktadır.
-   - Bu nedenle her bir React bileşenini ayrı bir klasöre koymak yerine, bileşenler doğrudan `components/` dizini içinde `.tsx` dosyaları olarak yer almalıdır.
+   - Tailwind CSS kullanılacağı için `.module.css` veya bağımsız CSS dosyalarına ihtiyaç yoktur.
+   - Her React bileşeni ayrı bir klasöre konmak yerine, doğrudan `components/` dizini içinde `.tsx` dosyaları olarak yer almalıdır.
 
 2. **İsimlendirme (Naming Conventions):**
-   - Yeni oluşturulacak tüm bileşen (component) dosya isimleri kesinlikle **kebab-case** formatında olmalıdır (Örnek: `appointment-card.tsx`).
-   - (Hatırlatma: `.cursorrules` gereği kodlar İngilizce yazıldığından dosya isimleri İngilizce, ancak kebab-case olacaktır. Aynı zamanda kodun içindeki React bileşeni dışa aktarılırken standart olan `PascalCase` kuralına uyulmalıdır: `export const AppointmentCard = ...`)
+   - Yeni oluşturulacak tüm bileşen dosya isimleri kesinlikle **kebab-case** formatında olmalıdır (Örnek: `appointment-card.tsx`).
+   - Kodun içindeki React bileşeni dışa aktarılırken standart olan `PascalCase` kuralına uyulmalıdır (`export const AppointmentCard = ...`).
 
 3. **Context Yönetimi (Contexts):**
-   - Özelliklerimizin (features) büyümesiyle birlikte birden fazla context ihtiyacı doğabileceği için, bunları özellik bazında `contexts/` klasörü içerisinde topluyoruz.
+   - Özelliklerin büyümesiyle birlikte birden fazla context ihtiyacı doğabileceği için, bunları özellik bazında `contexts/` klasörü içerisinde topluyoruz.
    - Context dosyaları, kebab-case kuralına ve `.context.tsx` uzantısına uyacak şekilde yapılandırılmalıdır (`appointment-list.context.tsx` gibi).
 
 4. **Hook Yönetimi (Hooks):**
    - Özelliğe (feature) ait React hook'ları (`use-...`) `hooks/` klasörü altında toplanmalıdır.
    - Dosya isimlendirmeleri kebab-case formatında (`use-appointment-form.ts` gibi) olmalıdır.
+
 5. **Klasörün Dolmasını Engellemek (Anti-Bloat):**
-   - Eğer `shared` feature klasörü hariç bir klasörde çok fazla dosya oluşmaya başlarsa, doğrudan işlem yapmak yerine geliştiriciyi uyar ve o yapıyı alt domain mantığıyla yeni bir feature klasörüne bölmesini öner.
-   - Component gibi hiyerarşik yapılarda eğer ana bir componentin çok fazla direkt alt bileşeni (child component) birikiyorsa geliştiriciyi uyar ve karmaşayı azaltmak için yeni bir alt-feature klasörü oluşturulmasını öner.
-   - Eğer ana (wrapper/container) componentinin dışındaki alt componentlerden herhangi biri çok fazla hook veya iş mantığı (business logic) içermeye başlarsa geliştiriciyi uyar. Bu durum o componentin aslında kendine ait bağımsız bir sayfayı/domaini hak ettiğini (bir feature klasörü olması gerektiğini) işaret eder.
-   - Eğer bir componentin ayrı bir feature olacağı kararına varırsan bunu bir hook ile çözebilir miyiz önce düşün. Eğer gerçekten karmaşıksa ve hook ile çözülemeyecek kadar fazlaysa o zaman yeni bir feature klasörü oluşturulmasını öner.
-   - Buradaki hedef; dizinde `feature` sayısını yatayda geniş ve esnek tutarak, dikeyde klasör derinliğini "az ve öz" tutmaktır (*Dikey Dilimleme / Vertical Slicing*). Örneğin bütün admin ekranlarını devasa, tek bir "admin" feature'ının altına hapsetmektense `features/...` altında şu şekilde parçalamak hedeflenmelidir:
+   - `shared` feature klasörü hariç bir klasörde çok fazla dosya oluşursa, dikey dilimleme (Vertical Slicing) uygulanarak alt domain mantığıyla yeni bir feature klasörüne bölünmelidir.
+   - Ana componentin çok fazla direkt alt bileşeni birikiyorsa yeni bir alt-feature klasörü oluşturulmalıdır.
+   - Ana component dışındaki alt componentlerden herhangi biri çok fazla hook veya iş mantığı içermeye başlarsa, o componentin aslında kendine ait bağımsız bir domaini (feature klasörü) olmalıdır.
+   - Hedef; dizinde `feature` sayısını yatayda geniş, dikeyde klasör derinliğini az tutmaktır. Örneğin tüm admin ekranlarını tek bir "admin" feature'ı altına hapsetmektense şöyle parçalanmalıdır:
       - `features/admin-dashboard/`
       - `features/admin-appointments/`
       - `features/admin-navigation/`
+
 6. **İzole Araçlar (Sıfır Global - Zero Global):**
-   - Projenin `src/` dizini altında global bir özellik/çöplük barındırmak (Örn: `src/lib`, `src/utils` klasörleri) **TAMAMEN YASAKTIR**. Uygulamadaki her şey (Auth gibi en çekirdek sistemler bile) bir "Feature" olarak tasarlanmalıdır (`features/auth/`, `features/database/` vb.).
-   - Eğer yazdığınız bir fonksiyon, araç (util) veya sabit (constant) **birden fazla** domain'i ilgilendiriyorsa `features/shared/lib/` içine atılır.
-   - Eğer form verisi temizleme gibi sadece bir özelliğe has işlemler yapılıyorsa o özelliğin altına (`features/[özellik]/lib/`) atılır. Bu sayede %100 kapsüllenmiş (Encapsulated) mükemmel bir modüler yapı elde edilir.
+   - Projenin `src/` dizini altında global bir özellik/çöplük barındırmak (Örn: `src/lib`, `src/utils` klasörleri) **TAMAMEN YASAKTIR**. Her şey bir "Feature" olarak tasarlanmalıdır (`features/auth/`, `features/database/` vb.).
+   - Yazılan bir fonksiyon veya araç birden fazla domain'i ilgilendiriyorsa `features/shared/lib/` içine atılır.
+   - Sadece tek bir özelliğe has işlemler yapılıyorsa o özelliğin altına (`features/[özellik]/lib/`) atılır.

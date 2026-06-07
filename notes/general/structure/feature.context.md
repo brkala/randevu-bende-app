@@ -31,7 +31,6 @@ function useAppointmentWizard() {
 }
 
 // 2. Constate ile Context'e Dönüştürme
-// Provider ve Consumer Hook (use...) otomatik olarak oluşturulur ve dışa aktarılır.
 export const [AppointmentWizardProvider, useAppointmentWizardContext] = constate(useAppointmentWizard);
 ```
 
@@ -42,6 +41,6 @@ export const [AppointmentWizardProvider, useAppointmentWizardContext] = constate
 1. **Dosya İsimlendirmesi:** Context dosyaları her zaman ilgili `feature` dizini içindeki `contexts/` klasöründe yer alır. İsimlendirme formatı kebab-case olmalı ve sonu `.context.tsx` ile bitmelidir. (Örn: `features/appointment/contexts/appointment-wizard.context.tsx`).
 2. **React Compiler Uyumu:** `constate` içindeki hook'ta `React.useMemo` veya `React.useCallback` **KULLANILMAMALIDIR**. Tüm optimizasyonlar derleyici tarafından otomatik yapılır.
 3. **Tek Kaynak (Single Hook):** Context'e eklenecek tüm mantığı önce saf bir hook (`useMyFeature`) olarak yaz, sonra `constate(...)` ile sarmala.
-4. **Hata Yönetimi:** `constate` tarafından oluşturulan `use...Context` kancası, eğer bir `Provider` dışında çağrılırsa otomatik olarak hata fırlatır. Bu yüzden ek bir hata kontrolü yazmana gerek yoktur.
+4. **Hata Yönetimi:** `constate` tarafından oluşturulan `use...Context` kancası, eğer bir `Provider` dışında çağrılırsa otomatik olarak hata fırlatır. Bu yüzden ek bir hata kontrolü yazmaya gerek yoktur.
 5. **Dışa Aktarım:** Sadece `Provider` ve `use...Context` kancasını named export olarak dışa aktar.
 6. **Küçük Parçalar:** Proje genelini etkileyen "dev" contextler yerine, her modüle (wizard, filters, sidebar vb.) özel küçük contextler oluşturmayı tercih et.

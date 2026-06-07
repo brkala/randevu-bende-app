@@ -1,20 +1,20 @@
 # Unit (Birim) Test Stratejisi
 
-"Az para çok iş" (Hızlı geliştirme) kuralımız gereği Unit Test kullanım amacımız standart projelerden **farklıdır**.
+"Az para çok iş" (Hızlı geliştirme) kuralı gereği Unit Test kullanım amacımız standart projelerden farklıdır.
 
 ## Kullanılacak Teknoloji: Vitest
-Proje derleyicisi olarak zaten Vite kullandığı için, hız ve konfigurasyon uyumu sebebiyle **Vitest** kullanılacaktır. (Jest veya diğer motorlar entegre edilmeyecektir.)
+Proje derleyicisi olarak Vite kullandığı için, hız ve konfigürasyon uyumu sebebiyle **Vitest** kullanılacaktır.
 
 ## Unit Test Altın Kuralı (Sadece Saf Mantık)
 Unit Test yazmak **SADECE** aşağıdaki koşullarda meşrudur:
-1. **Zaman / Tarih Hesaplamaları:** Müşterinin seçtiği saatin dolu olup olmadığını (Overlapping) hesaplayan matematiksel fonksiyon.
-2. **Finansal / Matematiksel İşlemler:** Sepetteki %15 indirimi, işletme komisyonunu veya Iyzico taksit tutarlarını hesaplayan fonksiyonlar.
-3. **Saf İş Kuralları (Pure Business Logic):** İçinde dış bir API (`fetch`), Veritabanı bağlantısı (`prisma`) veya Arayüz Çizimi (`<button>`) barındırmayan her türlü çekirdek (Core) Javascript/Typescript "util" dosyaları.
+1. **Zaman / Tarih Hesaplamaları:** Müşterinin seçtiği saatin dolu olup olmadığını (Overlapping) hesaplayan matematiksel fonksiyonlar.
+2. **Finansal / Matematiksel İşlemler:** İndirimleri, komisyonları veya taksit tutarlarını hesaplayan fonksiyonlar.
+3. **Saf İş Kuralları (Pure Business Logic):** Dış API (`fetch`), Veritabanı bağlantısı (`prisma`) veya Arayüz Çizimi (`<button>`) barındırmayan her türlü çekirdek (Core) JavaScript/TypeScript "util" dosyaları.
 
-> **ÖNEMLİ (AI Ajanları İçin):** İçerisinde `render()`, `@testing-library/react` veya `screen.getBy` geçen hiçbir Unit Test yazılamaz. DOM render işlemi Vitest ile YAPILMAYACAKTIR. Bu iş E2E testlerine (Playwright) aittir.
+> **ÖNEMLİ:** İçerisinde `render()`, `@testing-library/react` veya `screen.getBy` geçen hiçbir Unit Test yazılamaz. DOM render işlemi Vitest ile yapılmayacaktır. Bu iş E2E testlerine (Playwright) aittir.
 
 ## Test Klasör Mimarisi ("Zero-Global" Uyumlu)
-Uygulama kodları "Feature" (Özellik) bazlı parçalandığı için, saf mantık fonksiyonlarının Unit Test'leri de ayrı bir global `/tests` kasörüne atılmaz. **Test ettiği fonksiyonun tam yanına konur.**
+Uygulama kodları "Feature" (Özellik) bazlı parçalandığı için, saf mantık fonksiyonlarının Unit Test'leri ayrı bir global klasöre atılmaz, **test ettiği fonksiyonun tam yanına konur**:
 
 ```text
 src/

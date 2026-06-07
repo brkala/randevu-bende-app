@@ -54,7 +54,7 @@ export const generateSlots = (start: Date, end: Date, stepMinutes: number) => {
 
 ## 4. Yapay Zeka (AI) İçin Geliştirici Kuralları:
 
-1. **Doğrudan Import Yasağı:** Projenin diğer feature'larında (Örn: `features/appointment`) doğrudan `date-fns`'in `format` fonksiyonunu import etme! Her zaman `features/time` içindeki sarmalanmış yardımcıları kullan.
+1. **Doğrudan Import Yasağı:** Projenin diğer feature'larında doğrudan `date-fns`'in `format` fonksiyonunu import etmeyin. Her zaman `features/time` içindeki sarmalanmış yardımcıları kullanın.
 2. **Türkçe Lokalizasyon:** Tüm tarih gösterimleri ve isimleri (Gün adları, ay adları) `date-fns/locale/tr` üzerinden geçmelidir.
-3. **Zaman Dilimi (Timezone):** Sunucu ve istemci arasındaki zaman farklarını yönetmek için tüm tarihleri ISO formatında (`toISOString()`) sakla ve gösterim anında `features/time` yardımcılarıyla yerel saate çevir.
-4. **Anti-Bloat:** Eğer çok spesifik bir tarih manipülasyonu sadece bir feature'ı ilgilendiriyorsa (Örn: Sadece istatistik grafiği), onu `time` feature'ına taşıma. Ancak genel bir format veya hesaplama ise `time` feature'ına ekle.
+3. **Zaman Dilimi (Timezone):** Sunucu ve istemci arasındaki zaman farklarını yönetmek için tüm tarihleri ISO formatında (`toISOString()`) saklayın ve gösterim anında `features/time` yardımcılarıyla yerel saate çevirin.
+4. **Anti-Bloat:** Eğer çok spesifik bir tarih manipülasyonu sadece tek bir feature'ı ilgilendiriyorsa, onu `time` feature'ına taşımayın. Genel format veya hesaplamaları `time` feature'ına ekleyin.

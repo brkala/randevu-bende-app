@@ -1,30 +1,30 @@
 # React Mimarisi ve Kuralları (React Compiler & React 19)
 
-Bu proje **React 19** ve **React Compiler** (Hybrid: Oxc + Babel) ile güçlendirilmiştir. 
+Bu proje **React 19** ve **React Compiler** (Hybrid: Oxc + Babel) ile çalışır.
 
 > [!IMPORTANT]
-> Projemizde **React Compiler** AKTİF durumdadır. Vite 8 standartlarına uygun hibrid bir yapı (OXC transform + Babel Compiler) kullanılmaktadır. Bu nedenle projemizde manuel memoization yöntemlerine kesinlikle ihtiyaç yoktur.
+> Projede **React Compiler** AKTİFTİR. Vite 8 uyumlu hibrit yapı (OXC + Babel) sayesinde manuel memoization yapılmasına kesinlikle ihtiyaç yoktur.
 
 ## 1. Manuel Memoization (Optimizasyon) Yasak!
-React Compiler tüm komponentlerinizi ve hook'larınızı statik olarak analiz eder, nerelerde referansların sabit tutulması ve `memoization` yapılması gerektiğini **otomatik** olarak belirler ve derler.
-- `useMemo`, `useCallback` ve `React.memo` hook'ları projede **KESİNLİKLE KULLANILMAYACAKTIR**.
-- Kodunuzu doğrudan düz JavaScript gibi yazın, bırakın performans ve render optimizasyonunu Compiler yapsın.
+React Compiler bileşenleri ve hook'ları analiz ederek nerede referans sabit tutulacağını ve memoization yapılacağını **otomatik** belirler.
+- `useMemo`, `useCallback` ve `React.memo` **KESİNLİKLE KULLANILMAYACAKTIR**.
+- Kodunuzu düz JavaScript şeklinde yazın, optimizasyonları Compiler gerçekleştirir.
 
 ## 2. React Hook Kurallarına Sıkı Sıkıya Bağlılık
-React Compiler'ın kodu anlayabilmesi ve hatasız optimize edebilmesi için Hook kurallarına ve Linter uyarılarına koşulsuz şartsız uyulmalıdır:
-- Hook'ları her zaman fonksiyonun **en üst seviyesinde** çağırın (koşullar, döngüler veya iç içe fonksiyonların içinde DEĞİL).
-- Hook'ları sadece React fonksiyonel bileşenlerinden veya özel (custom) Hook'ların içinden çağırın.
+Compiler'ın hatasız çalışması için linter ve hook kurallarına tam uyulmalıdır:
+- Hook'ları her zaman fonksiyonun **en üst seviyesinde** çağırın (koşul, döngü veya iç fonksiyonlarda çağırmayın).
+- Hook'ları sadece React bileşenlerinden veya özel (custom) hook'lardan çağırın.
 
 ## 3. Render Sırasında Yan Etki (Side-Effect) Yasak
-React fonksiyonları tamamen "saf" (pure) kalmalıdır. Compiler'ın güvenle çalışabilmesi için:
-- Bileşen render edildiği sırada state değiştirmek, harici API'ye istek atmak veya DOM'u manüple etmek yasaktır.
-- Yan etkiler (side effects) mutlaka `useEffect`, event handler'lar (onClick vs.) veya form action'ları içerisinde yönetilmelidir.
+React bileşen fonksiyonları "saf" (pure) kalmalıdır:
+- Render aşamasında state değiştirmek, harici API isteği atmak veya DOM'a müdahale etmek yasaktır.
+- Yan etkiler `useEffect`, event handler'lar (onClick vb.) veya form action'ları içerisinde yönetilmelidir.
 
 ## 4. Değişmezlik (Immutability) İlkesi
-React statelerini güncellerken var olan veriyi doğrudan değiştirmeyin (mutate etmeyin). React Compiler'ın state değişikliklerini algılayabilmesi için referansların değişmesi (yeni obje/array oluşturulması) elzemdir.
-- Objeler veya diziler üzerinde değişiklik yaparken spread operatörü (`...`), `.map()`, `.filter()` gibi immutable geri dönüşlü yöntemleri kullanın veya immutable kütüphanelerden destek alın.
+React statelerini güncellerken var olan nesneyi veya diziyi doğrudan mutasyona uğratmayın. Referansların değişmesi (yeni obje/array üretimi) elzemdir.
+- Güncellemelerde spread operatörü (`...`), `.map()`, `.filter()` gibi immutable yöntemler kullanın.
 
 ## 5. React 19 Temel Yenilikleri
-- **Ref Artık Normal Bir Prop:** Bileşenlere `ref` geçirmek için `forwardRef` kullanımına gerek kalmamıştır. Normal prop gibi `ref` alınabilir. `forwardRef` koda eklenmemelidir!
-- **`use` Hook'u:** `<Context.Provider>` yerine doğrudan `<Context>` bileşen sarmalaması yapılabilir. Değer okurken ise `useContext(MyContext)` yerine `use(MyContext)` tercih edilebilir (İhtiyaca göre promises için de kullanılabilir).
-- **Yeni Form Yapıları:** `useActionState`, `useFormStatus` gibi yeni Hook'lar, var olan TanStack yapısıyla entegre veya paralel bir şekilde (sunucu aksiyonları için) kullanılabilir durumda, mimari standartlar gerektirirse kullanılabilir (bknz: `mutasyon-kurallari.md`).
+- **Ref Artık Normal Prop:** Bileşenlere `ref` geçirmek için `forwardRef` kullanımına gerek yoktur, normal prop olarak alınabilir. `forwardRef` kullanılmamalıdır.
+- **`use` Hook'u:** `<Context.Provider>` yerine doğrudan `<Context>` kullanılabilir. Değer okurken `use(MyContext)` tercih edilebilir.
+- **Yeni Form Yapıları:** `useActionState` ve `useFormStatus` gibi hook'lar sunucu aksiyonları için kullanılabilir.

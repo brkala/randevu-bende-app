@@ -39,7 +39,6 @@ export const getAppointmentDetailsById = async (id: string) => {
 };
 
 // Bu metot sonradan .functions.ts içindeki bir RPC handler'a bağlanacaktır.
-// Argüman tipi olarak otomatik olarak .schemas.ts içindeki Zod type'ını kullanıyoruz!
 export const createAppointmentRecord = async (data: CreateAppointmentInput) => {
   // Prisma ekleme işlemleri...
   return "random-id";

@@ -30,7 +30,6 @@ Veriyi getirecek olan asıl metot (genellikle `.functions.ts` içerisindeki `cre
 ```typescript
 import { queryOptions } from "@tanstack/react-query";
 import { getAppointmentByIdFn } from "./appointment.functions"; // RPC API Köprümüz
-// appointmentKeys objesi yukarıdaki fabrikadan geliyor
 
 // 2. Tüm sorguları barındıran Options Objesi
 export const appointmentQueries = {
@@ -42,13 +41,8 @@ export const appointmentQueries = {
       queryFn: () => getAppointmentByIdFn({ data: { id } }), 
       staleTime: 1000 * 60 * 5, // Örnek config: Veri 5 dakika taze kalır
     }),
-    
-  // list: (filters) => queryOptions({...}) vb...
 };
 ```
-
-> **Önemli Not:** Bu yapı kurulduktan sonra bir UI bileşeninde, özel hook (Custom Hook) içinde veya Loader'da (Router Tarafında) veriyi çekmek inanılmaz temiz bir hal alır:
-> `const { data } = useQuery(appointmentQueries.detail('abc-123'));`
 
 ---
 
@@ -57,5 +51,5 @@ export const appointmentQueries = {
 1. **Inline QueryKey Yasağı:** Hiçbir React UI bileşeni (`.tsx`) veya Hook (`use-hook.ts`) içinde `useQuery({ queryKey: ["random"] })` formatında el ile Hard-Coded (sabit) string anahtarları/arrayleri KULLANMA. Olası bir Cache Invalidation (Mutasyonlar sırasında veriyi tazeleme) kısmında yazım hatası yaşanırsa proje patlar. Daima `[feature].queries.ts` içindeki `appointmentKeys` benzeri Factory yapısını kullan.
 2. **`queryOptions` Zorunluluğu:** Bir sayfaya ait query'ler, bir React Hook'u (`export const useList = () => useQuery(...)`) olarak değil; Typescript tarafında (özellikle React bileşen iskeleti dışında da çağırılabilmesi için) TanStack v5 standardı olan `queryOptions()` fonksiyonuyla sarmalanmış basit nesneler (Objects) olarak tutulmalıdır.
 3. **RPC Mimarisi ve İletişimi:** `queryFn` içerisinde veri talep edilecekse asla gidip veritabanı dosyasına doğrudan vurulamaz. Veri her zaman bir önceki kurallarda yazılmış olan API köprüsüne (`[feature].functions.ts`) talep/istek atılarak (`createServerFn`) alınır.
-4. **Tutarlı İsimlendirme:** Key fabrikası `özellikAdıKeys` (Örn: `userKeys`); Seçenek fabrikası ise `özellikAdıQueries` (Örn: `userQueries`) olmalı ve içeriği her zaman `detail`, `list` gibi standart hiyerarşik fiiller barındırmalıdır.
+4. **Tutarlı İsimlendirme:** Key fabrikası `özellikAdıKeys` (Örn: `userKeys`); Seçenek fabrikası ise `özellikAdıQueries` (Örn: `userQueries`) olmalı ve içeriği her zaman `detail`, `list` gibi standart hiyerarşik fiiller barındırmalıdir.
 5. **Router Loader (Prefetch) Önceliği:** Sayfa ilk açıldığında ekranda görünmesi zorunlu olan (initial load) kritik verileri, React bileşeninin içine girip `useQuery` ile ilk defa çekerek kullanıcıyı boş ekranda veya Spinner'da bekletme (Kötü UX / Waterfall). Bu tarz ilk yükleme verilerini **mutlaka TanStack Router'ın `loader` fonksiyonu içerisinde** `queryClient.ensureQueryData(özellikQueries.detail(id))` veya `prefetchQuery` kullanarak önceden sunucuda yüklet (Prefetch). Sayfa altındaki component içindeki `useQuery` sadece önceden yüklenmiş bu taze veriyi senkron olarak okumalıdır.
