@@ -13,12 +13,12 @@ fix-ai:
   parallel: false
   commands:
     01-lint-format:
-      files: git diff HEAD --name-only --diff-filter=d
+      files: git ls-files --modified --others --exclude-standard
       glob: "*.{js,ts,jsx,tsx,css}"
       run: npx biome check --write --no-errors-on-unmatched --files-ignore-unknown=true {files}
     02-type-check:
-      files: git diff HEAD --name-only --diff-filter=d
-      glob: "*.{ts,tsx}" 
+      files: git ls-files --modified --others --exclude-standard
+      glob: "*.{ts,tsx}"
       run: pnpm type-check
 
 e2e:
