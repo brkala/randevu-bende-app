@@ -31,7 +31,7 @@ export function CreateShopDialog() {
         params: { shopId: result.organizationId },
       });
     },
-    onError: (err) => {
+    onError: (_err) => {
       // Error is shown via <p> below — dialog stays open
     },
   });

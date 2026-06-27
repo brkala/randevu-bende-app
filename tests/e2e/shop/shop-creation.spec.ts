@@ -5,7 +5,6 @@ const MAGIC = process.env.WHATSAPP_MAGIC_CODE || '000000';
 test.describe('Shop Creation & Invitation', () => {
   test('owner creates shop, invites employee by phone, then employee accepts', async ({
     page,
-    db,
     waitForHydration,
   }) => {
     const OWNER_PHONE = '5551112281';
@@ -75,11 +74,7 @@ test.describe('Shop Creation & Invitation', () => {
     await expect(page.getByTestId('employee-dashboard-shop-title')).toHaveText('Test Berber');
   });
 
-  test('duplicate invite is rejected with error message', async ({
-    page,
-    db,
-    waitForHydration,
-  }) => {
+  test('duplicate invite is rejected with error message', async ({ page, waitForHydration }) => {
     const OWNER_PHONE = '5551112283';
     const EMPLOYEE_PHONE = '5551112284';
 
