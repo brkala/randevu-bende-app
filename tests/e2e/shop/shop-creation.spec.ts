@@ -147,10 +147,14 @@ test.describe('Shop Creation & Invitation', () => {
     await page.getByTestId('invite-submit').click();
     await expect(page.getByTestId('invite-submit')).not.toBeVisible({ timeout: 5000 });
 
-    // Second invite — error
+    // Second invite — error. Clear and fill each digit.
     await page.getByTestId('invite-employee-button').click();
-    await page.getByRole('textbox', { name: 'pin code 1 of 10' }).focus();
-    await page.keyboard.type(EMPLOYEE_PHONE, { delay: 15 });
+    await page.waitForTimeout(800);
+    for (let i = 0; i < EMPLOYEE_PHONE.length; i++) {
+      const cell = page.getByRole('textbox', { name: `pin code ${i + 1} of 10` });
+      await cell.fill('');
+      await cell.fill(EMPLOYEE_PHONE[i]);
+    }
     await page.waitForTimeout(300);
     await page.getByTestId('invite-submit').click();
     await expect(page.getByText(/zaten bekleyen bir davet var/i)).toBeVisible({ timeout: 5000 });
