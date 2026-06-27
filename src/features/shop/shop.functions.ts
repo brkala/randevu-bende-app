@@ -1,4 +1,7 @@
 import { createServerFn } from '@tanstack/react-start';
+import { getRequest } from '@tanstack/react-start/server';
+import { auth } from '@/features/auth/auth.server';
+import { prisma } from '@/features/database/lib/client.server';
 import {
   AcceptInvitationSchema,
   CreateShopSchema,
@@ -28,8 +31,6 @@ import {
 // --- Helper: get current session + raw request headers ---
 
 async function getRequestContext() {
-  const { getRequest } = await import('@tanstack/react-start/server');
-  const { auth } = await import('@/features/auth/auth.server');
   const request = getRequest();
   const session = await auth.api.getSession({ headers: request.headers });
   return { session, headers: request.headers, auth };
@@ -40,20 +41,19 @@ async function getRequestContext() {
 export const createShopFn = createServerFn({ method: 'POST' })
   .validator((data: unknown) => CreateShopSchema.parse(data))
   .handler(async ({ data }) => {
-    const { session, headers, auth } = await getRequestContext();
+    const { session, headers, auth: authInstance } = await getRequestContext();
     if (!session?.user) throw new Error('Oturum bulunamadı');
 
     const slug = `${data.title.toLowerCase().replace(/\s+/g, '-')}-${Date.now().toString(36)}`;
 
-    const org = await auth.api.createOrganization({
+    const org = await authInstance.api.createOrganization({
       headers,
       body: { name: data.title, slug },
     });
 
     const shop = await createShopRecord(org.id, data);
 
-    // Update session cookie with the new organization membership
-    await auth.api.setActiveOrganization({
+    await authInstance.api.setActiveOrganization({
       headers,
       body: { organizationId: org.id },
     });
@@ -69,7 +69,6 @@ export const inviteEmployeeFn = createServerFn({ method: 'POST' })
     const { session } = await getRequestContext();
     if (!session?.user) throw new Error('Oturum bulunamadı');
 
-    // shopId from route = organizationId
     const shop = await getShopByOrgId(data.shopId);
     if (!shop) throw new Error('Dükkan bulunamadı');
 
@@ -113,7 +112,7 @@ export const getMyInvitationsFn = createServerFn({ method: 'GET' }).handler(asyn
 export const acceptInvitationFn = createServerFn({ method: 'POST' })
   .validator((data: unknown) => AcceptInvitationSchema.parse(data))
   .handler(async ({ data }) => {
-    const { session, headers, auth } = await getRequestContext();
+    const { session, headers, auth: authInstance } = await getRequestContext();
     if (!session?.user) throw new Error('Oturum bulunamadı');
 
     const invitation = await getInvitationById(data.invitationId);
@@ -122,7 +121,7 @@ export const acceptInvitationFn = createServerFn({ method: 'POST' })
     if (invitation.expiresAt < new Date()) throw new Error('Davetin süresi dolmuş');
     if (invitation.phone !== session.user.phoneNumber) throw new Error('Bu davet size ait değil');
 
-    await auth.api.addMember({
+    await authInstance.api.addMember({
       headers,
       body: {
         organizationId: invitation.organizationId,
@@ -131,8 +130,7 @@ export const acceptInvitationFn = createServerFn({ method: 'POST' })
       },
     });
 
-    // Update session cookie with the new membership
-    await auth.api.setActiveOrganization({
+    await authInstance.api.setActiveOrganization({
       headers,
       body: { organizationId: invitation.organizationId },
     });
@@ -183,10 +181,9 @@ export const getShopEmployeesFn = createServerFn({ method: 'GET' })
 export const removeEmployeeFn = createServerFn({ method: 'POST' })
   .validator((data: unknown) => RemoveEmployeeSchema.parse(data))
   .handler(async ({ data }) => {
-    const { session, headers, auth } = await getRequestContext();
+    const { session, headers, auth: authInstance } = await getRequestContext();
     if (!session?.user) throw new Error('Oturum bulunamadı');
 
-    // shopId from route = organizationId
     const shop = await getShopByOrgId(data.shopId);
     if (!shop) throw new Error('Dükkan bulunamadı');
 
@@ -195,13 +192,12 @@ export const removeEmployeeFn = createServerFn({ method: 'POST' })
       throw new Error('Bu işlem için yetkiniz yok');
     }
 
-    const { prisma } = await import('@/features/database/lib/client.server');
     const memberToRemove = await prisma.member.findUnique({ where: { id: data.memberId } });
     if (!memberToRemove) throw new Error('Üye bulunamadı');
 
     await softDeleteStaffProfile(memberToRemove.userId, data.shopId);
 
-    await auth.api.removeMember({
+    await authInstance.api.removeMember({
       headers,
       body: {
         organizationId: shop.organizationId,
