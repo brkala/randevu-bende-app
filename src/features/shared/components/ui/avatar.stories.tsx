@@ -19,6 +19,21 @@ export const Overview: Story = {
   render: () => (
     <div className="p-8 space-y-8 bg-bg-canvas min-h-screen text-fg-default font-sans">
       <h1 className="text-3xl font-serif font-bold">Avatar Gallery</h1>
+
+      <section className="space-y-4">
+        <h2 className="text-xl font-semibold border-b border-border-default pb-2">Variants</h2>
+        <div className="flex gap-4 items-end">
+          <div className="flex flex-col items-center gap-2">
+            <AvatarField fallback="CI" className="w-12 h-12 text-sm" variant="circle" />
+            <span className="text-xs text-fg-muted">circle</span>
+          </div>
+          <div className="flex flex-col items-center gap-2">
+            <AvatarField fallback="SQ" className="w-12 h-12 text-sm" variant="square" />
+            <span className="text-xs text-fg-muted">square</span>
+          </div>
+        </div>
+      </section>
+
       <section className="space-y-4">
         <h2 className="text-xl font-semibold border-b border-border-default pb-2">Sizes</h2>
         <div className="flex gap-4 items-end">

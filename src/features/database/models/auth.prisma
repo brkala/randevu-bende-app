@@ -15,6 +15,7 @@ model User {
   invitations         Invitation[]
 
   staffProfiles       StaffProfile[]
+  shopInvitations  ShopInvitation[] @relation("ShopInvitationInviter")
 
   @@map("users")
 }

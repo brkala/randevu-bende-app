@@ -3,6 +3,7 @@ model Shop {
   organizationId String       @unique
   organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
 
+  title     String?
   phone     String?
   address   String?
   taxNumber String?
@@ -11,7 +12,8 @@ model Shop {
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 
-  staffProfiles StaffProfile[]
+  staffProfiles   StaffProfile[]
+  shopInvitations ShopInvitation[]
 
   @@map("shops")
 }
@@ -34,4 +36,22 @@ model StaffProfile {
 
   @@unique([userId, shopId])
   @@map("staff_profiles")
+}
+
+model ShopInvitation {
+  id             String   @id @default(uuid(7))
+  shopId         String
+  shop           Shop     @relation(fields: [shopId], references: [id], onDelete: Cascade)
+  organizationId String
+
+  phone       String
+  invitedById String
+  invitedBy   User     @relation("ShopInvitationInviter", fields: [invitedById], references: [id], onDelete: Cascade)
+  displayName String?
+  status      String   @default("pending")
+  expiresAt   DateTime
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@map("shop_invitations")
 }
