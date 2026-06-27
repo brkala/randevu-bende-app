@@ -100,6 +100,8 @@
   --color-border-muted: var(--color-slate-100);
   --color-border-accent: var(--color-accent-500);
 
+  --color-inverse-surface: var(--color-slate-900);
+  --color-inverse-fg: var(--color-white);
 
   --shadow-default: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
   --shadow-surface: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);

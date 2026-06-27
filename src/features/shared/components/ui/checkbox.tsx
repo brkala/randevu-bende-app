@@ -7,7 +7,7 @@ const checkboxVariants = tv({
   slots: {
     root: 'flex items-center gap-2 cursor-pointer group',
     control:
-      'flex items-center justify-center size-5 border border-border-default rounded transition-colors duration-normal ease-enter data-[state=checked]:bg-accent-default data-[state=checked]:border-accent-default data-[state=unchecked]:hover:bg-bg-subtle disabled:opacity-50 disabled:pointer-events-none',
+      'flex items-center justify-center size-5 bg-bg-default border border-border-default rounded transition-colors duration-normal ease-enter data-[state=checked]:bg-accent-default data-[state=checked]:border-accent-default data-[state=unchecked]:hover:bg-bg-subtle disabled:opacity-50 disabled:pointer-events-none',
     indicator: 'text-accent-fg',
     label: 'text-sm text-fg-default select-none',
   },

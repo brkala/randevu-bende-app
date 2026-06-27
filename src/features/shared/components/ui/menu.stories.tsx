@@ -20,7 +20,7 @@ export default meta;
 
 export const Playground: StoryObj = {
   render: () => (
-    <div className="flex items-center justify-center min-h-[250px]">
+    <div className="flex items-center justify-center min-h-62.5">
       <MenuRoot>
         <MenuTrigger size="md">Open Menu</MenuTrigger>
         <MenuPositioner>

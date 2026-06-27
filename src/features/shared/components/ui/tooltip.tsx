@@ -2,6 +2,7 @@ import {
   Tooltip as ArkTooltip,
   type TooltipArrowProps,
   type TooltipContentProps,
+  type TooltipPositionerProps,
   type TooltipRootProps,
   type TooltipTriggerProps,
 } from '@ark-ui/react/tooltip';
@@ -9,14 +10,20 @@ import { tv } from '@/features/style/utils/tv';
 
 const tooltipStyles = tv({
   slots: {
-    content: 'bg-bg-inverse text-fg-inverse text-xs px-3 py-1.5 rounded-l2 shadow-md z-50 max-w-xs',
-    arrow: '',
+    positioner: 'z-50 [--arrow-background:var(--color-inverse-surface)] [--arrow-size:6px]',
+    content: 'bg-inverse-surface text-inverse-fg text-xs px-3 py-1.5 rounded-l2 shadow-md max-w-xs',
+    arrow: 'text-inverse-surface',
     arrowTip: '',
   },
 });
 
 const TooltipRoot = (props: TooltipRootProps) => <ArkTooltip.Root {...props} />;
 const TooltipTrigger = (props: TooltipTriggerProps) => <ArkTooltip.Trigger {...props} />;
+
+const TooltipPositioner = ({ className, ...props }: TooltipPositionerProps) => {
+  const { positioner } = tooltipStyles();
+  return <ArkTooltip.Positioner className={positioner({ className })} {...props} />;
+};
 
 const TooltipContent = ({ className, ...props }: TooltipContentProps) => {
   const { content } = tooltipStyles();
@@ -32,4 +39,4 @@ const TooltipArrow = ({ className, ...props }: TooltipArrowProps) => {
   );
 };
 
-export { TooltipArrow, TooltipContent, TooltipRoot, TooltipTrigger };
+export { TooltipArrow, TooltipContent, TooltipPositioner, TooltipRoot, TooltipTrigger };

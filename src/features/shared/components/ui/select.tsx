@@ -16,7 +16,7 @@ const selectStyles = tv({
       'flex items-center justify-between gap-2 border border-border-default bg-bg-default transition-colors duration-normal ease-enter focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-accent disabled:opacity-50 disabled:pointer-events-none cursor-pointer',
     content:
       'bg-bg-default border border-border-default rounded-l2 shadow-lg py-1 min-w-[--reference-width] z-50 outline-none',
-    item: 'px-3 py-2 text-sm text-fg-default cursor-pointer transition-colors duration-normal ease-enter hover:bg-bg-hover data-highlighted:bg-bg-hover data-disabled:opacity-50 data-disabled:pointer-events-none',
+    item: 'bg-bg-default px-3 py-2 text-sm text-fg-default cursor-pointer transition-colors duration-normal ease-enter hover:bg-bg-hover data-highlighted:bg-bg-hover data-disabled:opacity-50 data-disabled:pointer-events-none',
     label: 'px-3 py-1.5 text-xs text-fg-muted font-medium',
     valueText: 'text-fg-default',
   },

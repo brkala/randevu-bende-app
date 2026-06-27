@@ -15,9 +15,10 @@ const buttonVariants = tv({
       info: 'bg-info-default text-white hover:bg-info-700 active:bg-info-800',
       outline:
         'bg-transparent text-fg-default hover:bg-bg-hover active:bg-bg-active border border-border-default',
-      ghost: 'bg-transparent text-fg-default hover:bg-bg-hover active:bg-bg-active',
+      ghost: 'bg-transparent text-fg-default hover:bg-bg-hover/20 active:bg-bg-active',
     },
     size: {
+      xs: 'h-6 px-2 text-2xs rounded-l1',
       sm: 'h-8 px-3 text-xs rounded-l1',
       md: 'h-control-h px-4 text-control rounded-l2',
       lg: 'h-12 px-6 text-base rounded-l3',
@@ -30,6 +31,11 @@ const buttonVariants = tv({
     },
   },
   compoundVariants: [
+    {
+      size: 'xs',
+      icon: true,
+      class: 'w-6 px-0',
+    },
     {
       size: 'sm',
       icon: true,

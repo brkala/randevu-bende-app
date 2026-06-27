@@ -17,8 +17,8 @@ const menuStyles = tv({
   slots: {
     positioner: 'z-50',
     content:
-      'bg-bg-default border border-border-default rounded-l2 shadow-lg py-1 min-w-[180px] outline-none',
-    item: 'flex items-center gap-2 px-3 py-2 text-sm text-fg-default cursor-pointer transition-colors duration-normal ease-enter outline-none hover:bg-bg-hover focus:bg-bg-hover data-disabled:opacity-50 data-disabled:pointer-events-none',
+      'bg-bg-default border border-border-default rounded-l2 shadow-lg py-1 min-w-45 outline-none',
+    item: 'bg-bg-default flex items-center gap-2 px-3 py-2 text-sm text-fg-default cursor-pointer transition-colors duration-normal ease-enter outline-none hover:bg-bg-hover focus:bg-bg-hover data-disabled:opacity-50 data-disabled:pointer-events-none',
     itemGroup: '',
     itemGroupLabel: 'px-3 py-1.5 text-xs text-fg-muted font-medium',
     separator: 'h-px bg-border-default my-1 mx-3 border-none',

@@ -10,10 +10,10 @@ import { tv } from '@/features/style/utils/tv';
 const tabsStyles = tv({
   slots: {
     root: '',
-    list: 'flex gap-1 border-b border-border-default',
+    list: 'flex gap-1 border-b border-border-default bg-bg-default',
     trigger:
-      'px-4 py-2 text-sm font-medium text-fg-muted border-b-2 border-transparent transition-colors duration-normal ease-enter cursor-pointer data-selected:text-accent-default data-selected:border-accent-default hover:text-fg-default',
-    content: 'pt-4',
+      'bg-bg-default px-4 py-2 text-sm font-medium text-fg-muted border-b-2 border-transparent transition-colors duration-normal ease-enter cursor-pointer data-selected:text-accent-default data-selected:border-accent-default hover:text-fg-default hover:bg-bg-hover',
+    content: 'pt-4 bg-bg-default',
   },
 });
 

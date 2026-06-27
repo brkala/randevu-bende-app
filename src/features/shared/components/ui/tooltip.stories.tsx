@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/tanstack-react';
 import { Button } from './button';
-import { TooltipContent, TooltipRoot, TooltipTrigger } from './tooltip';
+import { TooltipContent, TooltipPositioner, TooltipRoot, TooltipTrigger } from './tooltip';
 
 const meta = {
   title: 'UI/Tooltip',
@@ -18,7 +18,9 @@ export const Playground: StoryObj = {
             Hover me
           </Button>
         </TooltipTrigger>
-        <TooltipContent>Hello, I am a tooltip!</TooltipContent>
+        <TooltipPositioner>
+          <TooltipContent>Hello, I am a tooltip!</TooltipContent>
+        </TooltipPositioner>
       </TooltipRoot>
     </div>
   ),
@@ -41,7 +43,9 @@ export const Overview: StoryObj = {
                 Hover
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Default tooltip</TooltipContent>
+            <TooltipPositioner>
+              <TooltipContent>Default tooltip</TooltipContent>
+            </TooltipPositioner>
           </TooltipRoot>
 
           <TooltipRoot openDelay={0}>
@@ -50,7 +54,9 @@ export const Overview: StoryObj = {
                 Info
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Accent button tooltip</TooltipContent>
+            <TooltipPositioner>
+              <TooltipContent>Accent button tooltip</TooltipContent>
+            </TooltipPositioner>
           </TooltipRoot>
 
           <TooltipRoot openDelay={0}>
@@ -59,7 +65,9 @@ export const Overview: StoryObj = {
                 Danger
               </Button>
             </TooltipTrigger>
-            <TooltipContent>This will delete something</TooltipContent>
+            <TooltipPositioner>
+              <TooltipContent>This will delete something</TooltipContent>
+            </TooltipPositioner>
           </TooltipRoot>
         </div>
       </section>
@@ -86,7 +94,9 @@ export const Overview: StoryObj = {
                 </svg>
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Help</TooltipContent>
+            <TooltipPositioner>
+              <TooltipContent>Help</TooltipContent>
+            </TooltipPositioner>
           </TooltipRoot>
 
           <TooltipRoot openDelay={0}>
@@ -106,7 +116,9 @@ export const Overview: StoryObj = {
                 </svg>
               </Button>
             </TooltipTrigger>
-            <TooltipContent>Security settings</TooltipContent>
+            <TooltipPositioner>
+              <TooltipContent>Security settings</TooltipContent>
+            </TooltipPositioner>
           </TooltipRoot>
         </div>
       </section>
