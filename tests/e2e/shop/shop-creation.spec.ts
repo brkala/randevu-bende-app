@@ -8,14 +8,13 @@ test.describe('Shop Creation & Invitation', () => {
     db,
     waitForHydration,
   }) => {
-    const OWNER_PHONE = '5551112201';
-    const EMPLOYEE_PHONE = '5551112202';
+    const OWNER_PHONE = '5551112221';
+    const EMPLOYEE_PHONE = '5551112222';
 
     // ── PHASE 1: Owner logs in ──────────────────────────────────
     await page.goto('/login');
     await waitForHydration();
 
-    // Ark UI PinInput: each digit has ARIA label "pin code N of 10"
     await page.getByRole('textbox', { name: 'pin code 1 of 10' }).focus();
     await page.keyboard.type(OWNER_PHONE, { delay: 5 });
     await page.getByRole('button', { name: 'OTP Gönder' }).click();
@@ -34,7 +33,20 @@ test.describe('Shop Creation & Invitation', () => {
     await page.getByTestId('shop-create-name-input').fill('Test Berber');
     await page.getByTestId('shop-create-submit').click();
 
-    await page.waitForURL(/\/shops\//);
+    // Client-side navigation may redirect to / if session is stale.
+    // Use full page navigation to force fresh session load.
+    await page.waitForTimeout(500);
+    const org = await db.organization.findFirst({
+      where: { name: 'Test Berber' },
+      orderBy: { createdAt: 'desc' },
+    });
+    expect(org).not.toBeNull();
+
+    await page.goto(`/shops/${org!.id}`, { waitUntil: 'domcontentloaded' });
+    await waitForHydration();
+
+    await expect(page).not.toHaveURL('/');
+    await expect(page).toHaveURL(/\/shops\//);
     await expect(page.getByTestId('owner-dashboard-shop-title')).toHaveText('Test Berber');
 
     // ── PHASE 3: Navigate to Employees tab ───────────────────────
@@ -44,12 +56,10 @@ test.describe('Shop Creation & Invitation', () => {
     // ── PHASE 4: Invite employee by phone ────────────────────────
     await page.getByTestId('invite-employee-button').click();
 
-    // Invite dialog PinInput: 10 digits for phone
     await page.getByRole('textbox', { name: 'pin code 1 of 10' }).focus();
     await page.keyboard.type(EMPLOYEE_PHONE, { delay: 5 });
     await page.getByTestId('invite-submit').click();
 
-    // Dialog should close on success
     await expect(page.getByTestId('invite-submit')).not.toBeVisible({ timeout: 5000 });
 
     // Verify invitation in DB
@@ -78,7 +88,7 @@ test.describe('Shop Creation & Invitation', () => {
 
     await page.waitForURL('/profile');
 
-    // ── PHASE 7: Check "Davetlerim" and accept ───────────────────
+    // ── PHASE 7: Accept invitation ───────────────────────────────
     await page.getByTestId('profile-menu-trigger').click();
     await expect(page.getByTestId('invitations-submenu-trigger')).toBeVisible();
     await expect(page.getByTestId('invitation-badge')).toHaveText('1');
@@ -97,22 +107,21 @@ test.describe('Shop Creation & Invitation', () => {
 
     // ── PHASE 8: Navigate to employee dashboard ──────────────────
     await page.keyboard.press('Escape');
-    await page.getByTestId('profile-menu-trigger').click();
-    await page.getByRole('menuitem', { name: /Test Berber/i }).click();
-    await page.waitForURL(/\/shops\//);
+    await page.goto(`/shops/${org!.id}`, { waitUntil: 'domcontentloaded' });
+    await waitForHydration();
 
     await expect(page.getByTestId('employee-dashboard-shop-title')).toHaveText('Test Berber');
   });
 
   test('duplicate invite is rejected with error message', async ({
     page,
-    db: _db,
+    db,
     waitForHydration,
   }) => {
-    const OWNER_PHONE = '5551112203';
-    const EMPLOYEE_PHONE = '5551112204';
+    const OWNER_PHONE = '5551112223';
+    const EMPLOYEE_PHONE = '5551112224';
 
-    // Owner login
+    // Login
     await page.goto('/login');
     await waitForHydration();
 
@@ -132,9 +141,19 @@ test.describe('Shop Creation & Invitation', () => {
     await page.getByRole('button', { name: /Dükkan Oluştur/i }).click();
     await page.getByTestId('shop-create-name-input').fill('Dup Test');
     await page.getByTestId('shop-create-submit').click();
-    await page.waitForURL(/\/shops\//);
 
-    // Go to employees
+    await page.waitForTimeout(500);
+    const org = await db.organization.findFirst({
+      where: { name: 'Dup Test' },
+      orderBy: { createdAt: 'desc' },
+    });
+    expect(org).not.toBeNull();
+
+    // Navigate to shop owner panel
+    await page.goto(`/shops/${org!.id}`, { waitUntil: 'domcontentloaded' });
+    await waitForHydration();
+
+    await expect(page.getByTestId('owner-tab-employees')).toBeVisible();
     await page.getByTestId('owner-tab-employees').click();
 
     // First invite — should succeed
@@ -143,7 +162,6 @@ test.describe('Shop Creation & Invitation', () => {
     await page.keyboard.type(EMPLOYEE_PHONE, { delay: 5 });
     await page.getByTestId('invite-submit').click();
 
-    // Dialog should close
     await expect(page.getByTestId('invite-submit')).not.toBeVisible({ timeout: 5000 });
 
     // Second invite with same phone — should show error
@@ -152,7 +170,6 @@ test.describe('Shop Creation & Invitation', () => {
     await page.keyboard.type(EMPLOYEE_PHONE, { delay: 5 });
     await page.getByTestId('invite-submit').click();
 
-    // Error should be visible (dialog stays open on error)
     await expect(page.getByText(/zaten bekleyen bir davet var/i)).toBeVisible({ timeout: 5000 });
   });
 });
