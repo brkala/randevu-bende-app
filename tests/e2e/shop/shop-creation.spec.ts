@@ -12,6 +12,7 @@ test.describe('Shop Creation & Invitation', () => {
     const EMPLOYEE_PHONE = '5551112252';
 
     const doLogin = async (phone: string) => {
+      await page.context().clearCookies();
       await page.goto('/login');
       await waitForHydration();
       await page.getByRole('textbox', { name: 'pin code 1 of 10' }).focus();
@@ -40,7 +41,6 @@ test.describe('Shop Creation & Invitation', () => {
     const orgId = org!.id;
 
     // Re-login for fresh session with membership
-    await page.goto('/login');
     await doLogin(OWNER_PHONE);
 
     // Navigate to owner panel
@@ -65,7 +65,6 @@ test.describe('Shop Creation & Invitation', () => {
     expect(invitation).not.toBeNull();
 
     // ── Employee accepts invitation ─────────────────────────
-    await page.goto('/login');
     await doLogin(EMPLOYEE_PHONE);
 
     await page.getByTestId('profile-menu-trigger').click();
@@ -83,7 +82,6 @@ test.describe('Shop Creation & Invitation', () => {
     expect(profile).not.toBeNull();
 
     // ── Employee dashboard ──────────────────────────────────
-    await page.goto('/login');
     await doLogin(EMPLOYEE_PHONE);
     await page.goto(`/shops/${orgId}`, { waitUntil: 'domcontentloaded' });
     await waitForHydration();
@@ -99,6 +97,7 @@ test.describe('Shop Creation & Invitation', () => {
     const EMPLOYEE_PHONE = '5551112254';
 
     const doLogin = async (phone: string) => {
+      await page.context().clearCookies();
       await page.goto('/login');
       await waitForHydration();
       await page.getByRole('textbox', { name: 'pin code 1 of 10' }).focus();
@@ -126,7 +125,6 @@ test.describe('Shop Creation & Invitation', () => {
     const orgId = org!.id;
 
     // Re-login for fresh session
-    await page.goto('/login');
     await doLogin(OWNER_PHONE);
 
     await page.goto(`/shops/${orgId}`, { waitUntil: 'domcontentloaded' });
