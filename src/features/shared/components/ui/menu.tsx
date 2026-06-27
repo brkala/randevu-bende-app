@@ -12,7 +12,6 @@ import {
 import { type ComponentPropsWithoutRef, type ComponentRef, forwardRef } from 'react';
 import type { VariantProps } from 'tailwind-variants';
 import { tv } from '@/features/style/utils/tv';
-import { Button } from './button';
 
 const menuStyles = tv({
   slots: {
@@ -50,11 +49,7 @@ const MenuTrigger = ({
   size,
   ...props
 }: MenuTriggerProps & Pick<MenuVariants, 'size'>) => {
-  return (
-    <ArkMenu.Trigger {...props} asChild>
-      <Button variant="ghost" size={size ?? 'md'} className={className} />
-    </ArkMenu.Trigger>
-  );
+  return <ArkMenu.Trigger className={className} {...props} />;
 };
 
 const MenuPositioner = ({ className, ...props }: MenuPositionerProps) => {
