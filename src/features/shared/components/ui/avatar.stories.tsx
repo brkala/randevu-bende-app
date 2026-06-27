@@ -11,11 +11,8 @@ export default meta;
 type Story = StoryObj<typeof AvatarField>;
 
 export const Playground: Story = {
-  args: { size: 'md', fallback: 'AB' },
-  argTypes: {
-    size: { options: ['sm', 'md', 'lg'], control: { type: 'select' } },
-  },
-  render: ({ size, fallback }) => <AvatarField size={size} fallback={fallback} />,
+  args: { fallback: 'AB' },
+  render: ({ fallback }) => <AvatarField fallback={fallback} className="w-10 h-10 text-sm" />,
 };
 
 export const Overview: Story = {
@@ -25,9 +22,9 @@ export const Overview: Story = {
       <section className="space-y-4">
         <h2 className="text-xl font-semibold border-b border-border-default pb-2">Sizes</h2>
         <div className="flex gap-4 items-end">
-          <AvatarField size="sm" fallback="S" />
-          <AvatarField size="md" fallback="MD" />
-          <AvatarField size="lg" fallback="LG" />
+          <AvatarField fallback="S" className="w-8 h-8 text-xs" />
+          <AvatarField fallback="MD" className="w-10 h-10 text-sm" />
+          <AvatarField fallback="LG" className="w-12 h-12 text-base" />
         </div>
       </section>
     </div>
