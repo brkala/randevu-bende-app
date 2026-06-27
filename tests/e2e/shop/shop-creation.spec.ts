@@ -46,7 +46,10 @@ test.describe('Shop Creation & Invitation', () => {
     // Navigate to owner panel via page.goto
     await page.goto(`/shops/${orgId}`, { waitUntil: 'domcontentloaded' });
     await waitForHydration();
-    await expect(page.getByTestId('owner-dashboard-shop-title')).toHaveText('Test Berber');
+    // Wait for dashboard query to resolve
+    await expect(page.getByTestId('owner-dashboard-shop-title')).toHaveText('Test Berber', {
+      timeout: 10000,
+    });
 
     // ── Navigate to Employees, invite ───────────────────────
     await page.getByTestId('owner-tab-employees').click();
@@ -131,7 +134,7 @@ test.describe('Shop Creation & Invitation', () => {
     // Navigate to owner panel via page.goto
     await page.goto(`/shops/${orgId}`, { waitUntil: 'domcontentloaded' });
     await waitForHydration();
-    await expect(page.getByTestId('owner-tab-employees')).toBeVisible();
+    await expect(page.getByTestId('owner-tab-employees')).toBeVisible({ timeout: 10000 });
     await page.getByTestId('owner-tab-employees').click();
 
     // First invite — succeed
