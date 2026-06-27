@@ -15,23 +15,22 @@ test.describe('Shop Creation & Invitation', () => {
     await page.goto('/login');
     await waitForHydration();
 
-    const phoneInput = page.getByTestId('auth-phone-input');
-    await phoneInput.getByRole('textbox').first().focus();
+    // Ark UI PinInput: each digit has ARIA label "pin code N of 10"
+    await page.getByRole('textbox', { name: 'pin code 1 of 10' }).focus();
     await page.keyboard.type(OWNER_PHONE, { delay: 5 });
-    await page.getByTestId('auth-submit-button').click();
+    await page.getByRole('button', { name: 'OTP Gönder' }).click();
 
-    await expect(page.getByTestId('auth-otp-input')).toBeVisible();
-    const otpInput = page.getByTestId('auth-otp-input');
-    await otpInput.getByRole('textbox').first().focus();
+    await expect(page.getByRole('textbox', { name: 'pin code 1 of 6' })).toBeVisible();
+    await page.getByRole('textbox', { name: 'pin code 1 of 6' }).focus();
     await page.keyboard.type(MAGIC, { delay: 5 });
-    await page.getByTestId('auth-submit-button').click();
+    await page.getByRole('button', { name: 'Doğrula ve Giriş Yap' }).click();
 
     await page.waitForURL('/profile');
 
     // ── PHASE 2: Create shop from profile menu ──────────────────
     await page.getByTestId('profile-menu-trigger').click();
-
     await page.getByRole('button', { name: /Dükkan Oluştur/i }).click();
+
     await page.getByTestId('shop-create-name-input').fill('Test Berber');
     await page.getByTestId('shop-create-submit').click();
 
@@ -42,15 +41,16 @@ test.describe('Shop Creation & Invitation', () => {
     await page.getByTestId('owner-tab-employees').click();
     await expect(page.getByTestId('employees-listbox')).toBeVisible();
 
-    // ── PHASE 4: Open invite dialog, enter phone ─────────────────
+    // ── PHASE 4: Invite employee by phone ────────────────────────
     await page.getByTestId('invite-employee-button').click();
 
-    const pinRoot = page.getByTestId('invite-phone-pin-input');
-    await pinRoot.getByRole('textbox').first().focus();
+    // Invite dialog PinInput: 10 digits for phone
+    await page.getByRole('textbox', { name: 'pin code 1 of 10' }).focus();
     await page.keyboard.type(EMPLOYEE_PHONE, { delay: 5 });
     await page.getByTestId('invite-submit').click();
 
-    await expect(pinRoot).not.toBeVisible({ timeout: 5000 });
+    // Dialog should close on success
+    await expect(page.getByTestId('invite-submit')).not.toBeVisible({ timeout: 5000 });
 
     // Verify invitation in DB
     const invitation = await db.shopInvitation.findFirst({
@@ -67,15 +67,14 @@ test.describe('Shop Creation & Invitation', () => {
     await page.goto('/login');
     await waitForHydration();
 
-    const phoneInput2 = page.getByTestId('auth-phone-input');
-    await phoneInput2.getByRole('textbox').first().focus();
+    await page.getByRole('textbox', { name: 'pin code 1 of 10' }).focus();
     await page.keyboard.type(EMPLOYEE_PHONE, { delay: 5 });
-    await page.getByTestId('auth-submit-button').click();
+    await page.getByRole('button', { name: 'OTP Gönder' }).click();
 
-    await expect(page.getByTestId('auth-otp-input')).toBeVisible();
-    await page.getByTestId('auth-otp-input').getByRole('textbox').first().focus();
+    await expect(page.getByRole('textbox', { name: 'pin code 1 of 6' })).toBeVisible();
+    await page.getByRole('textbox', { name: 'pin code 1 of 6' }).focus();
     await page.keyboard.type(MAGIC, { delay: 5 });
-    await page.getByTestId('auth-submit-button').click();
+    await page.getByRole('button', { name: 'Doğrula ve Giriş Yap' }).click();
 
     await page.waitForURL('/profile');
 
@@ -117,14 +116,14 @@ test.describe('Shop Creation & Invitation', () => {
     await page.goto('/login');
     await waitForHydration();
 
-    await page.getByTestId('auth-phone-input').getByRole('textbox').first().focus();
+    await page.getByRole('textbox', { name: 'pin code 1 of 10' }).focus();
     await page.keyboard.type(OWNER_PHONE, { delay: 5 });
-    await page.getByTestId('auth-submit-button').click();
+    await page.getByRole('button', { name: 'OTP Gönder' }).click();
 
-    await expect(page.getByTestId('auth-otp-input')).toBeVisible();
-    await page.getByTestId('auth-otp-input').getByRole('textbox').first().focus();
+    await expect(page.getByRole('textbox', { name: 'pin code 1 of 6' })).toBeVisible();
+    await page.getByRole('textbox', { name: 'pin code 1 of 6' }).focus();
     await page.keyboard.type(MAGIC, { delay: 5 });
-    await page.getByTestId('auth-submit-button').click();
+    await page.getByRole('button', { name: 'Doğrula ve Giriş Yap' }).click();
 
     await page.waitForURL('/profile');
 
@@ -140,16 +139,16 @@ test.describe('Shop Creation & Invitation', () => {
 
     // First invite — should succeed
     await page.getByTestId('invite-employee-button').click();
-    const pinRoot1 = page.getByTestId('invite-phone-pin-input');
-    await pinRoot1.getByRole('textbox').first().focus();
+    await page.getByRole('textbox', { name: 'pin code 1 of 10' }).focus();
     await page.keyboard.type(EMPLOYEE_PHONE, { delay: 5 });
     await page.getByTestId('invite-submit').click();
-    await expect(pinRoot1).not.toBeVisible({ timeout: 5000 });
+
+    // Dialog should close
+    await expect(page.getByTestId('invite-submit')).not.toBeVisible({ timeout: 5000 });
 
     // Second invite with same phone — should show error
     await page.getByTestId('invite-employee-button').click();
-    const pinRoot2 = page.getByTestId('invite-phone-pin-input');
-    await pinRoot2.getByRole('textbox').first().focus();
+    await page.getByRole('textbox', { name: 'pin code 1 of 10' }).focus();
     await page.keyboard.type(EMPLOYEE_PHONE, { delay: 5 });
     await page.getByTestId('invite-submit').click();
 
