@@ -43,7 +43,7 @@ test.describe('Shop Creation & Invitation', () => {
 
     // Re-login to get fresh session with the new membership
     await page.getByTestId('profile-menu-trigger').click();
-    await page.getByRole('menuitem', { name: /Çıkış Yap/i }).click();
+    await page.getByText('Çıkış Yap').click();
     await page.waitForURL('/');
     await doLogin(OWNER_PHONE);
 
@@ -71,7 +71,7 @@ test.describe('Shop Creation & Invitation', () => {
 
     // ── Employee accepts invitation ─────────────────────────
     await page.getByTestId('profile-menu-trigger').click();
-    await page.getByRole('menuitem', { name: /Çıkış Yap/i }).click();
+    await page.getByText('Çıkış Yap').click();
     await page.waitForURL('/');
     await doLogin(EMPLOYEE_PHONE);
 
@@ -93,7 +93,7 @@ test.describe('Shop Creation & Invitation', () => {
     // ── Employee dashboard ──────────────────────────────────
     await page.keyboard.press('Escape');
     await page.getByTestId('profile-menu-trigger').click();
-    await page.getByRole('menuitem', { name: /Çıkış Yap/i }).click();
+    await page.getByText('Çıkış Yap').click();
     await page.waitForURL('/');
     await doLogin(EMPLOYEE_PHONE);
 
@@ -141,7 +141,7 @@ test.describe('Shop Creation & Invitation', () => {
 
     // Re-login for fresh session
     await page.getByTestId('profile-menu-trigger').click();
-    await page.getByRole('menuitem', { name: /Çıkış Yap/i }).click();
+    await page.getByText('Çıkış Yap').click();
     await page.waitForURL('/');
     await doLogin(OWNER_PHONE);
 
