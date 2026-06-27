@@ -33,9 +33,17 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
   notFoundComponent: () => <div>Sayfa Bulunamadı (404)</div>,
 });
 
+import { Toaster } from '@ark-ui/react/toast';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
+import {
+  ToastCloseTrigger,
+  ToastDescription,
+  ToastRoot,
+  ToastTitle,
+} from '@/features/shared/components/ui/toast';
 import { LucideProvider } from '@/features/style/components/lucide-provider';
+import { toaster } from '@/features/toast/toast';
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
@@ -66,6 +74,15 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
       <body>
         <Header />
         {children}
+        <Toaster toaster={toaster}>
+          {(toast) => (
+            <ToastRoot key={toast.id}>
+              <ToastTitle>{toast.title}</ToastTitle>
+              {toast.description ? <ToastDescription>{toast.description}</ToastDescription> : null}
+              <ToastCloseTrigger />
+            </ToastRoot>
+          )}
+        </Toaster>
         <Scripts />
       </body>
     </html>

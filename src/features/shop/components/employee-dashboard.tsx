@@ -44,7 +44,7 @@ export function EmployeeDashboard({ shopId }: EmployeeDashboardProps) {
           >
             <AvatarField
               src={member.user.image ?? undefined}
-              fallback={(member.user.name ?? '??').slice(0, 2).toUpperCase()}
+              fallback={(member.user.name ?? 'Bİ').slice(0, 2).toUpperCase()}
               className="w-10 h-10 text-sm"
               variant="square"
             />

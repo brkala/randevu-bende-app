@@ -11,6 +11,7 @@ import {
 } from '@/features/shared/components/ui/listbox';
 import { removeEmployeeFn } from '@/features/shop/shop.functions';
 import { shopKeys, shopQueries } from '@/features/shop/shop.queries';
+import { toaster } from '@/features/toast/toast';
 import { InviteEmployeeDialog } from './invite-employee-dialog';
 
 interface EmployeesPageProps {
@@ -25,8 +26,16 @@ export function EmployeesPage({ shopId }: EmployeesPageProps) {
   const removeMutation = useMutation({
     mutationFn: removeEmployeeFn,
     onSuccess: () => {
+      toaster.create({ title: 'Çalışan çıkarıldı', type: 'success' });
       setSelectedUserId(null);
       queryClient.invalidateQueries({ queryKey: shopKeys.employeeList(shopId) });
+    },
+    onError: (err) => {
+      toaster.create({
+        title: 'Hata',
+        description: err instanceof Error ? err.message : 'Çalışan çıkarılamadı',
+        type: 'error',
+      });
     },
   });
 
@@ -52,9 +61,9 @@ export function EmployeesPage({ shopId }: EmployeesPageProps) {
       const profile = data.staffProfiles.find((sp) => sp.userId === m.userId);
       return {
         value: m.userId,
-        label: profile?.displayName ?? m.user.name ?? 'Bilinmeyen',
+        label: profile?.displayName ?? m.user.name ?? 'Bilinmeyen İsim',
         avatarUrl: profile?.avatarUrl ?? m.user.image ?? null,
-        initials: (profile?.displayName ?? m.user.name ?? '??').slice(0, 2).toUpperCase(),
+        initials: (profile?.displayName ?? m.user.name ?? 'Bİ').slice(0, 2).toUpperCase(),
         memberId: m.id,
         role: m.role,
       };

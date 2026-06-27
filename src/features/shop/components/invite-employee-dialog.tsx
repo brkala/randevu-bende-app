@@ -13,6 +13,7 @@ import {
 import { PinInputRoot } from '@/features/shared/components/ui/pin-input';
 import { inviteEmployeeFn } from '@/features/shop/shop.functions';
 import { shopKeys } from '@/features/shop/shop.queries';
+import { toaster } from '@/features/toast/toast';
 
 interface InviteEmployeeDialogProps {
   shopId: string;
@@ -27,13 +28,20 @@ export function InviteEmployeeDialog({ shopId }: InviteEmployeeDialogProps) {
   const mutation = useMutation({
     mutationFn: inviteEmployeeFn,
     onSuccess: () => {
+      toaster.create({
+        title: 'Davet gönderildi',
+        description: 'Çalışan daveti başarıyla gönderildi.',
+        type: 'success',
+      });
       setOpen(false);
       setPhone('');
       setError(null);
       queryClient.invalidateQueries({ queryKey: shopKeys.employeeList(shopId) });
     },
     onError: (err) => {
-      setError(err instanceof Error ? err.message : 'Davet gönderilemedi');
+      const message = err instanceof Error ? err.message : 'Davet gönderilemedi';
+      setError(message);
+      toaster.create({ title: 'Hata', description: message, type: 'error' });
     },
   });
 

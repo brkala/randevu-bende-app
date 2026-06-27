@@ -13,9 +13,9 @@ import { Button } from './button';
 
 const dialogStyles = tv({
   slots: {
-    backdrop: 'fixed inset-0 bg-black/50 z-50',
+    backdrop: 'fixed inset-0 flex items-center justify-center bg-black/50 z-50',
     content:
-      'fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-bg-default border border-border-default rounded-l3 shadow-xl z-50 p-6 w-full max-w-md outline-none',
+      'relative bg-bg-default border border-border-default rounded-l3 shadow-xl z-50 p-6 w-full max-w-md outline-none',
     title: 'text-lg font-semibold text-fg-default mb-2',
     description: 'text-sm text-fg-muted mb-4',
     closeTrigger: 'absolute top-3 right-3',

@@ -13,6 +13,7 @@ import {
 } from '@/features/shared/components/ui/dialog';
 import { Field } from '@/features/shared/components/ui/field';
 import { createShopFn } from '@/features/shop/shop.functions';
+import { toaster } from '@/features/toast/toast';
 
 export function CreateShopDialog() {
   const [open, setOpen] = useState(false);
@@ -23,6 +24,11 @@ export function CreateShopDialog() {
   const mutation = useMutation({
     mutationFn: createShopFn,
     onSuccess: (result) => {
+      toaster.create({
+        title: 'Dükkan oluşturuldu',
+        description: `${title} başarıyla oluşturuldu.`,
+        type: 'success',
+      });
       setOpen(false);
       setTitle('');
       queryClient.invalidateQueries({ queryKey: ['auth'] });
@@ -31,8 +37,12 @@ export function CreateShopDialog() {
         params: { shopId: result.organizationId },
       });
     },
-    onError: (_err) => {
-      // Error is shown via <p> below — dialog stays open
+    onError: (err) => {
+      toaster.create({
+        title: 'Hata',
+        description: err instanceof Error ? err.message : 'Dükkan oluşturulamadı',
+        type: 'error',
+      });
     },
   });
 
@@ -47,6 +57,7 @@ export function CreateShopDialog() {
       <DialogTrigger asChild>
         <button
           type="button"
+          data-testid="shop-create-trigger"
           className="flex items-center gap-2 w-full px-2 py-1.5 text-sm rounded-l1 hover:bg-bg-hover cursor-pointer"
         >
           <Store size={16} />

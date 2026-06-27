@@ -25,6 +25,7 @@ import {
 import { CreateShopDialog } from '@/features/shop/components/create-shop-dialog';
 import { acceptInvitationFn, rejectInvitationFn } from '@/features/shop/shop.functions';
 import { shopKeys, shopQueries } from '@/features/shop/shop.queries';
+import { toaster } from '@/features/toast/toast';
 
 type Session = Awaited<ReturnType<typeof auth.api.getSession>>;
 
@@ -60,14 +61,27 @@ function InvitationsMenuItem() {
   const acceptMutation = useMutation({
     mutationFn: acceptInvitationFn,
     onSuccess: () => {
+      toaster.create({
+        title: 'Davet kabul edildi',
+        description: 'Dükkana başarıyla katıldınız.',
+        type: 'success',
+      });
       queryClient.invalidateQueries({ queryKey: shopKeys.myInvitations() });
       queryClient.invalidateQueries({ queryKey: ['auth'] });
+    },
+    onError: (err) => {
+      toaster.create({
+        title: 'Hata',
+        description: err instanceof Error ? err.message : 'Davet kabul edilemedi',
+        type: 'error',
+      });
     },
   });
 
   const rejectMutation = useMutation({
     mutationFn: rejectInvitationFn,
     onSuccess: () => {
+      toaster.create({ title: 'Davet reddedildi', type: 'info' });
       queryClient.invalidateQueries({ queryKey: shopKeys.myInvitations() });
     },
   });
@@ -122,7 +136,7 @@ function InvitationsMenuItem() {
                     data-testid="invitation-accept-button"
                     onClick={() => {
                       setAcceptingId(inv.id);
-                      setDisplayName(auth?.user?.name ?? '');
+                      setDisplayName(auth?.user?.name || 'Bilinmeyen İsim');
                       setAcceptDialogOpen(true);
                     }}
                   >
@@ -214,7 +228,7 @@ export function ProfileMenu() {
   if (!user) return null;
 
   const shops = extractShops(auth);
-  const displayName = user.name || user.email?.split('@')[0] || 'Kullanıcı';
+  const displayName = user.name || 'Bilinmeyen İsim';
   const hasSingleShop = shops.length === 1;
   const hasMultipleShops = shops.length > 1;
 

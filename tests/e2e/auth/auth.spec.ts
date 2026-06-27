@@ -13,7 +13,7 @@ test.describe('Authentication Feature', () => {
       await page.getByRole('textbox', { name: 'pin code 1 of 10' }).focus();
       await page.keyboard.type(fakePhoneNumber, { delay: 5 });
 
-      await page.getByRole('button', { name: 'OTP Gönder' }).click();
+      await page.getByTestId('auth-submit-button').click();
 
       await expect(page.getByRole('textbox', { name: 'pin code 1 of 6' })).toBeVisible();
 
@@ -21,7 +21,7 @@ test.describe('Authentication Feature', () => {
       await page.getByRole('textbox', { name: 'pin code 1 of 6' }).focus();
       await page.keyboard.type('999999', { delay: 5 });
 
-      await page.getByRole('button', { name: 'Doğrula ve Giriş Yap' }).click();
+      await page.getByTestId('auth-submit-button').click();
 
       await expect(page.getByTestId('auth-error')).toBeVisible();
 
@@ -29,7 +29,7 @@ test.describe('Authentication Feature', () => {
       await page.getByRole('textbox', { name: 'pin code 1 of 6' }).focus();
       await page.keyboard.type(magicCode, { delay: 5 });
 
-      await page.getByRole('button', { name: 'Doğrula ve Giriş Yap' }).click();
+      await page.getByTestId('auth-submit-button').click();
 
       await page.waitForURL('/profile');
       await expect(page.getByTestId('profile-phone-text')).toContainText(fakePhoneNumber);

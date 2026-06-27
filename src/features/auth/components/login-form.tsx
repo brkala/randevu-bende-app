@@ -79,6 +79,7 @@ export function LoginForm() {
                 count={10}
                 size="sm"
                 disabled={step === 'otp'}
+                data-testid="auth-phone-input"
               />
             )}
           </form.AppField>
@@ -98,7 +99,14 @@ export function LoginForm() {
 
           <form.Subscribe selector={(state) => state.isSubmitting}>
             {(isSubmitting) => (
-              <Button type="submit" variant="accent" size="md" fullWidth disabled={isSubmitting}>
+              <Button
+                type="submit"
+                variant="accent"
+                size="md"
+                fullWidth
+                disabled={isSubmitting}
+                data-testid="auth-submit-button"
+              >
                 {isSubmitting
                   ? 'Yükleniyor...'
                   : step === 'phone'
