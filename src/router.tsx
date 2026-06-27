@@ -9,7 +9,6 @@ export function getRouter() {
     routeTree,
     context: {
       queryClient,
-      auth: null,
     },
     defaultPreload: 'intent',
     scrollRestoration: true,

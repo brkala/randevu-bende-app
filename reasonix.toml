@@ -1,0 +1,24 @@
+# Project-level Reasonix configuration
+# Only applies when Reasonix runs inside this project directory.
+
+[[plugins]]
+name    = "anneal_memory"
+command = "uvx"
+args    = ["anneal-memory", "--project-name", "randevu-bende-app", "--db", "./.anneal-memory/memory.db", "serve"]
+
+# Docker container erişimi — PostgreSQL
+[[plugins]]
+name    = "postgres"
+command = "npx"
+args    = ["-y", "mcp-postgres@latest"]
+env     = { DB_HOST = "localhost", DB_PORT = "5432", DB_USER = "postgres", DB_PASSWORD = "postgres", DB_NAME = "randevu_bende", DB_SSL_MODE = "disable", DB_READ_ONLY = "true" }
+
+# Docker container erişimi — Redis
+[[plugins]]
+name    = "redis"
+command = "npx"
+args    = ["-y", "@liangshanli/mcp-server-redis"]
+env     = { HOST = "localhost", PORT = "6379", ALLOW_INSERT = "true", ALLOW_UPDATE = "true", ALLOW_DELETE = "true" }
+
+[permissions]
+allow = ["mcp__postgres__connect", "explore", "Edit"]

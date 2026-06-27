@@ -8,6 +8,7 @@ import {
 } from '@ark-ui/react/field';
 import type { VariantProps } from 'tailwind-variants';
 import { tv } from '@/features/style/utils/tv';
+import { fieldInputStyles } from './field-input-styles';
 
 const fieldStyles = tv({
   slots: {
@@ -16,37 +17,17 @@ const fieldStyles = tv({
     requiredIndicator: 'text-error-default ml-0.5',
     helperText: 'text-xs text-fg-muted',
     errorText: 'text-xs text-error-default',
-    input:
-      'w-full bg-bg-default text-fg-default placeholder:text-fg-subtle border border-border-default transition-colors duration-normal ease-enter focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-accent disabled:pointer-events-none disabled:opacity-50 disabled:bg-bg-subtle disabled:text-fg-muted read-only:bg-bg-subtle read-only:text-fg-muted',
   },
   variants: {
-    size: {
-      sm: { input: 'h-8 px-2.5 text-xs rounded-l1' },
-      md: { input: 'h-control-h px-3 text-control rounded-l2' },
-      lg: { input: 'h-12 px-4 text-base rounded-l3' },
-    },
-    state: {
-      default: {},
-      error: {
-        input: 'border-error-default focus-visible:ring-error-default',
-      },
-      success: {
-        input: 'border-success-default focus-visible:ring-success-default',
-      },
-    },
     required: {
       true: {
         label: "after:content-['*'] after:ml-0.5 after:text-error-default",
       },
     },
   },
-  defaultVariants: {
-    size: 'md',
-    state: 'default',
-  },
 });
 
-type FieldVariants = VariantProps<typeof fieldStyles>;
+type FieldVariants = VariantProps<typeof fieldInputStyles>;
 
 // ─── Root ──────────────────────────────────────────────────
 
@@ -90,6 +71,5 @@ export interface FieldInputProps
     Pick<FieldVariants, 'size' | 'state'> {}
 
 export const FieldInput = ({ className, size, state, ...props }: FieldInputProps) => {
-  const { input } = fieldStyles({ size, state });
-  return <ArkField.Input className={input({ className })} {...props} />;
+  return <ArkField.Input className={fieldInputStyles({ size, state, className })} {...props} />;
 };

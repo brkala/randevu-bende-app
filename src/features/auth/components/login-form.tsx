@@ -1,104 +1,107 @@
 import { useRouter } from '@tanstack/react-router';
 import { useState } from 'react';
-import { authClient } from '@/features/auth/auth.client';
+import { useKeyRef } from 'rooks';
+import { loginSchema } from '@/features/auth/auth.schemas';
+import { authClient } from '@/features/auth/auth-client';
+import { useAppForm } from '@/features/form/form';
+import { Button } from '@/features/shared/components/ui/button';
 
 export function LoginForm() {
   const router = useRouter();
   const [step, setStep] = useState<'phone' | 'otp'>('phone');
-  const [phoneNumber, setPhoneNumber] = useState('');
-  const [code, setCode] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [globalError, setGlobalError] = useState<string | null>(null);
 
-  const handleSendOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await authClient.phoneNumber.sendOtp({
-        phoneNumber,
-      });
-      if (res?.error) {
-        setError(res.error.message || 'Bir hata oluştu');
-      } else {
-        setStep('otp');
-      }
-    } catch (_err) {
-      setError('Bir hata oluştu');
-    } finally {
-      setLoading(false);
-    }
-  };
+  const form = useAppForm({
+    defaultValues: {
+      phoneNumber: '',
+      code: '',
+    },
+    validators: {
+      onBlur: loginSchema,
+    },
+    onSubmit: async ({ value }) => {
+      setGlobalError(null);
 
-  const handleVerifyOtp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await authClient.phoneNumber.verify({
-        phoneNumber,
-        code,
-      });
-      if (res?.error) {
-        setError(res.error.message || 'Bir hata oluştu');
+      if (step === 'phone') {
+        const res = await authClient.phoneNumber.sendOtp({
+          phoneNumber: value.phoneNumber,
+        });
+        if (res?.error) {
+          setGlobalError(res.error.message || 'Bir hata oluştu');
+        } else {
+          setStep('otp');
+        }
       } else {
-        router.navigate({ to: '/profile' });
+        const res = await authClient.phoneNumber.verify({
+          phoneNumber: value.phoneNumber,
+          code: value.code,
+        });
+        if (res?.error) {
+          setGlobalError(res.error.message || 'Bir hata oluştu');
+        } else {
+          router.navigate({ to: '/profile' });
+        }
       }
-    } catch (_err) {
-      setError('Bir hata oluştu');
-    } finally {
-      setLoading(false);
-    }
-  };
+    },
+  });
+
+  const submitRef = useKeyRef('Enter', (e) => {
+    e.preventDefault();
+    form.handleSubmit();
+  });
 
   return (
-    <div>
-      <h2>Giriş Yap / Kayıt Ol</h2>
-      {!!error && (
-        <div style={{ color: 'red' }} data-testid="auth-error">
-          {error}
+    <div className="max-w-sm mx-auto mt-12">
+      <h1 className="text-2xl font-bold mb-6 text-center">Giriş Yap / Kayıt Ol</h1>
+
+      {globalError ? (
+        <div
+          className="mb-4 p-3 rounded-lg bg-error-subtle text-error-default text-sm text-center"
+          data-testid="auth-error"
+        >
+          {globalError}
         </div>
-      )}
+      ) : null}
 
-      {step === 'phone' && (
-        <form onSubmit={handleSendOtp}>
-          <div>
-            <label htmlFor="phone">Telefon Numarası:</label>
-            <input
-              id="phone"
-              type="text"
-              value={phoneNumber}
-              onChange={(e) => setPhoneNumber(e.target.value)}
-              placeholder="Örn: 5551234567"
-              required
-              data-testid="auth-phone-input"
-            />
-          </div>
-          <button type="submit" disabled={loading} data-testid="auth-send-otp-button">
-            {loading ? 'Gönderiliyor...' : 'OTP Gönder'}
-          </button>
-        </form>
-      )}
+      <form.AppForm>
+        <form
+          ref={submitRef}
+          onSubmit={(e) => {
+            e.preventDefault();
+            form.handleSubmit();
+          }}
+          className="space-y-4"
+        >
+          <form.AppField name="phoneNumber">
+            {(field) => (
+              <field.PinInputField
+                label="Telefon Numarası"
+                count={10}
+                size="sm"
+                disabled={step === 'otp'}
+              />
+            )}
+          </form.AppField>
 
-      {step === 'otp' && (
-        <form onSubmit={handleVerifyOtp}>
-          <div>
-            <label htmlFor="code">Onay Kodu (OTP):</label>
-            <input
-              id="code"
-              type="text"
-              value={code}
-              onChange={(e) => setCode(e.target.value)}
-              placeholder="111222"
-              required
-              data-testid="auth-otp-input"
-            />
-          </div>
-          <button type="submit" disabled={loading} data-testid="auth-verify-otp-button">
-            {loading ? 'Doğrulanıyor...' : 'Doğrula ve Giriş Yap'}
-          </button>
+          {step === 'otp' ? (
+            <form.AppField name="code">
+              {(field) => <field.PinInputField label="Onay Kodu (OTP)" count={6} autoFocus />}
+            </form.AppField>
+          ) : null}
+
+          <form.Subscribe selector={(state) => state.isSubmitting}>
+            {(isSubmitting) => (
+              <Button type="submit" variant="accent" size="md" fullWidth disabled={isSubmitting}>
+                {isSubmitting
+                  ? 'Yükleniyor...'
+                  : step === 'phone'
+                    ? 'OTP Gönder'
+                    : 'Doğrula ve Giriş Yap'}
+              </Button>
+            )}
+          </form.Subscribe>
         </form>
-      )}
+      </form.AppForm>
     </div>
   );
 }

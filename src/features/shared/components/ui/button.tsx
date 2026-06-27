@@ -1,10 +1,8 @@
 import { ark, type HTMLArkProps } from '@ark-ui/react/factory';
 import type { VariantProps } from 'tailwind-variants';
-import { baseVariants } from '@/features/style/constants/base-variants';
 import { tv } from '@/features/style/utils/tv';
 
 const buttonVariants = tv({
-  extend: baseVariants,
   base: 'inline-flex items-center justify-center gap-2 leading-none font-control transition-colors duration-normal ease-enter focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-border-accent disabled:pointer-events-none disabled:opacity-50 cursor-pointer',
   variants: {
     variant: {

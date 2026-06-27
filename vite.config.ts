@@ -29,12 +29,11 @@ export default defineConfig(({ mode }) => {
     plugins: [
       tailwindcss(),
       !isStorybook && tanstackStart(),
-      isStorybook && viteReact(),
-      isStorybook &&
-        babel({
-          include: /\.(js|jsx|ts|tsx)$/,
-          presets: [reactCompilerPreset()],
-        }),
+      viteReact(),
+      babel({
+        include: /\.(js|jsx|ts|tsx)$/,
+        presets: [reactCompilerPreset()],
+      }),
     ].filter(Boolean),
   };
 });

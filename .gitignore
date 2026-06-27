@@ -41,3 +41,9 @@ __unconfig*
 storybook-static
 .playwright-mcp
 
+# ai
+/.reasonix/*
+!/.reasonix/skills/
+!/.reasonix/skills/**
+.codegraph
+/.anneal-memory/

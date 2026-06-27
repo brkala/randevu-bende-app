@@ -2,6 +2,10 @@ import { config } from 'dotenv';
 
 export function loadEnv() {
   // biome-ignore lint/style/noProcessEnv: This is the entry point for environment loading
+  if (typeof import.meta?.env !== 'undefined' || process.env.VITE === 'true') {
+    return;
+  }
+  // biome-ignore lint/style/noProcessEnv: This is the entry point for environment loading
   const envFile = process.env.NODE_ENV === 'test' ? '.env.test' : '.env';
   config({ path: envFile, override: true, quiet: true });
 }

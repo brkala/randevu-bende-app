@@ -1,6 +1,6 @@
-import '../../shared/lib/env-loader.server';
 import { defineConfig } from 'prisma/config';
 import { serverEnv } from '../../shared/lib/server-env.server';
+import '../../shared/lib/env-loader.server';
 
 // biome-ignore lint/style/noDefaultExport: Prisma config requires a default export
 export default defineConfig({
