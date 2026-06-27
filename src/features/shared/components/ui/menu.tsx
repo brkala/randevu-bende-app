@@ -21,7 +21,7 @@ const menuStyles = tv({
     item: 'flex items-center gap-2 px-3 py-2 text-sm text-fg-default cursor-pointer transition-colors duration-normal ease-enter outline-none hover:bg-bg-hover focus:bg-bg-hover data-disabled:opacity-50 data-disabled:pointer-events-none',
     itemGroup: '',
     itemGroupLabel: 'px-3 py-1.5 text-xs text-fg-muted font-medium',
-    separator: 'h-px bg-border-default my-1 mx-3',
+    separator: 'h-px bg-border-muted my-1 mx-3',
     triggerItem:
       'flex items-center gap-2 px-3 py-2 text-sm text-fg-default cursor-pointer transition-colors duration-normal ease-enter outline-none hover:bg-bg-hover focus:bg-bg-hover data-disabled:opacity-50 data-disabled:pointer-events-none justify-between',
   },

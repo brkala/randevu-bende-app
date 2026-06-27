@@ -21,14 +21,14 @@ const RadioGroupRoot = ({ className, ...props }: RadioGroupRootProps) => {
   return <ArkRadioGroup.Root className={root({ className })} {...props} />;
 };
 
-const RadioGroupItem = ({ className, ...props }: RadioGroupItemProps) => {
+const RadioGroupItem = ({ className, children, ...props }: RadioGroupItemProps) => {
   const { item, control, indicator, text } = radioStyles();
   return (
     <ArkRadioGroup.Item className={item({ className })} {...props}>
       <ArkRadioGroup.ItemControl className={control()}>
         <ArkRadioGroup.Indicator className={indicator()} />
       </ArkRadioGroup.ItemControl>
-      <ArkRadioGroup.ItemText className={text()} />
+      <ArkRadioGroup.ItemText className={text()}>{children}</ArkRadioGroup.ItemText>
     </ArkRadioGroup.Item>
   );
 };

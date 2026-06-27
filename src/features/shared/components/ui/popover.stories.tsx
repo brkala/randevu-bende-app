@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/tanstack-react';
 import { Button } from './button';
 import { FieldInput, FieldLabel, FieldRoot } from './field';
-import { PopoverContent, PopoverRoot, PopoverTrigger } from './popover';
+import { PopoverContent, PopoverPositioner, PopoverRoot, PopoverTrigger } from './popover';
 
 const meta = {
   title: 'UI/Popover',
@@ -17,12 +17,14 @@ export const Playground: StoryObj = {
         <PopoverTrigger asChild>
           <Button variant="default">Open Popover</Button>
         </PopoverTrigger>
-        <PopoverContent>
-          <div className="space-y-3 min-w-[240px]">
-            <h3 className="text-sm font-semibold text-fg-default">Profile</h3>
-            <p className="text-xs text-fg-muted">This is a popover. Click outside to close.</p>
-          </div>
-        </PopoverContent>
+        <PopoverPositioner>
+          <PopoverContent>
+            <div className="space-y-3 min-w-[240px]">
+              <h3 className="text-sm font-semibold text-fg-default">Profile</h3>
+              <p className="text-xs text-fg-muted">This is a popover. Click outside to close.</p>
+            </div>
+          </PopoverContent>
+        </PopoverPositioner>
       </PopoverRoot>
     </div>
   ),
@@ -45,9 +47,11 @@ export const Overview: StoryObj = {
                 Info
               </Button>
             </PopoverTrigger>
-            <PopoverContent>
-              <p className="text-sm text-fg-default">Simple informational popover.</p>
-            </PopoverContent>
+            <PopoverPositioner>
+              <PopoverContent>
+                <p className="text-sm text-fg-default">Simple informational popover.</p>
+              </PopoverContent>
+            </PopoverPositioner>
           </PopoverRoot>
         </div>
       </section>
@@ -60,23 +64,25 @@ export const Overview: StoryObj = {
               Edit Name
             </Button>
           </PopoverTrigger>
-          <PopoverContent>
-            <div className="space-y-3 min-w-[220px]">
-              <h3 className="text-sm font-semibold text-fg-default">Edit Name</h3>
-              <FieldRoot>
-                <FieldLabel>Name</FieldLabel>
-                <FieldInput placeholder="Enter your name" size="sm" />
-              </FieldRoot>
-              <div className="flex gap-2 justify-end">
-                <Button variant="default" size="sm">
-                  Cancel
-                </Button>
-                <Button variant="accent" size="sm">
-                  Save
-                </Button>
+          <PopoverPositioner>
+            <PopoverContent>
+              <div className="space-y-3 min-w-[220px]">
+                <h3 className="text-sm font-semibold text-fg-default">Edit Name</h3>
+                <FieldRoot>
+                  <FieldLabel>Name</FieldLabel>
+                  <FieldInput placeholder="Enter your name" size="sm" />
+                </FieldRoot>
+                <div className="flex gap-2 justify-end">
+                  <Button variant="default" size="sm">
+                    Cancel
+                  </Button>
+                  <Button variant="accent" size="sm">
+                    Save
+                  </Button>
+                </div>
               </div>
-            </div>
-          </PopoverContent>
+            </PopoverContent>
+          </PopoverPositioner>
         </PopoverRoot>
       </section>
     </div>
