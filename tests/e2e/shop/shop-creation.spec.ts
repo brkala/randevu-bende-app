@@ -78,6 +78,9 @@ test.describe('Shop Creation & Invitation', () => {
     await page.getByTestId('accept-display-name-input').fill('Ali Usta');
     await page.getByTestId('accept-submit').click();
 
+    // Wait for mutation to complete
+    await page.waitForTimeout(1000);
+
     const profile = await db.staffProfile.findFirst({
       where: { displayName: 'Ali Usta' },
     });
@@ -147,7 +150,8 @@ test.describe('Shop Creation & Invitation', () => {
     // Second invite — error
     await page.getByTestId('invite-employee-button').click();
     await page.getByRole('textbox', { name: 'pin code 1 of 10' }).focus();
-    await page.keyboard.type(EMPLOYEE_PHONE, { delay: 5 });
+    await page.keyboard.type(EMPLOYEE_PHONE, { delay: 15 });
+    await page.waitForTimeout(300);
     await page.getByTestId('invite-submit').click();
     await expect(page.getByText(/zaten bekleyen bir davet var/i)).toBeVisible({ timeout: 5000 });
   });
