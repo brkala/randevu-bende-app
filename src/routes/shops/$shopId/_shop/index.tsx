@@ -1,4 +1,5 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
+import { match } from 'ts-pattern';
 
 export const Route = createFileRoute('/shops/$shopId/_shop/')({
   beforeLoad: ({ context, params }) => {
@@ -6,12 +7,10 @@ export const Route = createFileRoute('/shops/$shopId/_shop/')({
     const { shopRole: role } = ctx;
     const { shopId } = params;
 
-    const rolePath =
-      role === 'owner'
-        ? '/shops/$shopId/owner'
-        : role === 'manager'
-          ? '/shops/$shopId/manager'
-          : '/shops/$shopId/employee';
+    const rolePath = match(role)
+      .with('owner', () => '/shops/$shopId/owner')
+      .with('manager', () => '/shops/$shopId/manager')
+      .otherwise(() => '/shops/$shopId/employee');
 
     throw redirect({ to: rolePath, params: { shopId } });
   },

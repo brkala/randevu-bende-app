@@ -78,6 +78,8 @@ Uçtan uca (E2E) testler ve UI testleri Playwright ile yazılır.
 Sadece saf iş zekası testleri (pure functions) için hızlı birim test motoru olarak kullanılır.
 ## tailwind-variants
 Çok parçalı bileşenler ve responsive varyant yönetimi için kullanılır.
+## ts-pattern
+TypeScript'te exhaustive pattern matching için kullanılır. Ternary zincirleri ve switch-case yapılarının yerine tip-güvenli `match()` alternatifi sunar.
 ## constate
 Küçük kapsamlı state yönetimi (React Context sarmalayıcısı) için kullanılır.
 ## date-fns

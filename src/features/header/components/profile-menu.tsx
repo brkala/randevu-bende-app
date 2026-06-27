@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useRouteContext, useRouter } from '@tanstack/react-router';
 import { ChevronRight, LogOut, Mail, Settings, Store, User } from 'lucide-react';
 import { useState } from 'react';
-import type { auth } from '@/features/auth/auth.server';
+import type { Session } from '@/features/auth/auth.functions';
 import { signOut } from '@/features/auth/auth-client';
 import { Button } from '@/features/shared/components/ui/button';
 import {
@@ -27,31 +27,12 @@ import { CreateShopDialog } from '@/features/shop/components/create-shop-dialog'
 import { acceptInvitationFn, rejectInvitationFn } from '@/features/shop/shop.functions';
 import { shopKeys, shopQueries } from '@/features/shop/shop.queries';
 
-type Session = Awaited<ReturnType<typeof auth.api.getSession>>;
-
 interface ShopInfo {
   id: string;
   name: string;
   slug: string;
   role: 'owner' | 'employee' | 'manager';
 }
-
-interface OrgInfo {
-  id: string;
-  name?: string | null;
-  slug?: string | null;
-}
-
-interface MembershipInfo {
-  organizationId: string;
-  role: string;
-  organization?: { slug?: string | null };
-}
-
-type SessionWithOrgs = Session & {
-  memberships?: MembershipInfo[];
-  organizations?: OrgInfo[];
-};
 
 function InvitationsMenuItem() {
   const { auth } = useRouteContext({ from: '__root__' });
@@ -95,7 +76,9 @@ function InvitationsMenuItem() {
 
   const handleAccept = () => {
     if (!acceptingId || !displayName.trim()) return;
-    acceptMutation.mutate({ data: { invitationId: acceptingId, displayName: displayName.trim() } });
+    acceptMutation.mutate({
+      data: { invitationId: acceptingId, displayName: displayName.trim() },
+    });
   };
 
   return (
@@ -203,13 +186,8 @@ function InvitationsMenuItem() {
 
 function extractShops(session: Session | null): ShopInfo[] {
   if (!session) return [];
-
-  const sess = session as SessionWithOrgs;
-  const memberships: MembershipInfo[] = sess.memberships ?? [];
-  const organizations: OrgInfo[] = sess.organizations ?? [];
-
-  return organizations.map((org: OrgInfo) => {
-    const membership = memberships.find((m: MembershipInfo) => m.organizationId === org.id);
+  return session.organizations.map((org) => {
+    const membership = session.memberships.find((m) => m.organizationId === org.id);
     return {
       id: org.id,
       name: org.name ?? 'Dükkan',

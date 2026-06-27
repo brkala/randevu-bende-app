@@ -3,12 +3,10 @@ import type { CreateShopInput } from './shop.schemas';
 
 // --- Shop CRUD ---
 
-export async function createShopRecord(organizationId: string, input: CreateShopInput) {
-  return prisma.shop.create({
-    data: {
-      organizationId,
-      title: input.title,
-    },
+export async function createShopRecord(organizationId: string, input: CreateShopInput, tx?: any) {
+  const client = (tx ?? prisma) as typeof prisma;
+  return client.shop.create({
+    data: { organizationId, title: input.title },
   });
 }
 
@@ -29,11 +27,11 @@ interface CreateInvitationParams {
   invitedById: string;
 }
 
-export async function createInvitationRecord(params: CreateInvitationParams) {
+export async function createInvitationRecord(params: CreateInvitationParams, tx?: any) {
+  const client = (tx ?? prisma) as typeof prisma;
   const expiresAt = new Date();
   expiresAt.setDate(expiresAt.getDate() + 7);
-
-  return prisma.shopInvitation.create({
+  return client.shopInvitation.create({
     data: {
       shopId: params.shopId,
       organizationId: params.organizationId,
@@ -46,15 +44,7 @@ export async function createInvitationRecord(params: CreateInvitationParams) {
 }
 
 export async function findPendingInvitation(shopId: string, phone: string) {
-  return prisma.shopInvitation.findFirst({
-    where: { shopId, phone, status: 'pending' },
-  });
-}
-
-export async function findAcceptedInvitation(shopId: string, phone: string) {
-  return prisma.shopInvitation.findFirst({
-    where: { shopId, phone, status: 'accepted' },
-  });
+  return prisma.shopInvitation.findFirst({ where: { shopId, phone, status: 'pending' } });
 }
 
 export async function getInvitationById(invitationId: string) {
@@ -66,11 +56,7 @@ export async function getInvitationById(invitationId: string) {
 
 export async function getInvitationsByPhone(phone: string) {
   return prisma.shopInvitation.findMany({
-    where: {
-      phone,
-      status: 'pending',
-      expiresAt: { gt: new Date() },
-    },
+    where: { phone, status: 'pending', expiresAt: { gt: new Date() } },
     include: {
       shop: { select: { title: true } },
       invitedBy: { select: { name: true } },
@@ -79,9 +65,10 @@ export async function getInvitationsByPhone(phone: string) {
   });
 }
 
-export async function markInvitationAccepted(invitationId: string, displayName: string) {
-  return prisma.shopInvitation.update({
-    where: { id: invitationId },
+export async function markInvitationAccepted(invitationId: string, displayName: string, tx?: any) {
+  const client = (tx ?? prisma) as typeof prisma;
+  return client.shopInvitation.updateMany({
+    where: { id: invitationId, status: 'pending' },
     data: { status: 'accepted', displayName },
   });
 }
@@ -96,9 +83,7 @@ export async function markInvitationRejected(invitationId: string) {
 // --- Membership Checks ---
 
 export async function findUserMembership(organizationId: string, userId: string) {
-  return prisma.member.findFirst({
-    where: { organizationId, userId },
-  });
+  return prisma.member.findFirst({ where: { organizationId, userId } });
 }
 
 export async function findUserByPhone(phone: string) {
@@ -107,8 +92,14 @@ export async function findUserByPhone(phone: string) {
 
 // --- Staff Profile ---
 
-export async function createStaffProfile(userId: string, shopId: string, displayName: string) {
-  return prisma.staffProfile.create({
+export async function createStaffProfile(
+  userId: string,
+  shopId: string,
+  displayName: string,
+  tx?: any,
+) {
+  const client = (tx ?? prisma) as typeof prisma;
+  return client.staffProfile.create({
     data: { userId, shopId, displayName },
   });
 }
