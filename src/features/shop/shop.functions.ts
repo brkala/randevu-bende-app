@@ -78,7 +78,7 @@ export const inviteEmployeeFn = createServerFn({ method: 'POST' })
       throw new Error('Bu işlem için yetkiniz yok');
     }
 
-    const existingPending = await findPendingInvitation(data.shopId, data.phone);
+    const existingPending = await findPendingInvitation(shop.id, data.phone);
     if (existingPending) throw new Error('Bu numara için zaten bekleyen bir davet var');
 
     const existingUser = await findUserByPhone(data.phone);
@@ -86,12 +86,12 @@ export const inviteEmployeeFn = createServerFn({ method: 'POST' })
       const existingMember = await findUserMembership(shop.organizationId, existingUser.id);
       if (existingMember) throw new Error('Bu kullanıcı zaten bu dükkanın üyesi');
 
-      const acceptedInvite = await findAcceptedInvitation(data.shopId, data.phone);
+      const acceptedInvite = await findAcceptedInvitation(shop.id, data.phone);
       if (acceptedInvite) throw new Error('Bu kullanıcı zaten bu dükkanın üyesi');
     }
 
     const invitation = await createInvitationRecord({
-      shopId: data.shopId,
+      shopId: shop.id,
       organizationId: shop.organizationId,
       phone: data.phone,
       invitedById: session.user.id,
