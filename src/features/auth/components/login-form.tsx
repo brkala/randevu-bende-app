@@ -85,7 +85,14 @@ export function LoginForm() {
 
           {step === 'otp' ? (
             <form.AppField name="code">
-              {(field) => <field.PinInputField label="Onay Kodu (OTP)" count={6} autoFocus />}
+              {(field) => (
+                <field.PinInputField
+                  label="Onay Kodu (OTP)"
+                  count={6}
+                  data-testid="auth-otp-input"
+                  autoFocus
+                />
+              )}
             </form.AppField>
           ) : null}
 

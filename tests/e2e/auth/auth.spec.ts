@@ -9,18 +9,29 @@ test.describe('Authentication Feature', () => {
       await page.goto('/login');
       await waitForHydration();
 
-      await page.getByTestId('auth-phone-input').fill(fakePhoneNumber);
-      await page.getByTestId('auth-send-otp-button').click();
+      // Fill phone via PinInput (10 individual inputs — focus first and type)
+      const phoneInput = page.getByTestId('auth-phone-input');
+      await phoneInput.getByRole('textbox').first().focus();
+      await page.keyboard.type(fakePhoneNumber, { delay: 5 });
+
+      await page.getByTestId('auth-submit-button').click();
 
       await expect(page.getByTestId('auth-otp-input')).toBeVisible();
 
-      await page.getByTestId('auth-otp-input').fill('999999');
-      await page.getByTestId('auth-verify-otp-button').click();
+      // Fill wrong OTP
+      const otpInput = page.getByTestId('auth-otp-input');
+      await otpInput.getByRole('textbox').first().focus();
+      await page.keyboard.type('999999', { delay: 5 });
+
+      await page.getByTestId('auth-submit-button').click();
 
       await expect(page.getByTestId('auth-error')).toBeVisible();
 
-      await page.getByTestId('auth-otp-input').fill(magicCode);
-      await page.getByTestId('auth-verify-otp-button').click();
+      // Fill correct OTP
+      await page.getByTestId('auth-otp-input').getByRole('textbox').first().focus();
+      await page.keyboard.type(magicCode, { delay: 5 });
+
+      await page.getByTestId('auth-submit-button').click();
 
       await page.waitForURL('/profile');
       await expect(page.getByTestId('profile-phone-text')).toContainText(fakePhoneNumber);

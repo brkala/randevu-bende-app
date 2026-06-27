@@ -15,46 +15,44 @@ test.describe('Shop Creation & Invitation', () => {
     await page.goto('/login');
     await waitForHydration();
 
-    await page.getByTestId('auth-phone-input').fill(OWNER_PHONE);
-    await page.getByTestId('auth-send-otp-button').click();
-    await expect(page.getByTestId('auth-otp-input')).toBeVisible();
+    const phoneInput = page.getByTestId('auth-phone-input');
+    await phoneInput.getByRole('textbox').first().focus();
+    await page.keyboard.type(OWNER_PHONE, { delay: 5 });
+    await page.getByTestId('auth-submit-button').click();
 
-    await page.getByTestId('auth-otp-input').fill(MAGIC);
-    await page.getByTestId('auth-verify-otp-button').click();
+    await expect(page.getByTestId('auth-otp-input')).toBeVisible();
+    const otpInput = page.getByTestId('auth-otp-input');
+    await otpInput.getByRole('textbox').first().focus();
+    await page.keyboard.type(MAGIC, { delay: 5 });
+    await page.getByTestId('auth-submit-button').click();
+
     await page.waitForURL('/profile');
 
     // ── PHASE 2: Create shop from profile menu ──────────────────
     await page.getByTestId('profile-menu-trigger').click();
 
-    // Click "Dükkan Oluştur" — the CreateShopDialog trigger is inside a MenuItem
     await page.getByRole('button', { name: /Dükkan Oluştur/i }).click();
-
     await page.getByTestId('shop-create-name-input').fill('Test Berber');
     await page.getByTestId('shop-create-submit').click();
 
-    // Should land on the owner panel
     await page.waitForURL(/\/shops\//);
     await expect(page.getByTestId('owner-dashboard-shop-title')).toHaveText('Test Berber');
 
     // ── PHASE 3: Navigate to Employees tab ───────────────────────
     await page.getByTestId('owner-tab-employees').click();
-
     await expect(page.getByTestId('employees-listbox')).toBeVisible();
 
     // ── PHASE 4: Open invite dialog, enter phone ─────────────────
     await page.getByTestId('invite-employee-button').click();
 
-    // PinInput has 10 individual inputs; keyboard.type fills them sequentially
     const pinRoot = page.getByTestId('invite-phone-pin-input');
     await pinRoot.getByRole('textbox').first().focus();
-    await page.keyboard.type(EMPLOYEE_PHONE, { delay: 10 });
-
+    await page.keyboard.type(EMPLOYEE_PHONE, { delay: 5 });
     await page.getByTestId('invite-submit').click();
 
-    // Dialog should close on success
     await expect(pinRoot).not.toBeVisible({ timeout: 5000 });
 
-    // Verify invitation record in DB
+    // Verify invitation in DB
     const invitation = await db.shopInvitation.findFirst({
       where: { phone: EMPLOYEE_PHONE, status: 'pending' },
     });
@@ -69,11 +67,16 @@ test.describe('Shop Creation & Invitation', () => {
     await page.goto('/login');
     await waitForHydration();
 
-    await page.getByTestId('auth-phone-input').fill(EMPLOYEE_PHONE);
-    await page.getByTestId('auth-send-otp-button').click();
+    const phoneInput2 = page.getByTestId('auth-phone-input');
+    await phoneInput2.getByRole('textbox').first().focus();
+    await page.keyboard.type(EMPLOYEE_PHONE, { delay: 5 });
+    await page.getByTestId('auth-submit-button').click();
+
     await expect(page.getByTestId('auth-otp-input')).toBeVisible();
-    await page.getByTestId('auth-otp-input').fill(MAGIC);
-    await page.getByTestId('auth-verify-otp-button').click();
+    await page.getByTestId('auth-otp-input').getByRole('textbox').first().focus();
+    await page.keyboard.type(MAGIC, { delay: 5 });
+    await page.getByTestId('auth-submit-button').click();
+
     await page.waitForURL('/profile');
 
     // ── PHASE 7: Check "Davetlerim" and accept ───────────────────
@@ -81,26 +84,21 @@ test.describe('Shop Creation & Invitation', () => {
     await expect(page.getByTestId('invitations-submenu-trigger')).toBeVisible();
     await expect(page.getByTestId('invitation-badge')).toHaveText('1');
 
-    // Hover to open submenu
     await page.getByTestId('invitations-submenu-trigger').hover();
     await page.getByTestId('invitation-accept-button').click();
 
-    // Accept dialog
     await page.getByTestId('accept-display-name-input').fill('Ali Usta');
     await page.getByTestId('accept-submit').click();
 
-    // Verify StaffProfile created in DB
+    // Verify StaffProfile in DB
     const profile = await db.staffProfile.findFirst({
       where: { displayName: 'Ali Usta' },
     });
     expect(profile).not.toBeNull();
 
     // ── PHASE 8: Navigate to employee dashboard ──────────────────
-    // Close menu first
     await page.keyboard.press('Escape');
     await page.getByTestId('profile-menu-trigger').click();
-
-    // Shop menu item should be visible now
     await page.getByRole('menuitem', { name: /Test Berber/i }).click();
     await page.waitForURL(/\/shops\//);
 
@@ -118,10 +116,16 @@ test.describe('Shop Creation & Invitation', () => {
     // Owner login
     await page.goto('/login');
     await waitForHydration();
-    await page.getByTestId('auth-phone-input').fill(OWNER_PHONE);
-    await page.getByTestId('auth-send-otp-button').click();
-    await page.getByTestId('auth-otp-input').fill(MAGIC);
-    await page.getByTestId('auth-verify-otp-button').click();
+
+    await page.getByTestId('auth-phone-input').getByRole('textbox').first().focus();
+    await page.keyboard.type(OWNER_PHONE, { delay: 5 });
+    await page.getByTestId('auth-submit-button').click();
+
+    await expect(page.getByTestId('auth-otp-input')).toBeVisible();
+    await page.getByTestId('auth-otp-input').getByRole('textbox').first().focus();
+    await page.keyboard.type(MAGIC, { delay: 5 });
+    await page.getByTestId('auth-submit-button').click();
+
     await page.waitForURL('/profile');
 
     // Create shop
@@ -149,7 +153,7 @@ test.describe('Shop Creation & Invitation', () => {
     await page.keyboard.type(EMPLOYEE_PHONE, { delay: 5 });
     await page.getByTestId('invite-submit').click();
 
-    // Error should be visible (PinInput doesn't close on error)
+    // Error should be visible (dialog stays open on error)
     await expect(page.getByText(/zaten bekleyen bir davet var/i)).toBeVisible({ timeout: 5000 });
   });
 });

@@ -21,4 +21,4 @@ args    = ["-y", "@liangshanli/mcp-server-redis"]
 env     = { HOST = "localhost", PORT = "6379", ALLOW_INSERT = "true", ALLOW_UPDATE = "true", ALLOW_DELETE = "true" }
 
 [permissions]
-allow = ["mcp__postgres__connect", "explore", "Edit"]
+allow = ["mcp__postgres__connect", "explore", "Edit", "task", "Bash(cd \"C:\\Users\\Burak\\Desktop\\NF3\\hazeleyesoftware\\randevu-bende-app\" && grep -i \"ark-ui\\|listbox\\|ark\" package.json | head -20)"]
