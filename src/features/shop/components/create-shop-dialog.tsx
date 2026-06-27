@@ -31,6 +31,9 @@ export function CreateShopDialog() {
         params: { shopId: result.organizationId },
       });
     },
+    onError: (err) => {
+      // Error is shown via <p> below — dialog stays open
+    },
   });
 
   const handleSubmit = (e: React.FormEvent) => {

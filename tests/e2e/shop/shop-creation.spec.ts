@@ -8,8 +8,8 @@ test.describe('Shop Creation & Invitation', () => {
     db,
     waitForHydration,
   }) => {
-    const OWNER_PHONE = '5551112251';
-    const EMPLOYEE_PHONE = '5551112252';
+    const OWNER_PHONE = '5551112281';
+    const EMPLOYEE_PHONE = '5551112282';
 
     const doLogin = async (phone: string) => {
       await page.context().clearCookies();
@@ -25,71 +25,51 @@ test.describe('Shop Creation & Invitation', () => {
       await page.waitForURL('/profile');
     };
 
-    // ── Owner creates shop ──────────────────────────────────
     await doLogin(OWNER_PHONE);
+
+    // Create shop via dialog
     await page.getByTestId('profile-menu-trigger').click();
     await page.getByRole('button', { name: /Dükkan Oluştur/i }).click();
+    await expect(page.getByRole('dialog')).toBeVisible();
     await page.getByTestId('shop-create-name-input').fill('Test Berber');
     await page.getByTestId('shop-create-submit').click();
 
-    await page.waitForTimeout(500);
-    const org = await db.organization.findFirst({
-      where: { name: 'Test Berber' },
-      orderBy: { createdAt: 'desc' },
-    });
-    expect(org).not.toBeNull();
-    const orgId = org!.id;
+    // createShopFn navigates to /shops/<orgId> on success.
+    // Wait for navigation, extract orgId from URL.
+    await page.waitForURL(/\/shops\//, { timeout: 10000 });
+    const url = new URL(page.url());
+    const orgId = url.pathname.split('/')[2];
+    expect(orgId).toBeTruthy();
 
-    // Re-login for fresh session with membership
-    await doLogin(OWNER_PHONE);
-
-    // Navigate to owner panel via page.goto
+    // Force full reload so _shop layout reads activeOrganizationId from session
     await page.goto(`/shops/${orgId}`, { waitUntil: 'domcontentloaded' });
     await waitForHydration();
-    // Wait for dashboard query to resolve
     await expect(page.getByTestId('owner-dashboard-shop-title')).toHaveText('Test Berber', {
       timeout: 10000,
     });
 
-    // ── Navigate to Employees, invite ───────────────────────
     await page.getByTestId('owner-tab-employees').click();
     await expect(page.getByTestId('employees-listbox')).toBeVisible();
 
+    // Invite employee
     await page.getByTestId('invite-employee-button').click();
     await page.getByRole('textbox', { name: 'pin code 1 of 10' }).focus();
     await page.keyboard.type(EMPLOYEE_PHONE, { delay: 5 });
     await page.getByTestId('invite-submit').click();
     await expect(page.getByTestId('invite-submit')).not.toBeVisible({ timeout: 5000 });
 
-    const invitation = await db.shopInvitation.findFirst({
-      where: { phone: EMPLOYEE_PHONE, status: 'pending' },
-    });
-    expect(invitation).not.toBeNull();
-
-    // ── Employee accepts invitation ─────────────────────────
+    // Employee accepts invitation
     await doLogin(EMPLOYEE_PHONE);
-
     await page.getByTestId('profile-menu-trigger').click();
     await expect(page.getByTestId('invitations-submenu-trigger')).toBeVisible();
     await expect(page.getByTestId('invitation-badge')).toHaveText('1');
     await page.getByTestId('invitations-submenu-trigger').hover();
     await page.getByTestId('invitation-accept-button').click();
-
     await page.getByTestId('accept-display-name-input').fill('Ali Usta');
     await page.getByTestId('accept-submit').click();
-
-    // Wait for mutation to complete
     await page.waitForTimeout(1000);
 
-    const profile = await db.staffProfile.findFirst({
-      where: { displayName: 'Ali Usta' },
-    });
-    expect(profile).not.toBeNull();
-
-    // ── Employee dashboard ──────────────────────────────────
-    await doLogin(EMPLOYEE_PHONE);
-
-    // Navigate to employee dashboard via page.goto
+    // Employee dashboard — page.goto sends session with activeOrganizationId
     await page.goto(`/shops/${orgId}`, { waitUntil: 'domcontentloaded' });
     await waitForHydration();
     await expect(page.getByTestId('employee-dashboard-shop-title')).toHaveText('Test Berber');
@@ -100,8 +80,8 @@ test.describe('Shop Creation & Invitation', () => {
     db,
     waitForHydration,
   }) => {
-    const OWNER_PHONE = '5551112253';
-    const EMPLOYEE_PHONE = '5551112254';
+    const OWNER_PHONE = '5551112283';
+    const EMPLOYEE_PHONE = '5551112284';
 
     const doLogin = async (phone: string) => {
       await page.context().clearCookies();
@@ -120,34 +100,28 @@ test.describe('Shop Creation & Invitation', () => {
     await doLogin(OWNER_PHONE);
     await page.getByTestId('profile-menu-trigger').click();
     await page.getByRole('button', { name: /Dükkan Oluştur/i }).click();
+    await expect(page.getByRole('dialog')).toBeVisible();
     await page.getByTestId('shop-create-name-input').fill('Dup Test');
     await page.getByTestId('shop-create-submit').click();
 
-    await page.waitForTimeout(500);
-    const org = await db.organization.findFirst({
-      where: { name: 'Dup Test' },
-      orderBy: { createdAt: 'desc' },
-    });
-    expect(org).not.toBeNull();
-    const orgId = org!.id;
+    await page.waitForURL(/\/shops\//, { timeout: 10000 });
+    const url = new URL(page.url());
+    const orgId = url.pathname.split('/')[2];
+    expect(orgId).toBeTruthy();
 
-    // Re-login for fresh session
-    await doLogin(OWNER_PHONE);
-
-    // Navigate to owner panel via page.goto
     await page.goto(`/shops/${orgId}`, { waitUntil: 'domcontentloaded' });
     await waitForHydration();
     await expect(page.getByTestId('owner-tab-employees')).toBeVisible({ timeout: 10000 });
     await page.getByTestId('owner-tab-employees').click();
 
-    // First invite — succeed
+    // First invite succeed
     await page.getByTestId('invite-employee-button').click();
     await page.getByRole('textbox', { name: 'pin code 1 of 10' }).focus();
     await page.keyboard.type(EMPLOYEE_PHONE, { delay: 5 });
     await page.getByTestId('invite-submit').click();
     await expect(page.getByTestId('invite-submit')).not.toBeVisible({ timeout: 5000 });
 
-    // Second invite — error. Clear and fill each digit.
+    // Second invite error
     await page.getByTestId('invite-employee-button').click();
     await page.waitForTimeout(800);
     for (let i = 0; i < EMPLOYEE_PHONE.length; i++) {

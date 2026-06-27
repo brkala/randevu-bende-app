@@ -8,6 +8,7 @@ interface MembershipEntry {
 
 interface AuthWithOrgs {
   user: unknown;
+  session?: { activeOrganizationId?: string | null };
   memberships?: MembershipEntry[];
 }
 
@@ -18,19 +19,27 @@ export const Route = createFileRoute('/shops/$shopId/_shop')({
     }
 
     const { shopId } = params;
-    const authWithOrgs = context.auth as AuthWithOrgs;
-    const memberships: MembershipEntry[] = authWithOrgs.memberships ?? [];
+    const auth = context.auth as AuthWithOrgs;
+
+    // Check memberships (if available from Prisma augmentation)
+    const memberships: MembershipEntry[] = auth.memberships ?? [];
     const membership = memberships.find(
-      (m: MembershipEntry) => m.organization?.slug === shopId || m.organizationId === shopId,
+      (m) => m.organization?.slug === shopId || m.organizationId === shopId,
     );
 
-    if (!membership) {
+    // Fallback: check activeOrganizationId from session (set by setActiveOrganization)
+    const activeOrgId = auth.session?.activeOrganizationId;
+    const isActiveOrg = activeOrgId === shopId;
+
+    if (!membership && !isActiveOrg) {
       throw redirect({ to: '/' });
     }
 
+    const role = membership?.role ?? 'member';
+
     return {
-      shopMembership: membership,
-      shopRole: membership.role as 'owner' | 'employee' | 'manager',
+      shopMembership: membership ?? { organizationId: shopId, role },
+      shopRole: role as 'owner' | 'employee' | 'manager',
     };
   },
   component: RouteComponent,
