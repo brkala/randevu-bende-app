@@ -52,6 +52,12 @@ export const createShopFn = createServerFn({ method: 'POST' })
 
     const shop = await createShopRecord(org.id, data);
 
+    // Update session cookie with the new organization membership
+    await auth.api.setActiveOrganization({
+      headers,
+      body: { organizationId: org.id },
+    });
+
     return { shopId: shop.id, organizationId: org.id };
   });
 
@@ -122,6 +128,12 @@ export const acceptInvitationFn = createServerFn({ method: 'POST' })
         userId: session.user.id,
         role: 'member',
       },
+    });
+
+    // Update session cookie with the new membership
+    await auth.api.setActiveOrganization({
+      headers,
+      body: { organizationId: invitation.organizationId },
     });
 
     await createStaffProfile(session.user.id, invitation.shopId, data.displayName);
