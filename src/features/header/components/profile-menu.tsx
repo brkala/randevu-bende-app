@@ -1,9 +1,18 @@
-import { useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useRouteContext, useRouter } from '@tanstack/react-router';
-import { ChevronRight, LogOut, Settings, Store, User } from 'lucide-react';
+import { ChevronRight, LogOut, Mail, Settings, Store, User } from 'lucide-react';
+import { useState } from 'react';
 import type { auth } from '@/features/auth/auth.server';
 import { signOut } from '@/features/auth/auth-client';
 import { Button } from '@/features/shared/components/ui/button';
+import {
+  DialogCloseTrigger,
+  DialogContent,
+  DialogDescription,
+  DialogRoot,
+  DialogTitle,
+} from '@/features/shared/components/ui/dialog';
+import { Field } from '@/features/shared/components/ui/field';
 import {
   MenuContent,
   MenuItem,
@@ -13,6 +22,9 @@ import {
   MenuTrigger,
   MenuTriggerItem,
 } from '@/features/shared/components/ui/menu';
+import { CreateShopDialog } from '@/features/shop/components/create-shop-dialog';
+import { acceptInvitationFn, rejectInvitationFn } from '@/features/shop/shop.functions';
+import { shopKeys, shopQueries } from '@/features/shop/shop.queries';
 
 type Session = Awaited<ReturnType<typeof auth.api.getSession>>;
 
@@ -39,6 +51,135 @@ type SessionWithOrgs = Session & {
   memberships?: MembershipInfo[];
   organizations?: OrgInfo[];
 };
+
+function InvitationsMenuItem() {
+  const { auth } = useRouteContext({ from: '__root__' });
+  const { data: invitations } = useQuery(shopQueries.myInvitations());
+  const queryClient = useQueryClient();
+
+  const acceptMutation = useMutation({
+    mutationFn: acceptInvitationFn,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: shopKeys.myInvitations() });
+      queryClient.invalidateQueries({ queryKey: ['auth'] });
+    },
+  });
+
+  const rejectMutation = useMutation({
+    mutationFn: rejectInvitationFn,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: shopKeys.myInvitations() });
+    },
+  });
+
+  const [acceptingId, setAcceptingId] = useState<string | null>(null);
+  const [displayName, setDisplayName] = useState('');
+  const [acceptDialogOpen, setAcceptDialogOpen] = useState(false);
+
+  const pendingCount = invitations?.length ?? 0;
+  if (pendingCount === 0) return null;
+
+  const handleAccept = () => {
+    if (!acceptingId || !displayName.trim()) return;
+    acceptMutation.mutate({ data: { invitationId: acceptingId, displayName: displayName.trim() } });
+  };
+
+  return (
+    <>
+      <MenuRoot positioning={{ placement: 'right-start' }} closeOnSelect>
+        <MenuTriggerItem>
+          <span className="flex items-center gap-2">
+            <span className="relative">
+              <Mail size={16} />
+              <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-4 h-4 text-2xs font-bold bg-accent-default text-accent-fg rounded-full">
+                {pendingCount}
+              </span>
+            </span>
+            Davetlerim
+          </span>
+          <ChevronRight size={14} />
+        </MenuTriggerItem>
+        <MenuPositioner>
+          <MenuContent>
+            {invitations?.map((inv) => (
+              <div
+                key={inv.id}
+                className="px-2 py-2 border-b border-border-default last:border-b-0"
+              >
+                <p className="text-sm font-medium text-fg-default">
+                  {inv.shop.title ?? 'Bir dükkan'}
+                </p>
+                <p className="text-xs text-fg-muted">
+                  {inv.invitedBy.name} tarafından davet edildin
+                </p>
+                <div className="flex gap-2 mt-2">
+                  <Button
+                    size="xs"
+                    variant="accent"
+                    onClick={() => {
+                      setAcceptingId(inv.id);
+                      setDisplayName(auth?.user?.name ?? '');
+                      setAcceptDialogOpen(true);
+                    }}
+                  >
+                    Kabul Et
+                  </Button>
+                  <Button
+                    size="xs"
+                    variant="outline"
+                    onClick={() => rejectMutation.mutate({ data: { invitationId: inv.id } })}
+                  >
+                    Reddet
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </MenuContent>
+        </MenuPositioner>
+      </MenuRoot>
+
+      <DialogRoot open={acceptDialogOpen} onOpenChange={(e) => setAcceptDialogOpen(e.open)}>
+        <DialogContent>
+          <DialogTitle>Daveti Kabul Et</DialogTitle>
+          <DialogDescription>Bu dükkanda görünecek isminizi girin.</DialogDescription>
+          <div className="space-y-4 mt-4">
+            <Field label="Görünür İsim" required>
+              <input
+                type="text"
+                value={displayName}
+                onChange={(e) => setDisplayName(e.target.value)}
+                placeholder="Örn: Ahmet Usta"
+                className="w-full h-control-h px-3 text-control bg-bg-default border border-border-default rounded-l2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-accent"
+              />
+            </Field>
+            {acceptMutation.isError ? (
+              <p className="text-sm text-error-default">
+                {acceptMutation.error instanceof Error
+                  ? acceptMutation.error.message
+                  : 'Davet kabul edilemedi'}
+              </p>
+            ) : null}
+            <div className="flex gap-3 justify-end">
+              <DialogCloseTrigger asChild>
+                <Button type="button" variant="outline" size="sm">
+                  İptal
+                </Button>
+              </DialogCloseTrigger>
+              <Button
+                variant="accent"
+                size="sm"
+                disabled={!displayName.trim() || acceptMutation.isPending}
+                onClick={handleAccept}
+              >
+                {acceptMutation.isPending ? 'Kabul ediliyor...' : 'Kabul Et'}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </DialogRoot>
+    </>
+  );
+}
 
 function extractShops(session: Session | null): ShopInfo[] {
   if (!session) return [];
@@ -135,6 +276,14 @@ export function ProfileMenu() {
               </MenuPositioner>
             </MenuRoot>
           ) : null}
+
+          {/* Dükkan Oluştur */}
+          <MenuItem value="create-shop" onSelect={() => {}} closeOnSelect={false}>
+            <CreateShopDialog />
+          </MenuItem>
+
+          {/* Davetlerim (only visible if pending invitations exist) */}
+          <InvitationsMenuItem />
 
           <MenuSeparator />
 

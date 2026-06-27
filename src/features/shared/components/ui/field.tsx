@@ -64,6 +64,29 @@ export const FieldErrorText = ({ className, ...props }: FieldErrorTextProps) => 
   return <ArkField.ErrorText className={errorText({ className })} {...props} />;
 };
 
+// ─── Compound Field ─────────────────────────────────────────
+
+export interface FieldProps extends FieldRootProps {
+  label: string;
+  required?: boolean;
+  error?: string;
+  helperText?: string;
+}
+
+export const Field = ({ label, required, error, helperText, children, ...props }: FieldProps) => {
+  return (
+    <FieldRoot invalid={!!error} {...props}>
+      <FieldLabel>
+        {label}
+        {required ? <FieldRequiredIndicator /> : null}
+      </FieldLabel>
+      {children}
+      {helperText && !error ? <FieldHelperText>{helperText}</FieldHelperText> : null}
+      {error ? <FieldErrorText>{error}</FieldErrorText> : null}
+    </FieldRoot>
+  );
+};
+
 // ─── Input ─────────────────────────────────────────────────
 
 export interface FieldInputProps

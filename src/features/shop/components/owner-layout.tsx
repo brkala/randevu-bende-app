@@ -1,0 +1,44 @@
+import { LayoutDashboard, Users } from 'lucide-react';
+
+interface OwnerLayoutProps {
+  shopId: string;
+  currentTab: string;
+  onTabChange: (tab: string) => void;
+  children: React.ReactNode;
+}
+
+const sidebarItems = [
+  { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { id: 'employees', label: 'Çalışanlar', icon: Users },
+];
+
+export function OwnerLayout({ shopId, currentTab, onTabChange, children }: OwnerLayoutProps) {
+  return (
+    <div className="flex min-h-[calc(100vh-4rem)]">
+      <aside className="w-56 border-r border-border-default bg-bg-canvas p-4 flex-shrink-0">
+        <nav className="space-y-1">
+          {sidebarItems.map((item) => {
+            const Icon = item.icon;
+            const isActive = currentTab === item.id;
+            return (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => onTabChange(item.id)}
+                className={`flex items-center gap-3 w-full px-3 py-2 text-sm rounded-l2 transition-colors duration-normal cursor-pointer ${
+                  isActive
+                    ? 'bg-accent-default text-accent-fg font-medium'
+                    : 'text-fg-default hover:bg-bg-hover'
+                }`}
+              >
+                <Icon size={18} />
+                {item.label}
+              </button>
+            );
+          })}
+        </nav>
+      </aside>
+      <main className="flex-1 p-6 overflow-auto">{children}</main>
+    </div>
+  );
+}
