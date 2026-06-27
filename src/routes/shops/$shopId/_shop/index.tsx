@@ -1,15 +1,10 @@
 import { createFileRoute, redirect } from '@tanstack/react-router';
 
-interface ShopContext {
-  shopRole: string;
-  params: { shopId: string };
-}
-
 export const Route = createFileRoute('/shops/$shopId/_shop/')({
-  beforeLoad: ({ context }) => {
-    const ctx = context as unknown as ShopContext;
+  beforeLoad: ({ context, params }) => {
+    const ctx = context as { shopRole: string };
     const { shopRole: role } = ctx;
-    const { shopId } = ctx.params;
+    const { shopId } = params;
 
     const rolePath =
       role === 'owner'

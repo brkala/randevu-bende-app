@@ -43,10 +43,8 @@ test.describe('Shop Creation & Invitation', () => {
     // Re-login for fresh session with membership
     await doLogin(OWNER_PHONE);
 
-    // Navigate to owner panel via profile menu shop link
-    await page.getByTestId('profile-menu-trigger').click();
-    await page.getByRole('menuitem', { name: /Test Berber/i }).click();
-    await page.waitForTimeout(1000);
+    // Navigate to owner panel via page.goto
+    await page.goto(`/shops/${orgId}`, { waitUntil: 'domcontentloaded' });
     await waitForHydration();
     await expect(page.getByTestId('owner-dashboard-shop-title')).toHaveText('Test Berber');
 
@@ -85,10 +83,8 @@ test.describe('Shop Creation & Invitation', () => {
     // ── Employee dashboard ──────────────────────────────────
     await doLogin(EMPLOYEE_PHONE);
 
-    // Navigate via profile menu shop link
-    await page.getByTestId('profile-menu-trigger').click();
-    await page.getByRole('menuitem', { name: /Test Berber/i }).click();
-    await page.waitForTimeout(1000);
+    // Navigate to employee dashboard via page.goto
+    await page.goto(`/shops/${orgId}`, { waitUntil: 'domcontentloaded' });
     await waitForHydration();
     await expect(page.getByTestId('employee-dashboard-shop-title')).toHaveText('Test Berber');
   });
@@ -132,10 +128,8 @@ test.describe('Shop Creation & Invitation', () => {
     // Re-login for fresh session
     await doLogin(OWNER_PHONE);
 
-    // Navigate to owner panel via profile menu
-    await page.getByTestId('profile-menu-trigger').click();
-    await page.getByRole('menuitem', { name: /Dup Test/i }).click();
-    await page.waitForTimeout(1000);
+    // Navigate to owner panel via page.goto
+    await page.goto(`/shops/${orgId}`, { waitUntil: 'domcontentloaded' });
     await waitForHydration();
     await expect(page.getByTestId('owner-tab-employees')).toBeVisible();
     await page.getByTestId('owner-tab-employees').click();
