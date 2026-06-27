@@ -14,7 +14,7 @@ const sidebarItems = [
 
 export function OwnerLayout({ shopId, currentTab, onTabChange, children }: OwnerLayoutProps) {
   return (
-    <div className="flex min-h-[calc(100vh-4rem)]">
+    <div className="flex min-h-[calc(100vh-4rem)]" data-shop-id={shopId}>
       <aside className="w-56 border-r border-border-default bg-bg-canvas p-4 flex-shrink-0">
         <nav className="space-y-1">
           {sidebarItems.map((item) => {
