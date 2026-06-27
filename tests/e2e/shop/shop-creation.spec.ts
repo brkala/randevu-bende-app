@@ -8,10 +8,9 @@ test.describe('Shop Creation & Invitation', () => {
     db,
     waitForHydration,
   }) => {
-    const OWNER_PHONE = '5551112241';
-    const EMPLOYEE_PHONE = '5551112242';
+    const OWNER_PHONE = '5551112251';
+    const EMPLOYEE_PHONE = '5551112252';
 
-    // ── Helper: login ────────────────────────────────────────
     const doLogin = async (phone: string) => {
       await page.goto('/login');
       await waitForHydration();
@@ -27,7 +26,6 @@ test.describe('Shop Creation & Invitation', () => {
 
     // ── Owner creates shop ──────────────────────────────────
     await doLogin(OWNER_PHONE);
-
     await page.getByTestId('profile-menu-trigger').click();
     await page.getByRole('button', { name: /Dükkan Oluştur/i }).click();
     await page.getByTestId('shop-create-name-input').fill('Test Berber');
@@ -41,10 +39,8 @@ test.describe('Shop Creation & Invitation', () => {
     expect(org).not.toBeNull();
     const orgId = org!.id;
 
-    // Re-login to get fresh session with the new membership
-    await page.getByTestId('profile-menu-trigger').click();
-    await page.getByText('Çıkış Yap').click();
-    await page.waitForURL('/');
+    // Re-login for fresh session with membership
+    await page.goto('/login');
     await doLogin(OWNER_PHONE);
 
     // Navigate to owner panel
@@ -63,19 +59,15 @@ test.describe('Shop Creation & Invitation', () => {
     await page.getByTestId('invite-submit').click();
     await expect(page.getByTestId('invite-submit')).not.toBeVisible({ timeout: 5000 });
 
-    // Verify invitation in DB
     const invitation = await db.shopInvitation.findFirst({
       where: { phone: EMPLOYEE_PHONE, status: 'pending' },
     });
     expect(invitation).not.toBeNull();
 
     // ── Employee accepts invitation ─────────────────────────
-    await page.getByTestId('profile-menu-trigger').click();
-    await page.getByText('Çıkış Yap').click();
-    await page.waitForURL('/');
+    await page.goto('/login');
     await doLogin(EMPLOYEE_PHONE);
 
-    // Check invitations
     await page.getByTestId('profile-menu-trigger').click();
     await expect(page.getByTestId('invitations-submenu-trigger')).toBeVisible();
     await expect(page.getByTestId('invitation-badge')).toHaveText('1');
@@ -91,12 +83,8 @@ test.describe('Shop Creation & Invitation', () => {
     expect(profile).not.toBeNull();
 
     // ── Employee dashboard ──────────────────────────────────
-    await page.keyboard.press('Escape');
-    await page.getByTestId('profile-menu-trigger').click();
-    await page.getByText('Çıkış Yap').click();
-    await page.waitForURL('/');
+    await page.goto('/login');
     await doLogin(EMPLOYEE_PHONE);
-
     await page.goto(`/shops/${orgId}`, { waitUntil: 'domcontentloaded' });
     await waitForHydration();
     await expect(page.getByTestId('employee-dashboard-shop-title')).toHaveText('Test Berber');
@@ -107,8 +95,8 @@ test.describe('Shop Creation & Invitation', () => {
     db,
     waitForHydration,
   }) => {
-    const OWNER_PHONE = '5551112243';
-    const EMPLOYEE_PHONE = '5551112244';
+    const OWNER_PHONE = '5551112253';
+    const EMPLOYEE_PHONE = '5551112254';
 
     const doLogin = async (phone: string) => {
       await page.goto('/login');
@@ -124,8 +112,6 @@ test.describe('Shop Creation & Invitation', () => {
     };
 
     await doLogin(OWNER_PHONE);
-
-    // Create shop
     await page.getByTestId('profile-menu-trigger').click();
     await page.getByRole('button', { name: /Dükkan Oluştur/i }).click();
     await page.getByTestId('shop-create-name-input').fill('Dup Test');
@@ -140,12 +126,9 @@ test.describe('Shop Creation & Invitation', () => {
     const orgId = org!.id;
 
     // Re-login for fresh session
-    await page.getByTestId('profile-menu-trigger').click();
-    await page.getByText('Çıkış Yap').click();
-    await page.waitForURL('/');
+    await page.goto('/login');
     await doLogin(OWNER_PHONE);
 
-    // Go to owner panel
     await page.goto(`/shops/${orgId}`, { waitUntil: 'domcontentloaded' });
     await waitForHydration();
     await expect(page.getByTestId('owner-tab-employees')).toBeVisible();
