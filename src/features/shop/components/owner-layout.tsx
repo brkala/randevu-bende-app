@@ -24,6 +24,7 @@ export function OwnerLayout({ shopId, currentTab, onTabChange, children }: Owner
               <button
                 key={item.id}
                 type="button"
+                data-testid={`owner-tab-${item.id}`}
                 onClick={() => onTabChange(item.id)}
                 className={`flex items-center gap-3 w-full px-3 py-2 text-sm rounded-l2 transition-colors duration-normal cursor-pointer ${
                   isActive

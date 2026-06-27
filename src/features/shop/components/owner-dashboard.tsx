@@ -30,7 +30,10 @@ export function OwnerDashboard({ shopId }: OwnerDashboardProps) {
       <div className="grid gap-4">
         <div className="p-4 bg-bg-default border border-border-default rounded-l2">
           <p className="text-sm text-fg-muted">Dükkan Adı</p>
-          <p className="text-lg font-semibold text-fg-default">
+          <p
+            className="text-lg font-semibold text-fg-default"
+            data-testid="owner-dashboard-shop-title"
+          >
             {data.shop.title ?? 'İsimsiz Dükkan'}
           </p>
         </div>

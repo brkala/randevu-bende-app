@@ -27,7 +27,10 @@ export function EmployeeDashboard({ shopId }: EmployeeDashboardProps) {
 
   return (
     <div className="max-w-2xl mx-auto p-6">
-      <h1 className="text-2xl font-bold text-fg-default mb-2">
+      <h1
+        className="text-2xl font-bold text-fg-default mb-2"
+        data-testid="employee-dashboard-shop-title"
+      >
         {data.shop.title ?? 'İsimsiz Dükkan'}
       </h1>
       <p className="text-sm text-fg-muted mb-6">Çalışan Paneli</p>

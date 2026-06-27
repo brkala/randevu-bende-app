@@ -61,6 +61,7 @@ export function CreateShopDialog() {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="Örn: Berber Ali Usta"
               className="w-full h-control-h px-3 text-control bg-bg-default border border-border-default rounded-l2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-accent"
+              data-testid="shop-create-name-input"
             />
           </Field>
           {mutation.isError ? (
@@ -79,6 +80,7 @@ export function CreateShopDialog() {
               variant="accent"
               size="sm"
               disabled={!title.trim() || mutation.isPending}
+              data-testid="shop-create-submit"
             >
               {mutation.isPending ? 'Oluşturuluyor...' : 'Oluştur'}
             </Button>

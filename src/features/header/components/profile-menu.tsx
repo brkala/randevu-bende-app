@@ -87,11 +87,14 @@ function InvitationsMenuItem() {
   return (
     <>
       <MenuRoot positioning={{ placement: 'right-start' }} closeOnSelect>
-        <MenuTriggerItem>
+        <MenuTriggerItem data-testid="invitations-submenu-trigger">
           <span className="flex items-center gap-2">
             <span className="relative">
               <Mail size={16} />
-              <span className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-4 h-4 text-2xs font-bold bg-accent-default text-accent-fg rounded-full">
+              <span
+                className="absolute -top-1.5 -right-1.5 flex items-center justify-center w-4 h-4 text-2xs font-bold bg-accent-default text-accent-fg rounded-full"
+                data-testid="invitation-badge"
+              >
                 {pendingCount}
               </span>
             </span>
@@ -116,6 +119,7 @@ function InvitationsMenuItem() {
                   <Button
                     size="xs"
                     variant="accent"
+                    data-testid="invitation-accept-button"
                     onClick={() => {
                       setAcceptingId(inv.id);
                       setDisplayName(auth?.user?.name ?? '');
@@ -150,6 +154,7 @@ function InvitationsMenuItem() {
                 onChange={(e) => setDisplayName(e.target.value)}
                 placeholder="Örn: Ahmet Usta"
                 className="w-full h-control-h px-3 text-control bg-bg-default border border-border-default rounded-l2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-border-accent"
+                data-testid="accept-display-name-input"
               />
             </Field>
             {acceptMutation.isError ? (
@@ -168,6 +173,7 @@ function InvitationsMenuItem() {
               <Button
                 variant="accent"
                 size="sm"
+                data-testid="accept-submit"
                 disabled={!displayName.trim() || acceptMutation.isPending}
                 onClick={handleAccept}
               >
@@ -221,7 +227,7 @@ export function ProfileMenu() {
   return (
     <MenuRoot closeOnSelect>
       <MenuTrigger asChild>
-        <Button variant="ghost" size="sm">
+        <Button variant="ghost" size="sm" data-testid="profile-menu-trigger">
           <span className="flex items-center justify-center w-6 h-6 rounded-full bg-bg-subtle text-xs font-semibold text-fg-muted">
             {displayName.charAt(0).toUpperCase()}
           </span>

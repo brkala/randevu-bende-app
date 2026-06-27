@@ -49,7 +49,7 @@ export function InviteEmployeeDialog({ shopId }: InviteEmployeeDialogProps) {
   return (
     <DialogRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
       <DialogTrigger asChild>
-        <Button variant="accent" size="sm">
+        <Button variant="accent" size="sm" data-testid="invite-employee-button">
           <UserPlus size={16} />
           Çalışan Ekle
         </Button>
@@ -67,6 +67,7 @@ export function InviteEmployeeDialog({ shopId }: InviteEmployeeDialogProps) {
             state={error ? 'error' : undefined}
             errorText={error ?? undefined}
             onValueComplete={(e) => setPhone(e.valueAsString)}
+            data-testid="invite-phone-pin-input"
           />
           <div className="flex gap-3 justify-end">
             <DialogCloseTrigger asChild>
@@ -79,6 +80,7 @@ export function InviteEmployeeDialog({ shopId }: InviteEmployeeDialogProps) {
               size="sm"
               disabled={phone.length < 10 || mutation.isPending}
               onClick={handleInvite}
+              data-testid="invite-submit"
             >
               {mutation.isPending ? 'Gönderiliyor...' : 'Davet Gönder'}
             </Button>

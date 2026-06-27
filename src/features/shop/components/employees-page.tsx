@@ -76,6 +76,7 @@ export function EmployeesPage({ shopId }: EmployeesPageProps) {
           collection={employeeCollection}
           label="Çalışan Listesi"
           orientation="horizontal"
+          data-testid="employees-listbox"
           value={selectedUserId ? [selectedUserId] : []}
           onValueChange={(details) => {
             setSelectedUserId(details.value[0] ?? null);
