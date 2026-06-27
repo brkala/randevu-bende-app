@@ -122,9 +122,9 @@ export async function softDeleteStaffProfile(userId: string, shopId: string) {
 
 // --- Employee / Dashboard Queries ---
 
-export async function getShopWithMembers(shopId: string) {
+export async function getShopWithMembers(orgId: string) {
   return prisma.shop.findUnique({
-    where: { id: shopId },
+    where: { organizationId: orgId },
     include: {
       organization: {
         include: {
@@ -145,9 +145,9 @@ export async function getShopWithMembers(shopId: string) {
   });
 }
 
-export async function getShopWithMembersBasic(shopId: string) {
+export async function getShopWithMembersBasic(orgId: string) {
   return prisma.shop.findUnique({
-    where: { id: shopId },
+    where: { organizationId: orgId },
     include: {
       organization: {
         include: {

@@ -17,7 +17,7 @@ import {
   findUserMembership,
   getInvitationById,
   getInvitationsByPhone,
-  getShopById,
+  getShopByOrgId,
   getShopWithMembers,
   getShopWithMembersBasic,
   markInvitationAccepted,
@@ -69,7 +69,8 @@ export const inviteEmployeeFn = createServerFn({ method: 'POST' })
     const { session } = await getRequestContext();
     if (!session?.user) throw new Error('Oturum bulunamadı');
 
-    const shop = await getShopById(data.shopId);
+    // shopId from route = organizationId
+    const shop = await getShopByOrgId(data.shopId);
     if (!shop) throw new Error('Dükkan bulunamadı');
 
     const membership = await findUserMembership(shop.organizationId, session.user.id);
@@ -185,7 +186,8 @@ export const removeEmployeeFn = createServerFn({ method: 'POST' })
     const { session, headers, auth } = await getRequestContext();
     if (!session?.user) throw new Error('Oturum bulunamadı');
 
-    const shop = await getShopById(data.shopId);
+    // shopId from route = organizationId
+    const shop = await getShopByOrgId(data.shopId);
     if (!shop) throw new Error('Dükkan bulunamadı');
 
     const membership = await findUserMembership(shop.organizationId, session.user.id);
