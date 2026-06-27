@@ -42,8 +42,8 @@ import {
   ToastRoot,
   ToastTitle,
 } from '@/features/shared/components/ui/toast';
+import { toaster } from '@/features/shared/lib/toaster';
 import { LucideProvider } from '@/features/style/components/lucide-provider';
-import { toaster } from '@/features/toast/toast';
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();

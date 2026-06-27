@@ -11,9 +11,9 @@ import {
   DialogTrigger,
 } from '@/features/shared/components/ui/dialog';
 import { PinInputRoot } from '@/features/shared/components/ui/pin-input';
+import { toaster } from '@/features/shared/lib/toaster';
 import { inviteEmployeeFn } from '@/features/shop/shop.functions';
 import { shopKeys } from '@/features/shop/shop.queries';
-import { toaster } from '@/features/toast/toast';
 
 interface InviteEmployeeDialogProps {
   shopId: string;

@@ -22,10 +22,10 @@ import {
   MenuTrigger,
   MenuTriggerItem,
 } from '@/features/shared/components/ui/menu';
+import { toaster } from '@/features/shared/lib/toaster';
 import { CreateShopDialog } from '@/features/shop/components/create-shop-dialog';
 import { acceptInvitationFn, rejectInvitationFn } from '@/features/shop/shop.functions';
 import { shopKeys, shopQueries } from '@/features/shop/shop.queries';
-import { toaster } from '@/features/toast/toast';
 
 type Session = Awaited<ReturnType<typeof auth.api.getSession>>;
 

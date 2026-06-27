@@ -12,8 +12,8 @@ import {
   DialogTrigger,
 } from '@/features/shared/components/ui/dialog';
 import { Field } from '@/features/shared/components/ui/field';
+import { toaster } from '@/features/shared/lib/toaster';
 import { createShopFn } from '@/features/shop/shop.functions';
-import { toaster } from '@/features/toast/toast';
 
 export function CreateShopDialog() {
   const [open, setOpen] = useState(false);

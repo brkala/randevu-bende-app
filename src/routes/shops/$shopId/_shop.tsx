@@ -35,6 +35,9 @@ export const Route = createFileRoute('/shops/$shopId/_shop')({
       throw redirect({ to: '/' });
     }
 
+    // Least-privilege default: only hit when activeOrganizationId is set
+    // (by setActiveOrganization) but memberships array is empty (rare edge case).
+    // Server functions enforce actual authorization regardless of this value.
     const role = membership?.role ?? 'member';
 
     return {

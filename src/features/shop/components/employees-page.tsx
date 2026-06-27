@@ -9,9 +9,9 @@ import {
   ListboxItemLabel,
   ListboxRoot,
 } from '@/features/shared/components/ui/listbox';
+import { toaster } from '@/features/shared/lib/toaster';
 import { removeEmployeeFn } from '@/features/shop/shop.functions';
 import { shopKeys, shopQueries } from '@/features/shop/shop.queries';
-import { toaster } from '@/features/toast/toast';
 import { InviteEmployeeDialog } from './invite-employee-dialog';
 
 interface EmployeesPageProps {
