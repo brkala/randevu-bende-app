@@ -43,7 +43,7 @@ test.describe('Shop Creation & Invitation', () => {
       timeout: 10000,
     });
 
-    await page.getByTestId('owner-tab-employees').click();
+    await page.getByTestId('owner-tab-employees').first().click();
     await expect(page.getByTestId('employees-listbox')).toBeVisible();
 
     await page.getByTestId('invite-employee-button').click();
@@ -99,8 +99,8 @@ test.describe('Shop Creation & Invitation', () => {
 
     await page.goto(`/shops/${orgId}`, { waitUntil: 'domcontentloaded' });
     await waitForHydration();
-    await expect(page.getByTestId('owner-tab-employees')).toBeVisible({ timeout: 10000 });
-    await page.getByTestId('owner-tab-employees').click();
+    await expect(page.getByTestId('owner-tab-employees').first()).toBeVisible({ timeout: 10000 });
+    await page.getByTestId('owner-tab-employees').first().click();
 
     await page.getByTestId('invite-employee-button').click();
     await page.getByRole('textbox', { name: 'pin code 1 of 10' }).focus();

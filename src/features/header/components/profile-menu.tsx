@@ -11,6 +11,7 @@ import {
   DialogDescription,
   DialogRoot,
   DialogTitle,
+  DialogTrigger,
 } from '@/features/shared/components/ui/dialog';
 import { Field } from '@/features/shared/components/ui/field';
 import {
@@ -276,11 +277,21 @@ export function ProfileMenu() {
           ) : null}
 
           {/* Dükkan Oluştur */}
-          <MenuItem value="create-shop" onSelect={() => {}} closeOnSelect={false}>
-            <CreateShopDialog />
-          </MenuItem>
 
-          {/* Davetlerim (only visible if pending invitations exist) */}
+          <CreateShopDialog>
+            <DialogTrigger asChild>
+              <MenuItem
+                value="create-shop"
+                onSelect={() => {}}
+                closeOnSelect={false}
+                data-testid="shop-create-trigger"
+              >
+                <Store size={16} />
+                Dükkan Oluştur
+              </MenuItem>
+            </DialogTrigger>
+          </CreateShopDialog>
+
           <InvitationsMenuItem />
 
           <MenuSeparator />

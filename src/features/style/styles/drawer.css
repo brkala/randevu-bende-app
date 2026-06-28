@@ -1,0 +1,63 @@
+@import "tailwindcss";
+@import "./theme.css";
+@import "./dark.css";
+@import "./utilities.css";
+@import "./scrollbar.css";
+
+/* --- Drawer animations (Ark UI) --- */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes fade-out {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+@keyframes slide-in-bottom {
+  from { transform: translate3d(0, 100%, 0); }
+  to { transform: translate3d(var(--drawer-translate-x, 0), var(--drawer-translate-y, 0), 0); }
+}
+@keyframes slide-out-bottom {
+  from { transform: translate3d(var(--drawer-translate-x, 0), var(--drawer-translate-y, 0), 0); }
+  to { transform: translate3d(0, 100%, 0); }
+}
+@keyframes slide-in-top {
+  from { transform: translate3d(0, -100%, 0); }
+  to { transform: translate3d(var(--drawer-translate-x, 0), var(--drawer-translate-y, 0), 0); }
+}
+@keyframes slide-out-top {
+  from { transform: translate3d(var(--drawer-translate-x, 0), var(--drawer-translate-y, 0), 0); }
+  to { transform: translate3d(0, -100%, 0); }
+}
+@keyframes slide-in-left {
+  from { transform: translate3d(-100%, 0, 0); }
+  to { transform: translate3d(var(--drawer-translate-x, 0), var(--drawer-translate-y, 0), 0); }
+}
+@keyframes slide-out-left {
+  from { transform: translate3d(var(--drawer-translate-x, 0), var(--drawer-translate-y, 0), 0); }
+  to { transform: translate3d(-100%, 0, 0); }
+}
+@keyframes slide-in-right {
+  from { transform: translate3d(100%, 0, 0); }
+  to { transform: translate3d(var(--drawer-translate-x, 0), var(--drawer-translate-y, 0), 0); }
+}
+@keyframes slide-out-right {
+  from { transform: translate3d(var(--drawer-translate-x, 0), var(--drawer-translate-y, 0), 0); }
+  to { transform: translate3d(100%, 0, 0); }
+}
+
+/* --- Drawer bleed (prevents overdrag gap on left-side drawer) --- */
+[data-scope='drawer'][data-part='content'] {
+  --bleed: 3rem;
+}
+[data-scope='drawer'][data-part='content']::after {
+  content: '';
+  position: absolute;
+  inset-block: 0;
+  top: 0;
+  left: 0;
+  width: var(--bleed);
+  transform: translateX(-100%);
+  background-color: inherit;
+  pointer-events: none;
+}

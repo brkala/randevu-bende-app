@@ -1,18 +1,31 @@
 import { Link, useRouteContext } from '@tanstack/react-router';
-import { Calendar } from 'lucide-react';
+import { Calendar, Menu } from 'lucide-react';
 import { ProfileMenu } from '@/features/header/components/profile-menu';
+import { useHeaderDrawerContext } from '@/features/header/contexts/header-drawer.context';
 import { Button } from '@/features/shared/components/ui/button';
 
 export function Header() {
   const { auth } = useRouteContext({ from: '__root__' });
   const user = auth?.user ?? null;
+  const { setOpen } = useHeaderDrawerContext();
 
   return (
     <header className="flex items-center justify-between px-6 py-3 border-b border-border-default bg-bg-default">
-      <Link to="/" className="flex items-center gap-2 no-underline text-fg-default">
-        <Calendar size={24} className="text-accent-default" />
-        <span className="text-lg font-semibold">Randevu Bende</span>
-      </Link>
+      <div className="flex items-center gap-2">
+        <Button
+          variant="ghost"
+          size="sm"
+          className="sm:hidden"
+          onClick={() => setOpen(true)}
+          data-testid="header-drawer-trigger"
+        >
+          <Menu size={20} />
+        </Button>
+        <Link to="/" className="flex items-center gap-2 no-underline text-fg-default">
+          <Calendar size={24} className="text-accent-default" />
+          <span className="text-lg font-semibold hidden sm:inline">Randevu Bende</span>
+        </Link>
+      </div>
 
       <nav className="flex items-center gap-3">
         {user ? (

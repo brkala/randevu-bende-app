@@ -36,6 +36,7 @@ export const Route = createRootRouteWithContext<MyRouterContext>()({
 import { Toaster } from '@ark-ui/react/toast';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { useEffect } from 'react';
+import { HeaderDrawerProvider } from '@/features/header/contexts/header-drawer.context';
 import {
   ToastCloseTrigger,
   ToastDescription,
@@ -51,9 +52,11 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <LucideProvider>
-        <RootDocument>
-          <Outlet />
-        </RootDocument>
+        <HeaderDrawerProvider>
+          <RootDocument>
+            <Outlet />
+          </RootDocument>
+        </HeaderDrawerProvider>
       </LucideProvider>
     </QueryClientProvider>
   );

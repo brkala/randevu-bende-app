@@ -1,7 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from '@tanstack/react-router';
-import { Store } from 'lucide-react';
-import { useState } from 'react';
+import { type PropsWithChildren, useState } from 'react';
 import { Button } from '@/features/shared/components/ui/button';
 import {
   DialogCloseTrigger,
@@ -9,13 +8,14 @@ import {
   DialogDescription,
   DialogRoot,
   DialogTitle,
-  DialogTrigger,
 } from '@/features/shared/components/ui/dialog';
 import { Field } from '@/features/shared/components/ui/field';
 import { toaster } from '@/features/shared/lib/toaster';
 import { createShopFn } from '@/features/shop/shop.functions';
 
-export function CreateShopDialog() {
+interface CreateShopDialogProps extends PropsWithChildren {}
+
+export function CreateShopDialog({ children }: CreateShopDialogProps) {
   const [open, setOpen] = useState(false);
   const [title, setTitle] = useState('');
   const queryClient = useQueryClient();
@@ -54,16 +54,7 @@ export function CreateShopDialog() {
 
   return (
     <DialogRoot open={open} onOpenChange={(e) => setOpen(e.open)}>
-      <DialogTrigger asChild>
-        <button
-          type="button"
-          data-testid="shop-create-trigger"
-          className="flex items-center gap-2 w-full px-2 py-1.5 text-sm rounded-l1 hover:bg-bg-hover cursor-pointer"
-        >
-          <Store size={16} />
-          Dükkan Oluştur
-        </button>
-      </DialogTrigger>
+      {children}
       <DialogContent>
         <DialogTitle>Dükkan Oluştur</DialogTitle>
         <DialogDescription>Yeni dükkanınız için bir isim girin.</DialogDescription>
